@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "npc_system",
     "images",
+    "character_group",
+    "character_sub_group",
 ]
 
 MIDDLEWARE = [

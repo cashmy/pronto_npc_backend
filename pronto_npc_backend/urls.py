@@ -7,6 +7,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/npc_system/", include("npc_system.urls")),
     path("api/images/", include("images.urls")),
+    path("api/character_group/", include("character_group.urls")),
+    path("api/character_sub_group/", include("character_sub_group.urls")),
 ]
 
 # Add this block to serve media files during development (DEBUG=True)
