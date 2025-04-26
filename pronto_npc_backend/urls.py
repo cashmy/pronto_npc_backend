@@ -5,7 +5,7 @@ from django.conf.urls.static import static  # Import static helper
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/system/", include("system.urls")),
+    path("api/npc_system/", include("npc_system.urls")),
     path("api/images/", include("images.urls")),
 ]
 

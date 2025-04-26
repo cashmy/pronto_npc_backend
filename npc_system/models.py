@@ -3,8 +3,8 @@ from django.db import models
 
 
 # Create your models here.
-class System(models.Model):
-    system_name = models.CharField(max_length=255)
+class NpcSystem(models.Model):
+    npc_system_name = models.CharField(max_length=255)
     description = models.TextField()
 
     standard_app_dsp = models.BooleanField(default=False)
@@ -24,7 +24,7 @@ class System(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.system_name
+        return self.npc_system_name
 
     def is_visible_to(self, user):
         """

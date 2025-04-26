@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import System
+from .models import NpcSystem
 
 
-class SystemSerializer(serializers.ModelSerializer):
+class NpcSystemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = System
+        model = NpcSystem
         fields = [
             "id",
             "system_name",

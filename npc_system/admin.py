@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import System
+from .models import NpcSystem
 
 # Register your models here.
-admin.site.register(System)
+admin.site.register(NpcSystem)
