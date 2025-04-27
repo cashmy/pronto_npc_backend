@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "characters",
     "character_images",
     "npc_system_races",
+    "npc_system_rpg_classes",
 ]
 
 MIDDLEWARE = [
