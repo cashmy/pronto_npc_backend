@@ -1,17 +1,19 @@
-# 📜 NPC Generator
+# 📜 Pronto NPC Generator
+
+![Pronto NPC Generator Logo](assets/logo_4.png "Pronto NPC Generator")
 
 **_"Where Every Character Has a Story."_**
 
 ---
 
-**NPC Generator** is a web-based application that allows users to randomly create NPC (Non-Player Character) profiles for different gaming systems.  
+**Pronto NPC Generator** is a web-based application that allows users to randomly create NPC (Non-Player Character) profiles for different gaming systems.  
 It is designed to support both **universal systems** (global) and **user-specific custom systems**.
 
 This project uses:
 
 - **Frontend:** React / Next.js
 - **Backend:** Python / Django
-- **Database:** MySQL or PostgreSQL (depending on deployment)
+- **Database:** MySQL
 
 ---
 
