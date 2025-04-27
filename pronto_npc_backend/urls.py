@@ -10,6 +10,7 @@ urlpatterns = [
     path("api/character_group/", include("character_group.urls")),
     path("api/character_sub_group/", include("character_sub_group.urls")),
     path("api/archetype/", include("archetype.urls")),
+    path("api/genre/", include("genre.urls")),
 ]
 
 # Add this block to serve media files during development (DEBUG=True)

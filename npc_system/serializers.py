@@ -3,12 +3,18 @@ from .models import NpcSystem
 
 
 class NpcSystemSerializer(serializers.ModelSerializer):
+    genre = serializers.CharField(
+        source="genre.name", read_only=True
+    )  # Display the genre name instead of the ID
+
     class Meta:
         model = NpcSystem
         fields = [
             "id",
             "system_name",
             "description",
+            "genre",
+            "standard_app_dsp",
             "is_global",
             "owner",
             "created_at",

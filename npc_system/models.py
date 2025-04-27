@@ -1,12 +1,20 @@
 from django.conf import settings
 from django.db import models
+from genre.models import Genre
 
 
 # Create your models here.
 class NpcSystem(models.Model):
     npc_system_name = models.CharField(max_length=255)
     description = models.TextField()
-
+    genre = models.ForeignKey(
+        Genre,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        help_text="The genre of the NPC system, e.g., Fantasy, Sci-Fi, etc.",
+        default="",
+    )
     standard_app_dsp = models.BooleanField(default=False)
     """ Indicates if the system has a standard front end view/modal for the add.edit operation
         If not then the system will display its tables in a generic table view for the add/edit operation
