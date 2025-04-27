@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "character_sub_group",
     "archetype",
     "genre",
+    "characters",
+    "character_images",
 ]
 
 MIDDLEWARE = [
