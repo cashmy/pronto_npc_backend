@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "genre",
     "characters",
     "character_images",
+    "npc_system_races",
 ]
 
 MIDDLEWARE = [

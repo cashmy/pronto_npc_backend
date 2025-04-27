@@ -15,6 +15,30 @@ class NpcSystem(models.Model):
         help_text="The genre of the NPC system, e.g., Fantasy, Sci-Fi, etc.",
         default="",
     )
+    race_table_header = models.CharField(
+        max_length=25,
+        blank=False,
+        null=False,
+        help_text="The header for the race table",
+        default="Race",
+    )
+
+    profession_table_header = models.CharField(
+        max_length=25,
+        blank=False,
+        null=False,
+        help_text="The header for the profession table",
+        default="Profession",
+    )
+
+    rpg_class_table_header = models.CharField(
+        max_length=25,
+        blank=False,
+        null=False,
+        help_text="The header for the RPG class table",
+        default="Class",
+    )
+
     standard_app_dsp = models.BooleanField(default=False)
     """ Indicates if the system has a standard front end view/modal for the add.edit operation
         If not then the system will display its tables in a generic table view for the add/edit operation
