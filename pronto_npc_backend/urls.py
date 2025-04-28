@@ -16,6 +16,7 @@ urlpatterns = [
     path("api/npc_system_races/", include("npc_system_races.urls")),
     path("api/npc_system_rpg_classes/", include("npc_system_rpg_classes.urls")),
     path("api/npc_system_professions/", include("npc_system_professions.urls")),
+    path("api/table_group/", include("table_group.urls")),
 ]
 
 # Add this block to serve media files during development (DEBUG=True)
