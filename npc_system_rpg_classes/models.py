@@ -1,6 +1,6 @@
-from django.db import models
-from django.db.models import Max
+from django.db import models, transaction
 from npc_system.models import NpcSystem
+from django.utils.translation import gettext_lazy as _
 
 
 class NpcSystemRpgClass(models.Model):
@@ -15,9 +15,15 @@ class NpcSystemRpgClass(models.Model):
         help_text="The NPC system this RPG Class belongs to.",
     )
     rpg_class_id = models.PositiveIntegerField(
+        editable=False,  # Usually not directly edited once set
+        db_index=True,  # Index for lookups and uniqueness constraint
+        help_text="Auto-incrementing ID within the context of the NPC system.",
+        # null=True/blank=True technically not needed if save always sets it,
+        # but safer to allow temporary null state before first save.
+        # The unique_together constraint prevents permanent nulls if needed.
+        # Let's keep them for flexibility during object creation in memory.
         blank=True,
         null=True,
-        help_text="Auto-incrementing ID within the context of the NPC system.",
     )
     value = models.CharField(
         max_length=25,
@@ -26,13 +32,20 @@ class NpcSystemRpgClass(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Override the save method to auto-increment the ID within the context of the NPC system.
+        Override the save method to ensure rpg_class_id is unique and sequential context of the NPC system.
+        Uses a transaction and select_for_update to prevent race conditions.
         """
         if not self.rpg_class_id:
-            max_id = NpcSystemRpgClass.objects.filter(
-                npc_system=self.npc_system
-            ).aggregate(Max("rpg_class_id"))["rpg_class_id__max"]
-            self.rpg_class_id = (max_id or 0) + 1
+            with transaction.atomic():
+                # Lock the rows for the current npc_system
+                last_class = (
+                    NpcSystemRpgClass.objects.select_for_update()
+                    .filter(npc_system=self.npc_system)
+                    .order_by("-rpg_class_id")
+                    .first()
+                )
+                self.rpg_class_id = (last_class.rpg_class_id if last_class else 0) + 1
+            self.rpg_class_id = (last_class.rpg_class_id if last_class else 0) + 1
         super().save(*args, **kwargs)
 
     def __str__(self):

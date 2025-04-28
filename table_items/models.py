@@ -1,5 +1,5 @@
 from django.db import models, transaction
-from django.db.models import Max, F  # Import F for potential use later if needed
+from django.db.models import Max
 from npc_system.models import NpcSystem
 from table_header.models import TableHeader
 from django.utils.translation import gettext_lazy as _
