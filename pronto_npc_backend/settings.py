@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "users",
     "profiles",
     "subscriptions",
+    "age_category",
 ]
 
 MIDDLEWARE = [
