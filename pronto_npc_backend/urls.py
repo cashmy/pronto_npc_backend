@@ -18,6 +18,9 @@ urlpatterns = [
     path("api/npc_system_professions/", include("npc_system_professions.urls")),
     path("api/table_group/", include("table_group.urls")),
     path("api/table_header/", include("table_header.urls")),
+    path(
+        "api/table_items/", include("table_items.urls")
+    ),  # Include the authentication URLs
 ]
 
 # Add this block to serve media files during development (DEBUG=True)

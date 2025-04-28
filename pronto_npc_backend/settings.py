@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "npc_system_professions",
     "table_group",
     "table_header",
+    "table_items",
 ]
 
 MIDDLEWARE = [
