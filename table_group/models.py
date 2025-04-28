@@ -1,8 +1,11 @@
-from django.db import models
-from django.db.models import Max
+from django.db import models, transaction
 from npc_system.models import NpcSystem  # Import the NpcSystem model
+from django.utils.translation import gettext_lazy as _
 
 
+# `from django.db import models` is importing the `models` module from the Django database abstraction
+# API. This module provides a set of classes that represent database tables and their fields, allowing
+# you to define your data models in Django applications.
 # Create your models here.
 class TableGroup(models.Model):
     npc_system = models.ForeignKey(
@@ -43,18 +46,26 @@ class TableGroup(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Overrides the default save method to set report_display_heading if it's not provided.
-        And to auto-increment the display_order within the context of the Table Group.
+        Overrides the default save method to set report_display_heading if it's not provided
+        and to auto-increment the display_order within the context of the Table Group.
+        Uses a transaction and select_for_update to prevent race conditions.
         """
         # Check if report_display_heading is empty (None or '') and name has a value
         if not self.report_display_heading and self.name:
             self.report_display_heading = self.name
 
         if not self.display_order:
-            max_order = TableGroup.objects.filter(npc_system=self.npc_system).aggregate(
-                Max("display_order")
-            )["display_order__max"]
-            self.display_order = (max_order or 0) + 10
+            with transaction.atomic():  # Start a transaction
+                # Lock the rows for the current npc_system to prevent race conditions
+                last_group = (
+                    TableGroup.objects.select_for_update()
+                    .filter(npc_system=self.npc_system)
+                    .order_by("-display_order")
+                    .first()
+                )
+                self.display_order = (
+                    last_group.display_order if last_group else 0
+                ) + 10
 
         super().save(*args, **kwargs)  # Call the "real" save() method
 
