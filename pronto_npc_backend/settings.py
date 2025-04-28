@@ -30,6 +30,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "users.User"  # Custom user model
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.TokenAuthentication",
+    ],
+}
+
+SITE_ID = 1
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 
 # Application definition
 
@@ -55,6 +70,9 @@ INSTALLED_APPS = [
     "table_group",
     "table_header",
     "table_items",
+    # "users",
+    # "profiles",
+    # "subscriptions",
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,22 @@
+from django.db import models
+from users.models import User
+
+
+# Create your models here.
+class Subscription(models.Model):
+    PLAN_CHOICES = [
+        ("basic", "Basic"),
+        ("standard", "Standard"),
+        ("premuim", "Premium"),
+        ("storyteller", "Storyteller"),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subscription_type = models.CharField(max_length=50)  # e.g., 'basic', 'premium'
+    start_date = models.DateField()
+    end_date = models.DateField()
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.subscription_type}"
