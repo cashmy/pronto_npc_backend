@@ -34,7 +34,7 @@ AUTH_USER_MODEL = "users.User"  # Custom user model
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
 
@@ -70,9 +70,9 @@ INSTALLED_APPS = [
     "table_group",
     "table_header",
     "table_items",
-    # "users",
-    # "profiles",
-    # "subscriptions",
+    "users",
+    "profiles",
+    "subscriptions",
 ]
 
 MIDDLEWARE = [
