@@ -6,5 +6,9 @@ urlpatterns = [
     path(
         "<int:pk>/", views.npc_system_rpg_classes_detail, name="npc_system_race_detail"
     ),
+    path(
+        "options/",
+        views.npc_system_rpg_class_options,
+        name="npc_system_rpg_class_options",
+    ),
 ]
-#

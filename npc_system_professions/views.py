@@ -3,7 +3,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import NpcSystemProfession
-from .serializers import NpcSystemProfessionSerializer
+from .serializers import (
+    NpcSystemProfessionSerializer,
+    NpcSystemProfessionOptionSerializer,
+)
 
 
 @api_view(["GET", "POST"])
@@ -49,3 +52,12 @@ def npc_system_professions_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Optional: Serializer for the dropdown options in the frontend
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def npc_system_profession_options(request):
+    professions = NpcSystemProfession.objects.all().order_by("value")
+    serializer = NpcSystemProfessionOptionSerializer(professions, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

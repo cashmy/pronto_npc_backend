@@ -11,3 +11,12 @@ class AgeCategorySerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+# Serializer for the dropdown options in the frontend
+class AgeCategoryOptionSerializer(serializers.ModelSerializer):
+    value = serializers.CharField(source="age_category_name")
+
+    class Meta:
+        model = AgeCategory
+        fields = ["id", "value"]

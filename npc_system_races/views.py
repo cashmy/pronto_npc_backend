@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import NpcSystemRace
-from .serializers import NpcSystemRaceSerializer
+from .serializers import NpcSystemRaceSerializer, NpcSystemRaceOptionSerializer
 
 
 @api_view(["GET", "POST"])
@@ -47,3 +47,12 @@ def npc_system_races_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Optional: Serializer for the dropdown options in the frontend
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def npc_system_race_options(request):
+    races = NpcSystemRace.objects.all().order_by("value")  # optional ordering
+    serializer = NpcSystemRaceOptionSerializer(races, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

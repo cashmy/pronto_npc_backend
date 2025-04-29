@@ -8,4 +8,9 @@ urlpatterns = [
         views.npc_system_professions_detail,
         name="npc_system_profession_detail",
     ),
+    path(
+        "options/",
+        views.npc_system_profession_options,
+        name="npc_system_profession_options",
+    ),
 ]
