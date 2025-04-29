@@ -25,3 +25,10 @@ class NpcSystemProfessionSerializer(serializers.ModelSerializer):
             "value",  # The profession name
         ]
         read_only_fields = ["id"]  # ID is auto-generated
+
+
+# Serializer for the dropdown options in the frontend
+class NpcSystemProfessionOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NpcSystemProfession
+        fields = ["id", "value"]

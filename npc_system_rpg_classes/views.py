@@ -49,3 +49,12 @@ def npc_system_rpg_classes_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Optional: Serializer for the dropdown options in the frontend
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def npc_system_rpg_class_options(request):
+    systems = NpcSystemRpgClass.objects.all().order_by("value")
+    serializer = NpcSystemRpgClassSerializer(systems, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

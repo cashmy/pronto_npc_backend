@@ -25,3 +25,10 @@ class NpcSystemRpgClassSerializer(serializers.ModelSerializer):
             "value",  # The race name
         ]
         read_only_fields = ["id"]  # ID is auto-generated
+
+
+# Serializer for the dropdown options in the frontend
+class NpcSystemRpgClassOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NpcSystemRpgClass
+        fields = ["id", "value"]
