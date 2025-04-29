@@ -40,11 +40,26 @@ REST_FRAMEWORK = {
 
 SITE_ID = 1
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
+
+# --- Update these allauth settings ---
+SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"  # Keep or change as needed
+
+# New settings replacing deprecated ones:
+ACCOUNT_LOGIN_METHODS = ["email"]  # Replaces ACCOUNT_AUTHENTICATION_METHOD
+ACCOUNT_SIGNUP_FIELDS = [
+    "email*",
+    "password",
+]  # Replaces EMAIL/USERNAME_REQUIRED. '*' means required. Add 'username*' if you require it.
+ACCOUNT_EMAIL_VERIFICATION = (
+    "mandatory"  # Or "optional" or "none". Explicitly set this.
+)
+ACCOUNT_UNIQUE_EMAIL = True  # Ensure emails are unique
+ACCOUNT_USERNAME_REQUIRED = False  # Explicitly set username requirement
+ACCOUNT_USER_MODEL_USERNAME_FIELD = (
+    None  # Set to None if not using username for login/identification
+)
+
+# --- End of updated allauth settings ---
 
 # Application definition
 
@@ -55,7 +70,20 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    # Third-party apps
     "rest_framework",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.facebook",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "simple_history",
+    # Custom Apps
     "npc_system",
     "images",
     "character_group",
@@ -74,6 +102,7 @@ INSTALLED_APPS = [
     "profiles",
     "subscriptions",
     "age_category",
+    "referrals",
 ]
 
 MIDDLEWARE = [
@@ -84,6 +113,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "pronto_npc_backend.urls"
@@ -143,6 +173,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Add Authentication Backends if not already present (needed for allauth)
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

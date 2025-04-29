@@ -8,6 +8,12 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     date_of_birth = models.DateField(null=True, blank=True)
     bio = models.TextField(blank=True)
+    referred_by_email = models.EmailField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Email of the user who referred you.",
+    )
     # Add any other fields you want to the profile model here
     # For example, you can add a location field
     # location = models.CharField(max_length=100, blank=True)

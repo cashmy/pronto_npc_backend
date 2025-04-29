@@ -19,10 +19,11 @@ urlpatterns = [
     path("api/table_group/", include("table_group.urls")),
     path("api/table_header/", include("table_header.urls")),
     path("api/table_items/", include("table_items.urls")),
-    # path("api/users/", include("users.urls")),
-    # path("api/profiles/", include("profiles.urls")),
-    # path("api/subscriptions/", include("subscriptions.urls")),
+    path("api/users/", include("users.urls")),
+    path("api/profiles/", include("profiles.urls")),
+    path("api/subscriptions/", include("subscriptions.urls")),
     path("api/age_category/", include("age_category.urls")),
+    path("api/referrals/", include("referrals.urls")),
 ]
 
 # Add this block to serve media files during development (DEBUG=True)
