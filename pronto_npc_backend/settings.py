@@ -28,17 +28,30 @@ SECRET_KEY = "django-insecure-#$mk&do#s3dunb#ez_lh(ta_gi(fxk(l6-0y7@j^y9tb8!vhfx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+REST_USE_JWT = True  # Use JWT for authentication
+
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = "users.User"  # Custom user model
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",  # if using cookie storage
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
 
 SITE_ID = 1
+
+# Optional: JWT settings (lifetimes, rotation)
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
 
 
 # --- Update these allauth settings ---
@@ -50,14 +63,13 @@ ACCOUNT_SIGNUP_FIELDS = [
     "email*",
     "password",
 ]  # Replaces EMAIL/USERNAME_REQUIRED. '*' means required. Add 'username*' if you require it.
-ACCOUNT_EMAIL_VERIFICATION = (
-    "mandatory"  # Or "optional" or "none". Explicitly set this.
-)
+ACCOUNT_EMAIL_VERIFICATION = "optional"  # Or "optional" or "none". Explicitly set this.
 ACCOUNT_UNIQUE_EMAIL = True  # Ensure emails are unique
-ACCOUNT_USERNAME_REQUIRED = False  # Explicitly set username requirement
-ACCOUNT_USER_MODEL_USERNAME_FIELD = (
-    None  # Set to None if not using username for login/identification
-)
+
+ACCOUNT_USERNAME_REQUIRED = True  # Explicitly set username requirement
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_EMAIL_REQUIRED = True  # Ensure email is required
 
 # --- End of updated allauth settings ---
 
@@ -211,3 +223,29 @@ MEDIA_ROOT = os.path.join(
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+import logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+        "allauth.account": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}

@@ -9,6 +9,7 @@ from users.views import (
     CustomResendEmailVerificationView,
     OTPVerifyView,
     DeactivateMeView,
+    DebugUserView,
 )
 from dj_rest_auth.views import (
     LogoutView,
@@ -49,4 +50,5 @@ urlpatterns = [
     path("otp/verify/", OTPVerifyView.as_view(), name="otp_verify"),
     # Account Deactivation (Soft Delete)
     path("deactivate/", DeactivateMeView.as_view(), name="deactivate_account"),
+    path("debug/", DebugUserView.as_view(), name="debug_user"),
 ]

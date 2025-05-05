@@ -20,6 +20,29 @@ from django.utils import timezone
 
 from users.serializers import OTPVerifySerializer
 
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+
+class DebugUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response(
+            {
+                "raw_user": str(user),
+                "type": str(type(user)),
+                "is_authenticated": getattr(user, "is_authenticated", False),
+                "user_id": getattr(user, "id", None),
+                "username": getattr(user, "username", None),
+                "email": getattr(user, "email", None),
+                "first_name": getattr(user, "first_name", None),
+                "last_name": getattr(user, "last_name", None),
+            }
+        )
+
 
 class OTPVerifyView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -71,11 +94,13 @@ class CustomLoginView(LoginView):
     def get_response(self):
         response = super().get_response()
 
-        # After successful login, send 2FA OTP email
-        if self.request.user and not self.request.user.is_superuser:
-            send_login_otp(self.request.user)
-
-        return response
+        # Overwrite token response to use JWT manually
+        refresh = RefreshToken.for_user(self.request.user)
+        custom_response = {
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        }
+        return Response(custom_response)
 
 
 # ----- Social Logins -----

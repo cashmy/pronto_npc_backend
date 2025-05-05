@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import NpcSystemRpgClass
-from .serializers import NpcSystemRpgClassSerializer
+from .serializers import NpcSystemRpgClassSerializer, NpcSystemRpgClassOptionSerializer
 
 
 @api_view(["GET", "POST"])
@@ -56,5 +56,5 @@ def npc_system_rpg_classes_detail(request, pk):
 @permission_classes([IsAuthenticated])
 def npc_system_rpg_class_options(request):
     systems = NpcSystemRpgClass.objects.all().order_by("value")
-    serializer = NpcSystemRpgClassSerializer(systems, many=True)
+    serializer = NpcSystemRpgClassOptionSerializer(systems, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

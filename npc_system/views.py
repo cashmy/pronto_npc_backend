@@ -12,12 +12,15 @@ from .serializers import NpcSystemSerializer
 @permission_classes([IsAuthenticated])
 def npc_system_list(request):
     if request.method == "GET":
-        systems = NpcSystem.objects.all()
+        # Optimize by fetching related owner data in the same query
+        systems = NpcSystem.objects.select_related("owner").all()
         serializer = NpcSystemSerializer(systems, many=True)
         return Response(serializer.data)
 
     elif request.method == "POST":
-        serializer = NpcSystemSerializer(data=request.data)
+        serializer = NpcSystemSerializer(
+            data=request.data, context={"request": request}
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -28,7 +31,8 @@ def npc_system_list(request):
 @permission_classes([IsAuthenticated])
 def npc_system_detail(request, pk):
     try:
-        system = NpcSystem.objects.get(pk=pk)
+        # Optimize by fetching related owner data
+        system = NpcSystem.objects.select_related("owner").get(pk=pk)
     except NpcSystem.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

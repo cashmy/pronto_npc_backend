@@ -4,7 +4,7 @@ from npc_system_professions import views
 urlpatterns = [
     path("", views.npc_system_professions_list, name="npc_system_professions_list"),
     path(
-        "<int:pk>/",
+        "<int:pk>",
         views.npc_system_professions_detail,
         name="npc_system_profession_detail",
     ),

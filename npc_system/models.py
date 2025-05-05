@@ -47,7 +47,7 @@ class NpcSystem(models.Model):
     is_global = models.BooleanField(default=False)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,  # If null, then the system is global
         related_name="custom_systems",
