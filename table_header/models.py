@@ -1,6 +1,7 @@
 from django.db import models
 from npc_system.models import NpcSystem
 from django.utils.translation import gettext_lazy as _
+from table_group.models import TableGroup
 
 
 # Create your models here.
@@ -8,9 +9,15 @@ class TableHeader(models.Model):
     npc_system = models.ForeignKey(
         "npc_system.NpcSystem",
         on_delete=models.CASCADE,
-        related_name="table_headers",
+        related_name="table_headers",  # More intuitive related_name
         help_text="The NPC system this table header belongs to.",
     )
+    table_group = models.ForeignKey(
+        TableGroup,
+        on_delete=models.CASCADE,  # Or models.PROTECT, models.SET_NULL depending on desired behavior
+        related_name="sub_groups",  # Changed related_name to avoid clashes and be more descriptive
+        help_text="The parent character group this sub-group belongs to.",
+    )  # Consider if "sub_groups" is the best related_name from TableGroup to TableHeader. "table_headers" might also fit.
     name = models.CharField(
         max_length=50,
         help_text="The name of the table header (e.g., 'Combat', 'Magic', etc.).",
@@ -66,5 +73,5 @@ class TableHeader(models.Model):
     class Meta:
         verbose_name = "Table Header"
         verbose_name_plural = "Table Headers"
-        ordering = ["npc_system", "display_order"]
+        ordering = ["npc_system", "table_group", "display_order"]
         unique_together = ("npc_system", "name")  # Ensure composite uniqueness

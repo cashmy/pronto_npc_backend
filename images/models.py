@@ -1,5 +1,4 @@
 import os  # Needed for file deletion in the fixed delete method
-
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _  # <-- Import added here
@@ -35,7 +34,7 @@ class Image(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="images",
         blank=True,
         null=True,  # If null, then the image is a system image

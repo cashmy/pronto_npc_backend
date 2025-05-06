@@ -24,10 +24,15 @@ def images_list(request):
         serializer = ImageSerializer(images, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == "POST":
-        serializer = ImageSerializer(data=request.data)
+        serializer = ImageSerializer(data=request.data, context={"request": request})
+        print("\n\n\nData", request.data)
+        # print("Data", serializer.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        elif serializer.errors:
+            print("Errors", serializer.errors)
+            print("Errors", serializer.errors["image"])
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_200_OK)
 
@@ -46,6 +51,9 @@ def image_detail(request, pk):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+        elif serializer.errors:
+            print("Errors", serializer.errors)
+            print("Errors", serializer.errors["image"])
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == "DELETE":
         image.delete()

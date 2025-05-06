@@ -5,6 +5,12 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+class OwnerSummarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ("id", "first_name", "last_name")
+
+
 class ImageSerializer(serializers.ModelSerializer):
     # Display owner's username (read-only) instead of the full user object or ID
     owner_username = serializers.CharField(
@@ -15,6 +21,12 @@ class ImageSerializer(serializers.ModelSerializer):
     thumbnail = serializers.ImageField(
         use_url=True, required=False, allow_null=True
     )  # Mark as not required
+    # Flag to indicate if the owner should be the current user
+    use_current_user = serializers.BooleanField(
+        write_only=True, required=False, default=False
+    )
+
+    owner = OwnerSummarySerializer(read_only=True)
 
     class Meta:
         model = Image
@@ -28,6 +40,8 @@ class ImageSerializer(serializers.ModelSerializer):
             "thumbnail",  # Will now be a URL (optional)
             "image_type",
             "owner_username",  # Use username instead of user/user_id
+            "owner",  # Owner serializer for detailed info (read-only)
+            "use_current_user",  # Include the flag for input
             "created_at",
             "updated_at",
         ]
@@ -39,6 +53,7 @@ class ImageSerializer(serializers.ModelSerializer):
             "file_size",  # Often set based on uploaded file
             "mime_type",  # Often set based on uploaded file
             "file_name",  # Often set based on uploaded file
+            "owner",
         ]
         # Avoid depth = 1, use explicit fields like owner_username
 
@@ -48,14 +63,26 @@ class ImageSerializer(serializers.ModelSerializer):
         Set the owner to the logged-in user from the request context.
         Set file metadata from the uploaded image file.
         """
+        owner_instance = None
+
+        # Pop the flag before creating the model instance
+        use_current_user_flag = validated_data.pop("use_current_user", False)
+
         request = self.context.get("request")
         image_file = validated_data.get("image")
 
-        # Set owner
-        if request and hasattr(request, "user") and request.user.is_authenticated:
-            validated_data["owner"] = request.user
-        else:
-            validated_data["owner"] = None  # Explicitly set to None for global images
+        # Set owner based on the flag
+        if use_current_user_flag:
+            if request and hasattr(request, "user") and request.user.is_authenticated:
+                owner_instance = request.user
+            # else: owner remains None (global image) if flag is true but user not logged in
+            # This case might indicate a potential issue if IsAuthenticated permission is used.
+            print(
+                f"\n\n\nSimplified: Owner set to current user: {owner_instance} (ID: {getattr(owner_instance, 'id', None)})"
+            )
+            print(
+                f"Simplified: Request user: {request.user} (ID: {getattr(request.user, 'id', None)})\n\n\n"
+            )
 
         # Set file metadata automatically if not provided
         if image_file:
@@ -68,10 +95,18 @@ class ImageSerializer(serializers.ModelSerializer):
 
         # Handle potential thumbnail generation here if desired
 
-        return super().create(validated_data)
+        # Create the instance, passing owner explicitly
+        instance = Image.objects.create(owner=owner_instance, **validated_data)
+        return instance
 
-    # Optional: Add update method if needed, prevent owner change
-    # def update(self, instance, validated_data):
-    #     validated_data.pop('owner', None) # Owner should not be changed via update
-    #     # Handle file metadata updates if image changes
-    #     return super().update(instance, validated_data)
+    def update(self, instance, validated_data):
+        """
+        Handle updates. Prevent owner change.
+        Update file metadata only if a new image file is uploaded.
+        """
+        # Pop the flag if it was somehow included in PATCH/PUT data
+        validated_data.pop("use_current_user", None)
+        # Prevent owner from being changed during update
+        validated_data.pop("owner", None)
+
+        return super().update(instance, validated_data)

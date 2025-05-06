@@ -8,6 +8,11 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     date_of_birth = models.DateField(null=True, blank=True)
     bio = models.TextField(blank=True)
+    theme = models.CharField(
+        max_length=50,
+        choices=[("light", "Light"), ("dark", "Dark"), ("system", "System")],
+        default="light",
+    )
     referred_by_email = models.EmailField(
         max_length=255,
         blank=True,
