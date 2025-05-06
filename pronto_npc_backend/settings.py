@@ -47,7 +47,7 @@ SITE_ID = 1
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -65,11 +65,12 @@ ACCOUNT_SIGNUP_FIELDS = [
 ]  # Replaces EMAIL/USERNAME_REQUIRED. '*' means required. Add 'username*' if you require it.
 ACCOUNT_EMAIL_VERIFICATION = "optional"  # Or "optional" or "none". Explicitly set this.
 ACCOUNT_UNIQUE_EMAIL = True  # Ensure emails are unique
-
-ACCOUNT_USERNAME_REQUIRED = True  # Explicitly set username requirement
-ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
-ACCOUNT_EMAIL_REQUIRED = True  # Ensure email is required
+
+# * Deprecated settings (commented out):
+# ACCOUNT_USERNAME_REQUIRED = True  # Explicitly set username requirement
+# ACCOUNT_AUTHENTICATION_METHOD = "email"
+# ACCOUNT_EMAIL_REQUIRED = True  # Ensure email is required
 
 # --- End of updated allauth settings ---
 
@@ -127,6 +128,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
 ]
+
+
+# Email settings for development (print emails to console)
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 ROOT_URLCONF = "pronto_npc_backend.urls"
 

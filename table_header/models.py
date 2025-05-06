@@ -74,4 +74,3 @@ class TableHeader(models.Model):
         verbose_name = "Table Header"
         verbose_name_plural = "Table Headers"
         ordering = ["npc_system", "table_group", "display_order"]
-        unique_together = ("npc_system", "name")  # Ensure composite uniqueness

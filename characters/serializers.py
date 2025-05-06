@@ -51,7 +51,7 @@ class CharacterSerializer(serializers.ModelSerializer):
             "character_sub_group": {"write_only": True},
             # Archetype is already optional due to model's null=True, blank=True
             # but making it write_only improves the read representation
-            "archetype": {"write_only": True, "required": False, "allow_null": True},
+            "archetype": {"required": False, "allow_null": True, "write_only": True},
         }
 
     # Add fields to display related object names
@@ -61,7 +61,7 @@ class CharacterSerializer(serializers.ModelSerializer):
     character_group_display_name = serializers.SerializerMethodField(read_only=True)
     character_sub_group_display_name = serializers.SerializerMethodField(read_only=True)
     archetype_name = serializers.CharField(
-        source="archetype.archetype_name", read_only=True, allow_null=True
+        source="archetype.name", read_only=True, allow_null=True
     )
 
     def get_character_group_display_name(self, obj):

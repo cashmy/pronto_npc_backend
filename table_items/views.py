@@ -47,3 +47,17 @@ def table_item_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def table_items_list_by_table_header(request, table_header):
+    """
+    Returns a list of table headers filtered by both the provided
+    npc_system_id and table_group_id.
+    """
+    filtered_table_items = TableItem.objects.filter(
+        table_header=table_header,
+    )
+    serializer = TableItemSerializer(filtered_table_items, many=True)
+    return Response(serializer.data)
