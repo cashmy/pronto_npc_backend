@@ -15,7 +15,7 @@ class Subscription(models.Model):
     subscription_type = models.CharField(
         max_length=50, choices=PLAN_CHOICES
     )  # Use choices here
-    start_date = models.DateField()
+    start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField()
     is_active = models.BooleanField(default=True)
 

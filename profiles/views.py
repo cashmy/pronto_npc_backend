@@ -5,6 +5,9 @@ from profiles.models import Profile
 from profiles.serializers import ProfileSerializer
 
 
+# Todo: Add a view that will list the profiles of all users who have signed up for a given referred_by email.
+
+
 @api_view(["GET", "PUT", "PATCH"])
 @permission_classes([permissions.IsAuthenticated])
 def profile_me(request):
