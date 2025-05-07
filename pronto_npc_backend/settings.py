@@ -30,7 +30,7 @@ DEBUG = True
 
 REST_USE_JWT = True  # Use JWT for authentication
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 AUTH_USER_MODEL = "users.User"  # Custom user model
 

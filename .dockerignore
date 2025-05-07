@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.git/
+.gitignore
+.vscode/
+*.sqlite3
+db.sqlite3
+media/
+# Add other files or directories you want to ignore
