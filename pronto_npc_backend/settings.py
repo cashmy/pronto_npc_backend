@@ -116,6 +116,7 @@ INSTALLED_APPS = [
     "subscriptions",
     "age_category",
     "referrals",
+    "usage_tracking",
 ]
 
 MIDDLEWARE = [

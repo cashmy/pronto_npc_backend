@@ -32,6 +32,7 @@ urlpatterns = [
     path("api/subscriptions/", include("subscriptions.urls")),
     path("api/age_category/", include("age_category.urls")),
     path("api/referrals/", include("referrals.urls")),
+    path("api/usage_tracking/", include("usage_tracking.urls")),
 ]
 
 # Add this block to serve media files during development (DEBUG=True)
