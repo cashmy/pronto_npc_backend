@@ -39,6 +39,7 @@ REST_FRAMEWORK = {
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",  # if using cookie storage
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SITE_ID = 1
@@ -85,6 +86,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Third-party apps
+    "drf_spectacular",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
@@ -230,6 +232,13 @@ MEDIA_ROOT = os.path.join(
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Pronto NPC Backend API",
+    "DESCRIPTION": "API for the Pronto NPC Backend application",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,  # Set to True to include schema in UI by default
+}
 
 
 import logging

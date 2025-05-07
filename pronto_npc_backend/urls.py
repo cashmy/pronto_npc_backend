@@ -4,8 +4,25 @@ from django.conf import settings  # Import settings
 from django.conf.urls.static import static  # Import static helper
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 from users.views import CustomLoginView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 urlpatterns = [
+    # OpenAPI Schema and UI paths
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
     # JWT-aware auth
     path("auth/login/", CustomLoginView.as_view(), name="rest_login"),
     path("auth/registration/", include("dj_rest_auth.registration.urls")),
