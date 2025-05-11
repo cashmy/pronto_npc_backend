@@ -9,4 +9,9 @@ urlpatterns = [
         views.npc_system_race_options,
         name="npc_system_race_options",
     ),
+    path(
+        "random-race/<int:npc_system_pk>/",
+        views.get_random_npc_system_race,
+        name="get_ra ndom_npc_system_race",
+    ),
 ]

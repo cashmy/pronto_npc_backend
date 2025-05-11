@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import NpcSystemRpgClass
 from .serializers import NpcSystemRpgClassSerializer, NpcSystemRpgClassOptionSerializer
+import random
 
 
 @api_view(["GET", "POST"])
@@ -59,4 +60,32 @@ def npc_system_rpg_class_options(request, npc_system_pk):
         "value"
     )
     serializer = NpcSystemRpgClassOptionSerializer(systems, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_random_npc_system_rpg_class(request, npc_system_pk):
+    """
+    Returns a randomly selected NpcSystemRpgClass for the given NpcSystem.
+    It picks a random existing rpg_class_id for that system.
+    """
+    # Get all existing rpg_class_ids for the given npc_system
+    rpg_class_ids = list(
+        NpcSystemRpgClass.objects.filter(npc_system_id=npc_system_pk).values_list(
+            "rpg_class_id", flat=True
+        )
+    )
+
+    if not rpg_class_ids:
+        return Response(
+            {"detail": "No races found for this NPC system."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    selected_rpg_class_id = random.choice(rpg_class_ids)
+    random_race = NpcSystemRpgClass.objects.get(
+        npc_system_id=npc_system_pk, rpg_class_id=selected_rpg_class_id
+    )
+    serializer = NpcSystemRpgClassSerializer(random_race)
     return Response(serializer.data, status=status.HTTP_200_OK)
