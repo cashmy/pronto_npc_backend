@@ -14,7 +14,9 @@ def npc_system_list(request):
     if request.method == "GET":
         # Optimize by fetching related owner data in the same query
         systems = NpcSystem.objects.select_related("owner").all()
-        serializer = NpcSystemSerializer(systems, many=True)
+        serializer = NpcSystemSerializer(
+            systems, many=True, context={"request": request}
+        )
         return Response(serializer.data)
 
     elif request.method == "POST":
@@ -37,10 +39,12 @@ def npc_system_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = NpcSystemSerializer(system)
+        serializer = NpcSystemSerializer(system, context={"request": request})
         return Response(serializer.data)
     elif request.method == "PUT":
-        serializer = NpcSystemSerializer(system, data=request.data)
+        serializer = NpcSystemSerializer(
+            system, data=request.data, context={"request": request}
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -49,7 +53,9 @@ def npc_system_detail(request, pk):
         system.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     elif request.method == "PATCH":
-        serializer = NpcSystemSerializer(system, data=request.data, partial=True)
+        serializer = NpcSystemSerializer(
+            system, data=request.data, partial=True, context={"request": request}
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

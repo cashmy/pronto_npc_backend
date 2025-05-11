@@ -31,6 +31,21 @@ class UsageTracking(models.Model):
         verbose_name=_("Custom Generators Created"),
         help_text=_("Number of custom random table generators created by the user."),
     )
+    custom_generator_tables_created_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_("Custom Generators Created"),
+        help_text=_("Number of custom random table generators created by the user."),
+    )
+    character_avatars_uploaded_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_("Character Avatars Uploaded"),
+        help_text=_("Number of character avatars uploaded by the user."),
+    )
+    character_tokens_uploaded_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_("Character Avatars Uploaded"),
+        help_text=_("Number of character avatars uploaded by the user."),
+    )
     ai_interfaced_characters_count = models.PositiveIntegerField(
         default=0,
         verbose_name=_("AI Interfaced Characters"),

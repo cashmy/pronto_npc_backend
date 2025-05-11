@@ -98,6 +98,7 @@ INSTALLED_APPS = [
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "simple_history",
+    "corsheaders",
     # Custom Apps
     "npc_system",
     "images",
@@ -122,6 +123,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # Added for CORS - place high in the list
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -132,7 +134,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
-
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development
 # Email settings for development (print emails to console)
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

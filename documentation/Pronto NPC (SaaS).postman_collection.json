@@ -3300,6 +3300,215 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Usage Tracking",
+			"item": [
+				{
+					"name": "Admin Only",
+					"item": [
+						{
+							"name": "Get All Usage Tracking (List)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a Usage Tracking Record",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"npc_systems_generated_count\": 0,\r\n    \"characters_generated_count\": 0,\r\n    \"custom_generators_created_count\": 1,\r\n    \"ai_interfaced_characters_count\": 0,\r\n    \"ai_image_generated_characters_count\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patch Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"characters_generated_count\": 1,\r\n    \"custom_generators_created_count\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a Usage Tracking Record",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Authenticated User",
+					"item": [
+						{
+							"name": "Get Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Update Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"npc_systems_generated_count\": 0,\r\n    \"characters_generated_count\": 0,\r\n    \"custom_generators_created_count\": 1,\r\n    \"ai_interfaced_characters_count\": 0,\r\n    \"ai_image_generated_characters_count\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patch Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"characters_generated_count\": 1,\r\n    \"custom_generators_created_count\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {
@@ -3307,7 +3516,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NTczOTE5LCJpYXQiOjE3NDY1NjY3MTksImp0aSI6IjFjM2RkYWViZGYxZDQxYmNhN2E2MmRkZTk3ODRjYWYwIiwidXNlcl9pZCI6MX0.25iCZ4ro9WXo2Unw7tYUMNA7ELOgtQ90zHX13DzAm1g",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjUyNTg5LCJpYXQiOjE3NDY2NDUzODksImp0aSI6ImFlZmFhM2ZiYjY2NjQ2YjQ4NTRmMTAyMzFmOGI0NDdlIiwidXNlcl9pZCI6MX0.Kc682-mhfrFkAyGCNcSHTp6_9_Am1kElOSC1aQ-3fdo",
 				"type": "string"
 			}
 		]
@@ -3352,6 +3561,11 @@
 		},
 		{
 			"key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NTczOTE5LCJpYXQiOjE3NDY1NjY3MTksImp0aSI6IjFjM2RkYWViZGYxZDQxYmNhN2E2MmRkZTk3ODRjYWYwIiwidXNlcl9pZCI6MX0.25iCZ4ro9WXo2Unw7tYUMNA7ELOgtQ90zHX13DzAm1g",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjMyNjk2LCJpYXQiOjE3NDY2MjU0OTYsImp0aSI6IjQ3MTg0NjI2ZGM2YTQ5YzM5ZGI3MWI3ZjI4ODU5YTA2IiwidXNlcl9pZCI6MX0.oaZj2-5KdsDwRa3aXoJ0iFmPw_zYxkRX-NnJ_OsOu6s",
 			"value": "",
 			"type": "default"
 		}

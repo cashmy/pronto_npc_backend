@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import NpcSystem, Genre
+from .models import NpcSystem
+from genre.serializers import GenreSerializer
 
 
 class OwnerSummarySerializer(serializers.ModelSerializer):
@@ -10,9 +11,10 @@ class OwnerSummarySerializer(serializers.ModelSerializer):
 
 
 class NpcSystemSerializer(serializers.ModelSerializer):
-    genre = serializers.SlugRelatedField(
-        slug_field="name", queryset=Genre.objects.all()
-    )
+    # genre = serializers.SlugRelatedField(
+    #     slug_field="name", queryset=Genre.objects.all()
+    # )
+    genre = GenreSerializer()
 
     use_current_user = serializers.BooleanField(
         write_only=True, required=False, default=False
@@ -27,6 +29,10 @@ class NpcSystemSerializer(serializers.ModelSerializer):
             "npc_system_name",
             "description",
             "genre",
+            "npc_system_image",
+            "npc_system_icon",
+            "npc_system_color",
+            "npc_system_color_name",
             "race_table_header",
             "profession_table_header",
             "rpg_class_table_header",

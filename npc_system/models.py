@@ -15,6 +15,30 @@ class NpcSystem(models.Model):
         help_text="The genre of the NPC system, e.g., Fantasy, Sci-Fi, etc.",
         default="",
     )
+    npc_system_image = models.ImageField(
+        upload_to="npc_systems/images/",
+        blank=True,
+        null=True,
+        help_text="An image representing the NPC system",
+    )
+    npc_system_icon = models.ImageField(
+        upload_to="npc_systems/icons/",
+        blank=True,
+        null=True,
+        help_text="An icon representing the NPC system",
+    )
+    npc_system_color = models.CharField(
+        max_length=7,
+        blank=True,
+        null=True,
+        help_text="A color code representing the NPC system, e.g., #FF5733",
+    )
+    npc_system_color_name = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text="A name for the color representing the NPC system, e.g., 'Fire Red'",
+    )
     race_table_header = models.CharField(
         max_length=25,
         blank=False,
