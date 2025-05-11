@@ -57,7 +57,9 @@ def npc_system_professions_detail(request, pk):
 # Optional: Serializer for the dropdown options in the frontend
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def npc_system_profession_options(request):
-    professions = NpcSystemProfession.objects.all().order_by("value")
+def npc_system_profession_options(request, npc_system_pk):
+    professions = NpcSystemProfession.objects.filter(
+        npc_system_id=npc_system_pk
+    ).order_by("value")
     serializer = NpcSystemProfessionOptionSerializer(professions, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

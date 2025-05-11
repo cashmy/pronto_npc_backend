@@ -52,7 +52,7 @@ def npc_system_races_detail(request, pk):
 # Optional: Serializer for the dropdown options in the frontend
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def npc_system_race_options(request):
-    races = NpcSystemRace.objects.all().order_by("value")  # optional ordering
+def npc_system_race_options(request, npc_system_pk):
+    races = NpcSystemRace.objects.filter(npc_system_id=npc_system_pk).order_by("value")
     serializer = NpcSystemRaceOptionSerializer(races, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
