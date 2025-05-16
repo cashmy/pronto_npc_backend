@@ -40,6 +40,12 @@ class DebugUserView(APIView):
                 "email": getattr(user, "email", None),
                 "first_name": getattr(user, "first_name", None),
                 "last_name": getattr(user, "last_name", None),
+                "is_staff": getattr(user, "is_staff", None),
+                "is_superuser": getattr(user, "is_superuser", None),
+                "is_active": getattr(user, "is_active", None),
+                "date_joined": getattr(user, "date_joined", None),
+                "last_login": getattr(user, "last_login", None),
+                "is_email_verified": getattr(user, "is_email_verified", None),
             }
         )
 
