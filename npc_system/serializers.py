@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import NpcSystem
+from genre.models import Genre  # Import the Genre model
 from genre.serializers import GenreSerializer
 
 
@@ -10,16 +11,11 @@ class OwnerSummarySerializer(serializers.ModelSerializer):
         fields = ("id", "first_name", "last_name")
 
 
-class NpcSystemSerializer(serializers.ModelSerializer):
-    # genre = serializers.SlugRelatedField(
-    #     slug_field="name", queryset=Genre.objects.all()
-    # )
-    genre = GenreSerializer()
-
-    use_current_user = serializers.BooleanField(
-        write_only=True, required=False, default=False
-    )
-
+class NpcSystemReadSerializer(serializers.ModelSerializer):
+    """
+    Serializer for reading NpcSystem instances, with nested genre and owner.
+    """
+    genre = GenreSerializer(read_only=True)
     owner = OwnerSummarySerializer(read_only=True)
 
     class Meta:
@@ -39,9 +35,43 @@ class NpcSystemSerializer(serializers.ModelSerializer):
             "standard_app_dsp",
             "is_global",
             "owner",
-            "use_current_user",
             "created_at",
             "updated_at",
+        ]
+        # For a read-only serializer, read_only_fields are somewhat implicit,
+        # but this list was in the original and can be kept for clarity if desired.
+        # However, explicit read_only=True on nested serializers is more direct.
+
+
+class NpcSystemWriteSerializer(serializers.ModelSerializer):
+    """
+    Serializer for writing (create/update) NpcSystem instances.
+    Accepts a PK for genre.
+    """
+    genre = serializers.PrimaryKeyRelatedField(
+        queryset=Genre.objects.all(),
+        allow_null=True, # Corresponds to model's null=True
+        required=False   # Corresponds to model's blank=True
+    )
+    # Accept string paths for images/icons instead of file uploads
+    npc_system_image = serializers.CharField(
+        allow_blank=True, allow_null=True, required=False
+    )
+    npc_system_icon = serializers.CharField(
+        allow_blank=True, allow_null=True, required=False
+    )
+    use_current_user = serializers.BooleanField(
+        write_only=True, required=False, default=False
+    )
+
+    class Meta:
+        model = NpcSystem
+        fields = [
+            "npc_system_name", "description", "genre",
+            "npc_system_image", "npc_system_icon", "npc_system_color",
+            "npc_system_color_name", "race_table_header",
+            "profession_table_header", "rpg_class_table_header",
+            "standard_app_dsp", "use_current_user",            
         ]
         read_only_fields = ["id", "created_at", "updated_at", "is_global", "owner"]
 
@@ -58,13 +88,6 @@ class NpcSystemSerializer(serializers.ModelSerializer):
             if request and hasattr(request, "user") and request.user.is_authenticated:
                 owner_instance = request.user
                 is_global_system = False  # Not global if owner is set
-                # Optional: Add debug prints here if needed for the IntegrityError
-                print(
-                    f"\n\n\nSimplified: Owner set to current user: {owner_instance} (ID: {getattr(owner_instance, 'id', None)})"
-                )
-                print(
-                    f"Simplified: Request user: {request.user} (ID: {getattr(request.user, 'id', None)})\n\n\n"
-                )
             else:
                 # Flag was set, but user is not authenticated (should ideally not happen with IsAuthenticated permission)
                 # Or request context is missing. Treat as global or raise error? Let's treat as global for now.
@@ -81,10 +104,11 @@ class NpcSystemSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # Pop the flag if it was somehow included in PATCH/PUT data
         validated_data.pop("use_current_user", None)
-
+        
         # Prevent changing owner or global status implicitly during update
-        # If these need to be updatable, add specific logic here.
-        validated_data.pop("owner", None)
-        validated_data.pop("is_global", None)
-
+        # These fields are not in the `fields` list of this serializer for direct input,
+        # and `read_only_fields` further protects them if they were.
+        # If `use_current_user` should affect owner/is_global on update,
+        # that logic would be added here.
+        
         return super().update(instance, validated_data)

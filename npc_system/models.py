@@ -13,7 +13,7 @@ class NpcSystem(models.Model):
         blank=True,
         null=True,
         help_text="The genre of the NPC system, e.g., Fantasy, Sci-Fi, etc.",
-        default="",
+        default=None,  # Changed from default=""
     )
     npc_system_image = models.ImageField(
         upload_to="npc_systems/images/",
