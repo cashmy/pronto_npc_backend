@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Genre
 from .serializers import GenreSerializer, GenreOptionSerializer
-
+import random
 
 # Create your views here.
 @api_view(["GET", "POST"])
@@ -61,4 +61,22 @@ def genre_detail(request, pk):
 def genre_options(request):
     genres = Genre.objects.all().order_by("name")  # optional ordering
     serializer = GenreOptionSerializer(genres, many=True, context={"request": request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_random_genre(request):
+    """
+    Returns a randomly selected Genre.
+    """
+    # Efficiently select a random genre from the database
+    random_genre = Genre.objects.order_by("?").first()
+
+    if not random_genre:
+        return Response(
+            {"detail": "No genres found."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    serializer = GenreSerializer(random_genre, context={"request": request})
     return Response(serializer.data, status=status.HTTP_200_OK)
