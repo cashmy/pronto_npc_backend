@@ -18,7 +18,8 @@ from django.core.mail import send_mail
 from datetime import timedelta
 from django.utils import timezone
 
-from users.serializers import OTPVerifySerializer
+from users.serializers import OTPVerifySerializer, CustomUsernameOrEmailLoginSerializer
+
 
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -93,20 +94,22 @@ class CustomRegisterView(RegisterView):
 
 
 class CustomLoginView(LoginView):
+    serializer_class = CustomUsernameOrEmailLoginSerializer
+
     """
     Optional: Override if you want to trigger 2FA email OTP after login.
     """
 
     def get_response(self):
-        response = super().get_response()
-
-        # Overwrite token response to use JWT manually
-        refresh = RefreshToken.for_user(self.request.user)
-        custom_response = {
+        user = self.user  # or self.request.user
+        refresh = RefreshToken.for_user(user)
+        response_data = {
+            "user_id": user.id,
+            "email": user.email,
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         }
-        return Response(custom_response)
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 # ----- Social Logins -----
