@@ -48,3 +48,30 @@ def table_header_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def table_header_list_by_system(request, npc_system_id):
+    """
+    Returns a list of table headers filtered by the provided npc_system_id.
+    """
+    # Filter TableHeader objects by their direct npc_system ID
+    filtered_table_headers = TableHeader.objects.filter(npc_system_id=npc_system_id)
+    serializer = TableHeaderSerializer(filtered_table_headers, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def table_header_list_by_system_and_group(request, npc_system_id, table_group_id):
+    """
+    Returns a list of table headers filtered by both the provided
+    npc_system_id and table_group_id.
+    """
+    filtered_table_headers = TableHeader.objects.filter(
+        npc_system_id=npc_system_id,
+        table_group_id=table_group_id,
+    )
+    serializer = TableHeaderSerializer(filtered_table_headers, many=True)
+    return Response(serializer.data)

@@ -1,10 +1,10 @@
 # users/serializers.py
-
+from django.contrib.auth import authenticate, get_user_model
+from django.utils.translation import gettext_lazy as _
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError as DjangoValidationError
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-
-# Remove the top-level import:
-# from referrals.models import Referral
 from users.models import User
 
 
@@ -84,3 +84,73 @@ class OTPVerifySerializer(serializers.Serializer):
         if not value.isdigit() or len(value) != 6:
             raise serializers.ValidationError("OTP must be a 6-digit number.")
         return value
+
+
+UserModel = get_user_model()
+
+
+class CustomUsernameOrEmailLoginSerializer(serializers.Serializer):
+    login = serializers.CharField(label=_("Login"))  # Accepts username or email
+    password = serializers.CharField(
+        label=_("Password"), style={"input_type": "password"}, trim_whitespace=False
+    )
+
+    def validate(self, attrs):
+        login_identifier = attrs.get("login")
+        password = attrs.get("password")
+        request = self.context.get("request")
+        user = None
+
+        if not login_identifier or not password:
+            msg = _('Must include "login" and "password".')
+            raise serializers.ValidationError(msg, code="authorization")
+
+        # Determine if 'login_identifier' is an email
+        is_email = False
+        try:
+            validate_email(login_identifier)
+            is_email = True
+        except DjangoValidationError:
+            is_email = False
+
+        if is_email:
+            # Try to authenticate using email.
+            # This primarily relies on an authentication backend (like allauth's)
+            # that can handle an 'email' kwarg in `authenticate()`.
+            user = authenticate(
+                request=request, email=login_identifier, password=password
+            )
+
+            # Fallback: if email authentication failed or is not directly supported by a backend,
+            # and the USERNAME_FIELD is not 'email', find user by email and auth with USERNAME_FIELD.
+            if not user and UserModel.USERNAME_FIELD != "email":
+                try:
+                    # Ensure case-insensitive email lookup
+                    user_obj = UserModel.objects.get(email__iexact=login_identifier)
+                    # Authenticate using the model's defined USERNAME_FIELD
+                    user = authenticate(
+                        request=request,
+                        username=user_obj.get_username(),
+                        password=password,
+                    )
+                except UserModel.DoesNotExist:
+                    pass  # User with this email does not exist, will be handled by the final "if not user" check
+
+        # If not authenticated yet (either login_identifier was not an email, or email auth attempts failed),
+        # try authenticating treating the login_identifier as a username.
+        if not user:
+            user = authenticate(
+                request=request, username=login_identifier, password=password
+            )
+
+        if user:
+            if not user.is_active:
+                msg = _("User account is disabled.")
+                raise serializers.ValidationError(msg, code="authorization")
+        else:
+            # Generic message for security reasons (don't reveal if username/email exists)
+            msg = _("Unable to log in with provided credentials.")
+            raise serializers.ValidationError(msg, code="authorization")
+
+        attrs["user"] = user
+        return attrs

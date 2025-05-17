@@ -52,3 +52,35 @@ def character_sub_group_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def character_sub_group_list_by_system(request, npc_system_id):
+    """
+    Returns a list of character sub-groups filtered by the provided npc_system_id
+    (via the parent CharacterGroup).
+    """
+    # Filter CharacterSubGroup objects by the parent CharacterGroup's npc_system ID
+    filtered_sub_groups = CharacterSubGroup.objects.filter(
+        character_group__npc_system_id=npc_system_id
+    )
+    serializer = CharacterSubGroupSerializer(filtered_sub_groups, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def character_sub_group_list_by_system_and_group(
+    request, npc_system_id, character_group_id
+):
+    """
+    Returns a list of character sub-groups filtered by both the provided
+    npc_system_id and character_group_id.
+    """
+    filtered_sub_groups = CharacterSubGroup.objects.filter(
+        character_group__npc_system_id=npc_system_id,
+        character_group_id=character_group_id,
+    )
+    serializer = CharacterSubGroupSerializer(filtered_sub_groups, many=True)
+    return Response(serializer.data)

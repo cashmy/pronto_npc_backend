@@ -1,0 +1,35 @@
+services:
+  web:
+    # build: .
+    image: pronto-npc-backend # Use a pre-built image if available
+    container_name: pronto_npc_backend_container
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    env_file:
+      - .env
+    # depends_on: # Uncomment if you add a database service, for example
+    #   - db
+#   db:
+#     image: mysql:8.0 # Use an official MySQL image
+#     container_name: pronto_npc_mysql_db
+#     restart: always # Always restart the DB container if it stops
+#     environment:
+#       MYSQL_DATABASE: pronto_npc_db # Name of the database to create
+#       MYSQL_USER: pronto_user # Username for your application
+#       MYSQL_PASSWORD: pronto_password # Password for your application user
+#       MYSQL_ROOT_PASSWORD: very_strong_root_password # Secure password for the root user
+#     ports:
+#       - "3307:3306" # Map host port 3307 to container port 3306 (MySQL default)
+#         # Using 3307 on host to avoid conflicts if you have local MySQL on 3306
+#     volumes:
+#       - mysql_data:/var/lib/mysql # Persist database data
+
+# volumes: # Defines named volumes
+#   mysql_data: # This volume will store MySQL data persistently
+
+# # Add other services here:
+

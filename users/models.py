@@ -31,7 +31,7 @@ class User(AbstractUser):
 
     def __str__(self):
         # Using email might be more unique/useful than username if username isn't required
-        return self.email
+        return str(self.id)
 
 
 # --- Add this model definition ---

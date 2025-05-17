@@ -1,7 +1,7 @@
 # referrals/admin.py
 
 from django.contrib import admin
-from referrals.models import Referral
+from referrals.models import Referral  # Profile model is no longer needed here directly
 
 
 @admin.register(Referral)
@@ -11,7 +11,7 @@ class ReferralAdmin(admin.ModelAdmin):
     readonly_fields = ("code", "created_at")
 
     def total_signups(self, obj):
-        # Optional: if you track referred users in Profile model
-        return obj.referred_by.referred_users.count()
+        # obj is a Referral instance. Use the new model property.
+        return obj.referred_user_count
 
     total_signups.short_description = "Total Referred Users"

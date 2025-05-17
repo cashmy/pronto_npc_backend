@@ -18,7 +18,37 @@ from django.core.mail import send_mail
 from datetime import timedelta
 from django.utils import timezone
 
-from users.serializers import OTPVerifySerializer
+from users.serializers import OTPVerifySerializer, CustomUsernameOrEmailLoginSerializer
+
+
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+
+class DebugUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response(
+            {
+                "raw_user": str(user),
+                "type": str(type(user)),
+                "is_authenticated": getattr(user, "is_authenticated", False),
+                "user_id": getattr(user, "id", None),
+                "username": getattr(user, "username", None),
+                "email": getattr(user, "email", None),
+                "first_name": getattr(user, "first_name", None),
+                "last_name": getattr(user, "last_name", None),
+                "is_staff": getattr(user, "is_staff", None),
+                "is_superuser": getattr(user, "is_superuser", None),
+                "is_active": getattr(user, "is_active", None),
+                "date_joined": getattr(user, "date_joined", None),
+                "last_login": getattr(user, "last_login", None),
+                "is_email_verified": getattr(user, "is_email_verified", None),
+            }
+        )
 
 
 class OTPVerifyView(APIView):
@@ -64,18 +94,22 @@ class CustomRegisterView(RegisterView):
 
 
 class CustomLoginView(LoginView):
+    serializer_class = CustomUsernameOrEmailLoginSerializer
+
     """
     Optional: Override if you want to trigger 2FA email OTP after login.
     """
 
     def get_response(self):
-        response = super().get_response()
-
-        # After successful login, send 2FA OTP email
-        if self.request.user and not self.request.user.is_superuser:
-            send_login_otp(self.request.user)
-
-        return response
+        user = self.user  # or self.request.user
+        refresh = RefreshToken.for_user(user)
+        response_data = {
+            "user_id": user.id,
+            "email": user.email,
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        }
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 # ----- Social Logins -----

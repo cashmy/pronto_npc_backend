@@ -1,0 +1,3573 @@
+{
+	"info": {
+		"_postman_id": "6b71edca-7419-4d9a-8b4f-e42ef9925168",
+		"name": "Pronto NPC (SaaS)",
+		"description": "Postman collection for authentication and NPC System management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3542827"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"johndoe@example.com\",\n  \"password1\": \"jd123\",\n  \"password2\": \"jd123\",\n  \"referral_code\": \"\",\n  \"company\": \"Example Inc\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/auth/registration/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"registration",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"cmyers880@gmail.com\",\n  \"password\": \"Myec631$\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Referral Link",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/referrals/my-invite/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"referrals",
+								"my-invite",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get/Debug Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/users/debug/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"debug",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh the Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0NzA4MjkxMiwiaWF0IjoxNzQ2NDc4MTEyLCJqdGkiOiIxMWEyYmU3YWE4NTc0NWZiOTFkYmUwZDU0ZDA1MWI5MiIsInVzZXJfaWQiOjF9.a-2-8wSsT5bqkyZz0eOgYAeAUnGghz2PE4swyEvOyIQ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/auth/token/refresh/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"token",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Age Category",
+			"item": [
+				{
+					"name": "List All Age Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/age_category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"age_category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an Age Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/age_category/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"age_category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an Age Category f/Select",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/age_category/options/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"age_category",
+								"options",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an Age Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"age_category_name\": \"adult 2\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/age_category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"age_category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an Age Category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"age_category_name\": \"adult 3\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/age_category/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"age_category",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch an Age Category",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"test description\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/age_category/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"age_category",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an Age Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/age_category/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"age_category",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Archetypes",
+			"item": [
+				{
+					"name": "List All Archetypes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/archetype/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"archetype",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Archetypes by Expansion flag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/archetype/by_expansion/?status=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"archetype",
+								"by_expansion",
+								""
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an Archetype",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/archetype/22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"archetype",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an Archetype",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Junk Role\",\r\n    \"description\": \"Friends or companions who assist the Hero on their journey.\\r\\nMay form a team or aid with different strengths.\",\r\n    \"notes\": \"\",\r\n    \"expansion\": false,\r\n    \"related_archetypes\": null\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/archetype/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"archetype",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an Archetype",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Junk Role\",\r\n    \"description\": \"Friends or Foes.\",\r\n    \"notes\": \"\",\r\n    \"expansion\": false,\r\n    \"related_archetypes\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/archetype/26",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"archetype",
+								"26"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch an Archetype",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/archetype/26",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"archetype",
+								"26"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an Archetype",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/archetype/26",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"archetype",
+								"26"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Character",
+			"item": [
+				{
+					"name": "List All Characters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/characters/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"characters",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Character",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/characters/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"characters",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Character",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Hadley\",\r\n    \"last_name\": \"Noosecatcher\",\r\n    \"alias\": null,\r\n    \"age_category_description\": \"an adult\",\r\n    \"age\": null,\r\n    \"race\": \"dragon-born\",\r\n    \"gender\": \"Female\",\r\n    \"bulk_generated\": false,\r\n    \"reviewed\": false,\r\n    \"current_location\": \"City of Brassleague\",\r\n    \"description\": \"\",\r\n    \"notes\": \"\",\r\n    \"ai_integration_exists\": false,\r\n    \"created_at\": \"2025-05-06T20:23:03.371988Z\",\r\n    \"updated_at\": \"2025-05-06T20:23:03.371988Z\",\r\n    \"npc_system\": \"2\",\r\n    \"character_group\": \"1\",\r\n    \"character_sub_group\": \"1\",\r\n    \"archetype\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/characters/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"characters",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Character",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Hadley\",\r\n    \"last_name\": \"Noosecatcher\",\r\n    \"alias\": null,\r\n    \"age_category_description\": \"an adult\",\r\n    \"age\": null,\r\n    \"race\": \"dragon-born\",\r\n    \"gender\": \"Female\",\r\n    \"bulk_generated\": false,\r\n    \"reviewed\": false,\r\n    \"current_location\": \"City of Brassleague\",\r\n    \"description\": \"Brother to Farah. They are fraternal twins\",\r\n    \"notes\": \"\",\r\n    \"ai_integration_exists\": false,\r\n    \"created_at\": \"2025-05-06T20:23:03.371988Z\",\r\n    \"updated_at\": \"2025-05-06T20:23:03.371988Z\",\r\n    \"npc_system\": \"2\",\r\n    \"character_group\": \"1\",\r\n    \"character_sub_group\": \"1\",\r\n    \"archetype\": 22\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/characters/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"characters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a Character",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"This is  an extra note\",\r\n    \"archetype\": 22\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/characters/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"characters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Character",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/characters/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"characters",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Character Groups",
+			"item": [
+				{
+					"name": "List All Character Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/character_group/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_group",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Character Groups by Npc System",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/character_group/system/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_group",
+								"system",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Character Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/character_group/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_group",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Character Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"npc_system\": \"1\",\r\n    \"character_group_name\": \"Test Group\",\r\n    \"character_group_short_name\": \"\",\r\n    \"description\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/character_group/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_group",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Character Group",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"npc_system\": \"2\",\r\n    \"character_group_name\": \"Test Group\",\r\n    \"character_group_short_name\": \"\",\r\n    \"description\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/character_group/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_group",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a Character Group",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"npc_system\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/character_group/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_group",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Character Group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/character_group/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_group",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Character Sub Groups",
+			"item": [
+				{
+					"name": "List All Character Sub Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/character_sub_group/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_sub_group",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Character Sub Groups by Npc System",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/character_sub_group/system/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_sub_group",
+								"system",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Character Sub Groups by System/Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/character_sub_group/system/2/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_sub_group",
+								"system",
+								"2",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Character Sub Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/character_sub_group/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_sub_group",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Character Sub Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"character_group\": \"Test Group\",\r\n    \"character_sub_group_name\": \"Test sub group 3\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/character_sub_group/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_sub_group",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Character Group",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"character_group\": \"Test Group\",\r\n    \"character_group_display_name\": \"Test Group\",\r\n    \"npc_system_name\": \"Test System\",\r\n    \"character_sub_group_name\": \"Test sub group 3\",\r\n    \"character_sub_group_short_name\": \"Test sub group 3\",\r\n    \"description\": \"This is a description\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/character_sub_group/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_sub_group",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a Character Group",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"character_sub_group_name\": \"Test sub group 3a\",\r\n    \"character_sub_group_short_name\": \"Test sub group 3a\",\r\n    \"description\": \"This is a description for 3a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/character_sub_group/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_sub_group",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Character Group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/character_sub_group/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"character_sub_group",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Genres",
+			"item": [
+				{
+					"name": "List All Genres",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/genre/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"genre",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Genre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/genre/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"genre",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Genre",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Fantasy\",\r\n    \"description\": \"Magic, mythical creatures, imaginary worlds.\",\r\n    \"notes\": \"Most popular RPG genre (e.g., D&D, Pathfinder)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/genre/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"genre",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Genre",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"TEST Fantasy\",\r\n    \"description\": \"Magic, mythical creatures, imaginary worlds.\",\r\n    \"notes\": \"Most popular RPG genre (e.g., D&D, Pathfinder)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/genre/16",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"genre",
+								"16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a Genre",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Quests, exploration, constant physical challenges.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/genre/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"genre",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Genre",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/genre/16",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"genre",
+								"16"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Image Library",
+			"item": [
+				{
+					"name": "List All Images",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/images/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"images",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an Image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/images/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"images",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an Image",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "alt_text",
+									"value": "Cash Myers",
+									"type": "text"
+								},
+								{
+									"key": "file_name",
+									"value": "Cash_profile_2b",
+									"type": "text"
+								},
+								{
+									"key": "mime_type",
+									"value": "image/jpg",
+									"type": "text"
+								},
+								{
+									"key": "file_size",
+									"value": "471040",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/D:/Python-Django/pronto_npc_backend/media/images/Cash_profile_2a.jpg"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "image_type",
+									"value": "i",
+									"type": "text"
+								},
+								{
+									"key": "use_current_user",
+									"value": "True",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/images/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"images",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an Image",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "alt_text",
+									"value": "Cash Myers-Alt Text",
+									"type": "text"
+								},
+								{
+									"key": "file_name",
+									"value": "Cash_profile_2b",
+									"type": "text"
+								},
+								{
+									"key": "mime_type",
+									"value": "image/jpg",
+									"type": "text"
+								},
+								{
+									"key": "file_size",
+									"value": "471040",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/D:/Python-Django/pronto_npc_backend/media/images/Cash_profile_2a.jpg"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "image_type",
+									"value": "i",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/images/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"images",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a Genre",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"alt_text\": \"Alt Text-2\",\r\n    \"image_type\": \"i\",\r\n    \"use_current_user\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/images/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"images",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an Image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/images/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"images",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NPC System",
+			"item": [
+				{
+					"name": "List NPC Systems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an NPC System Record",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system/46",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create NPC System",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"npc_system_name\": \"FantasyQuest 3\",\n  \"description\": \"A fantasy-themed character system\",\n  \"genre\" : \"Fantasy\",\n  \"standard_app_dsp\": false,\n  \"use_current_user\": true\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update NPC System",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"npc_system_name\": \"FantasyQuest 3-2\",\n    \"description\": \"A fantasy-themed character system\",\n    \"genre\": \"Fantasy\",\n    \"race_table_header\": \"Race-Updated\",\n    \"profession_table_header\": \"Profession-Updated\",\n    \"rpg_class_table_header\": \"Class-Updated\",\n    \"standard_app_dsp\": false,\n    \"is_global\": false,\n    \"owner\": 1\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system/46",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch NPC System",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"race_table_header\": \"Race-Updated 2x+\"\n\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system/46",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system",
+								"46"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an NPC System Record",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system/46",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system",
+								"46"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NPC Professions",
+			"item": [
+				{
+					"name": "List System Professions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_professions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_professions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get System Professions for/Select",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_professions/options/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_professions",
+								"options",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a System Profession Record",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_professions/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_professions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a System Profession",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"npc_system\": 2,\n    \"value\": \"Hostler\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_professions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_professions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update System Profession",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 3,\n    \"npc_system\": 2,\n    \"npc_system_name\": \"GM Books\",\n    \"profession_table_header\": \"Profession\",\n    \"value\": \"Hostler 2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_professions/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_professions",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch NPC System",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": \"Hostler\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_professions/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_professions",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an System Profession",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_professions/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_professions",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NPC Races",
+			"item": [
+				{
+					"name": "List System Races",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_races/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_races",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get System Races for/Select",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_races/options/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_races",
+								"options",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a System Race Record",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_races/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_races",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a System Race",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"npc_system\": 2,\n    \"value\": \"Flying Dwarf\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_races/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_races",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update System Race",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"npc_system\": 2,\n    \"npc_system_name\": \"GM Books\",\n    \"race_table_header\": \"Race\",\n    \"value\": \"Flying Dwarf\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_races/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_races",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a System Race",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": \"Flying Dwarf\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_races/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_races",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a System Race",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_races/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_races",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NPC Classes",
+			"item": [
+				{
+					"name": "List System Classes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_rpg_classes/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_rpg_classes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get System Classes for/Select",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_rpg_classes/options/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_rpg_classes",
+								"options",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a System Class",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_rpg_classes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_rpg_classes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a System Class",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"npc_system\": 2,\n    \"value\": \"Thief\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_rpg_classes/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_rpg_classes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update System Class",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"npc_system\": 2,\n    \"value\": \"Thief 2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_rpg_classes/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_rpg_classes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a System Race",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": \"Thief\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_rpg_classes/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_rpg_classes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a System Class",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/npc_system_rpg_classes/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"npc_system_rpg_classes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profiles",
+			"item": [
+				{
+					"name": "Admin Only",
+					"item": [
+						{
+							"name": "List All Profiles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/profiles/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"profiles",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/profiles/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"profiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a Profile",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/profiles/nn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"profiles",
+										"nn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a Profile (form)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "/D:/Python-Django/pronto_npc_backend/media/images/Cash_profile_2a.jpg"
+										},
+										{
+											"key": "date_of_birth",
+											"value": "1961-07-15",
+											"type": "text"
+										},
+										{
+											"key": "bio",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "referred_by_email",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "theme",
+											"value": "dark",
+											"type": "text"
+										},
+										{
+											"key": "discord_id",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "location",
+											"value": "Racine, WI",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/profiles/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"profiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patch a Profile",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bio\": \"\",\r\n    \"theme\": \"light\",\r\n    \"discord_id\": null,\r\n    \"location\": \"Racine, WI\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/profiles/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"profiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Authenticated User",
+					"item": [
+						{
+							"name": "Get Curr \"my\" Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/profiles/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"profiles",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Curr \"my\" Profile (form)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "/D:/Python-Django/pronto_npc_backend/media/images/Cash_profile_2a.jpg"
+										},
+										{
+											"key": "date_of_birth",
+											"value": "1961-07-15",
+											"type": "text"
+										},
+										{
+											"key": "bio",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "referred_by_email",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "theme",
+											"value": "dark",
+											"type": "text"
+										},
+										{
+											"key": "discord_id",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "location",
+											"value": "Racine, WI",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/profiles/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"profiles",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patch Curr \"my\" profile",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"bio\": \"\",\r\n    \"theme\": \"light\",\r\n    \"discord_id\": null,\r\n    \"location\": \"Racine, WI\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/profiles/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"profiles",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Table Group",
+			"item": [
+				{
+					"name": "List All Table Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_group/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_group",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Table Groups by Npc System",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_group/system/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_group",
+								"system",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Table Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_group/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_group",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Table Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"npc_system\": 3,\r\n    \"name\": \"Testing Postman\",\r\n    \"description\": \"Testing Postman Desc\",\r\n    \"report_display_heading\": \"TEST\",\r\n    \"number_of_rolls\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_group/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_group",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Table Group",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"npc_system\": 3,\r\n    \"name\": \"Testing Postman\",\r\n    \"description\": \"Testing Postman Desc - Updated\",\r\n    \"report_display_heading\": \"TEST\",\r\n    \"number_of_rolls\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_group/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_group",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a Table Group",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Testing Postman Desc\",\r\n    \"number_of_rolls\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_group/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_group",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Table Group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_group/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_group",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Table Header",
+			"item": [
+				{
+					"name": "List All Table Headers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_header/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_header",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Table Headers by Npc System",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_header/system/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_header",
+								"system",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Character Sub Groups by System/Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_header/system/3/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_header",
+								"system",
+								"3",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Table Header",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_header/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_header",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Table Header",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_group_name\": \"Concept Builder\",\r\n    \"name\": \"Concept Builder: TEST - Variant 2\",\r\n    \"description\": \"\",\r\n    \"report_display_heading\": \"I'm a\",\r\n    \"display_order\": 0,\r\n    \"number_of_rolls\": 1,\r\n    \"roll_die_type\": \"10\",\r\n    \"roll_mod\": 0,\r\n    \"random_gen_inclusision_level\": 2\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_header/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_header",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Table Header",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"npc_system\": 3,\r\n    \"table_group\": 1,\r\n    \"name\": \"Concept Builder: Identity/Roll\",\r\n    \"description\": \"\",\r\n    \"report_display_heading\": \"\",\r\n    \"display_order\": 0,\r\n    \"number_of_rolls\": 1,\r\n    \"roll_die_type\": \"10\",\r\n    \"roll_mod\": 0,\r\n    \"random_gen_inclusision_level\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_header/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_header",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a Table Header",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Concept Builder: Characteristic\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_header/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_header",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Table Header",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_header/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_header",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Table Items",
+			"item": [
+				{
+					"name": "List All Table Items (Rarely Used)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_items/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_items",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Table Items for A Table Header",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_items/table_header/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_items",
+								"table_header",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Table Item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/table_items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Table Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"npc_system\": 3,\r\n    \"table_group_name\": \"Concept Builder\",\r\n    \"name\": \"Concept Builder: TEST\",\r\n    \"description\": \"\",\r\n    \"report_display_heading\": \"I'm a\",\r\n    \"display_order\": 0,\r\n    \"number_of_rolls\": 1,\r\n    \"roll_die_type\": \"10\",\r\n    \"roll_mod\": 0,\r\n    \"random_gen_inclusision_level\": 2\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_items/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_items",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Table Item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"npc_system\": 3,\r\n    \"table_header\": 1,\r\n    \"item_id\": 1,\r\n    \"value\": \"Depressed\",\r\n    \"reroll_this_item\": false,\r\n    \"description\": \"\",\r\n    \"notes\": \"Some Notes\",\r\n    \"subsequent_table_roll\": false,\r\n    \"subsequent_table\": null,\r\n    \"subsequent_table_name\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_items/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_items",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch a Table Item",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"a descriptions\",\r\n    \"notes\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Table Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Just some notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/table_items/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"table_items",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "Get Curr \"my\" Subscription",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/me/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"me",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upgrade \"my\" Subscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subscription_type\": \"storyteller\",\r\n    \"start_date\": \"2025-05-06T22:17:07.225750Z\",\r\n    \"end_date\": \"2025-12-30\",\r\n    \"is_active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/upgrade/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"upgrade",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate \"my\" Subscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subscription_type\": \"storyteller\",\r\n    \"start_date\": \"2025-05-06T22:17:07.225750Z\",\r\n    \"end_date\": \"2025-12-30\",\r\n    \"is_active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/me/deactivate/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"me",
+								"deactivate",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactivate \"my\" Subscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subscription_type\": \"storyteller\",\r\n    \"start_date\": \"2025-05-06T22:17:07.225750Z\",\r\n    \"end_date\": \"2025-12-30\",\r\n    \"is_active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/me/reactivate/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"me",
+								"reactivate",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Referrals",
+			"item": [
+				{
+					"name": "Get Curr \"my\" Referral Link",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Curr \"my\" Referrals List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/referrals/referred-users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"referrals",
+								"referred-users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usage Tracking",
+			"item": [
+				{
+					"name": "Admin Only",
+					"item": [
+						{
+							"name": "Get All Usage Tracking (List)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a Usage Tracking Record",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"npc_systems_generated_count\": 0,\r\n    \"characters_generated_count\": 0,\r\n    \"custom_generators_created_count\": 1,\r\n    \"ai_interfaced_characters_count\": 0,\r\n    \"ai_image_generated_characters_count\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patch Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"characters_generated_count\": 1,\r\n    \"custom_generators_created_count\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a Usage Tracking Record",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Authenticated User",
+					"item": [
+						{
+							"name": "Get Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Update Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"npc_systems_generated_count\": 0,\r\n    \"characters_generated_count\": 0,\r\n    \"custom_generators_created_count\": 1,\r\n    \"ai_interfaced_characters_count\": 0,\r\n    \"ai_image_generated_characters_count\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patch Curr \"my\" Usage Tracking",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"characters_generated_count\": 1,\r\n    \"custom_generators_created_count\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/usage_tracking/me/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"usage_tracking",
+										"me",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjUyNTg5LCJpYXQiOjE3NDY2NDUzODksImp0aSI6ImFlZmFhM2ZiYjY2NjQ2YjQ4NTRmMTAyMzFmOGI0NDdlIiwidXNlcl9pZCI6MX0.Kc682-mhfrFkAyGCNcSHTp6_9_Am1kElOSC1aQ-3fdo",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NTU1MTA4LCJpYXQiOjE3NDY1NTE1MDgsImp0aSI6IjM2YzhjNDJlMWNiMTQ5MjVhOGY4YzI0ZWI4MmY3ZWE4IiwidXNlcl9pZCI6MX0.ixGEb_FyaLKO2H7pwLdvF0rrRXLPx3QrQuRHlFtPybs",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NTY2MzQ5LCJpYXQiOjE3NDY1NjI3NDksImp0aSI6IjQyMTNkN2ZkNTljNTRlZjc4OGVlNGM1ZjAzYTE0NTQwIiwidXNlcl9pZCI6MX0.rVzUEsJCY6TEuu4ncXt4wFg82FLFW4Nt7HCb8qtnscA",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NTczOTE5LCJpYXQiOjE3NDY1NjY3MTksImp0aSI6IjFjM2RkYWViZGYxZDQxYmNhN2E2MmRkZTk3ODRjYWYwIiwidXNlcl9pZCI6MX0.25iCZ4ro9WXo2Unw7tYUMNA7ELOgtQ90zHX13DzAm1g",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NTczOTE5LCJpYXQiOjE3NDY1NjY3MTksImp0aSI6IjFjM2RkYWViZGYxZDQxYmNhN2E2MmRkZTk3ODRjYWYwIiwidXNlcl9pZCI6MX0.25iCZ4ro9WXo2Unw7tYUMNA7ELOgtQ90zHX13DzAm1g",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjMyNjk2LCJpYXQiOjE3NDY2MjU0OTYsImp0aSI6IjQ3MTg0NjI2ZGM2YTQ5YzM5ZGI3MWI3ZjI4ODU5YTA2IiwidXNlcl9pZCI6MX0.oaZj2-5KdsDwRa3aXoJ0iFmPw_zYxkRX-NnJ_OsOu6s",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

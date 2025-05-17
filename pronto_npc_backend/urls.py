@@ -2,8 +2,33 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings  # Import settings
 from django.conf.urls.static import static  # Import static helper
+from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
+from users.views import CustomLoginView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 urlpatterns = [
+    # OpenAPI Schema and UI paths
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
+    # JWT-aware auth
+    path("auth/login/", CustomLoginView.as_view(), name="rest_login"),
+    path("auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("auth/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    # Admin and app routes
     path("admin/", admin.site.urls),
     path("api/npc_system/", include("npc_system.urls")),
     path("api/images/", include("images.urls")),
@@ -24,6 +49,7 @@ urlpatterns = [
     path("api/subscriptions/", include("subscriptions.urls")),
     path("api/age_category/", include("age_category.urls")),
     path("api/referrals/", include("referrals.urls")),
+    path("api/usage_tracking/", include("usage_tracking.urls")),
 ]
 
 # Add this block to serve media files during development (DEBUG=True)

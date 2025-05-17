@@ -7,6 +7,7 @@ from .serializers import (
     NpcSystemProfessionSerializer,
     NpcSystemProfessionOptionSerializer,
 )
+import random
 
 
 @api_view(["GET", "POST"])
@@ -57,7 +58,37 @@ def npc_system_professions_detail(request, pk):
 # Optional: Serializer for the dropdown options in the frontend
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def npc_system_profession_options(request):
-    professions = NpcSystemProfession.objects.all().order_by("value")
+def npc_system_profession_options(request, npc_system_pk):
+    professions = NpcSystemProfession.objects.filter(
+        npc_system_id=npc_system_pk
+    ).order_by("value")
     serializer = NpcSystemProfessionOptionSerializer(professions, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_random_npc_system_profession(request, npc_system_pk):
+    """
+    Returns a randomly selected NpcSystemProfession for the given NpcSystem.
+    It picks a random existing profession_id for that system.
+    """
+    # Get all existing profession_ids for the given npc_system
+    profession_ids = list(
+        NpcSystemProfession.objects.filter(npc_system_id=npc_system_pk).values_list(
+            "profession_id", flat=True
+        )
+    )
+
+    if not profession_ids:
+        return Response(
+            {"detail": "No races found for this NPC system."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    selected_profession_id = random.choice(profession_ids)
+    random_race = NpcSystemProfession.objects.get(
+        npc_system_id=npc_system_pk, profession_id=selected_profession_id
+    )
+    serializer = NpcSystemProfessionSerializer(random_race)
     return Response(serializer.data, status=status.HTTP_200_OK)

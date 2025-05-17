@@ -56,7 +56,7 @@ class CharacterGroup(models.Model):
 
     class Meta:
         # Optional: Add constraints like uniqueness if needed
-        # unique_together = ('npc_system', 'character_group_name')
+        unique_together = ("npc_system", "character_group_name")
         verbose_name = "Character Group"
         verbose_name_plural = "Character Groups"
         ordering = ["npc_system", "id"]  # Default ordering

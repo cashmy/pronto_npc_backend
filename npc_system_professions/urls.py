@@ -9,8 +9,13 @@ urlpatterns = [
         name="npc_system_profession_detail",
     ),
     path(
-        "options/",
+        "options/<int:npc_system_pk>/",
         views.npc_system_profession_options,
         name="npc_system_profession_options",
+    ),
+    path(
+        "random-profession/<int:npc_system_pk>/",
+        views.get_random_npc_system_profession,
+        name="get_random_npc_system_profession",
     ),
 ]

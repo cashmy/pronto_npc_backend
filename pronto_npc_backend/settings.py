@@ -23,22 +23,38 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#$mk&do#s3dunb#ez_lh(ta_gi(fxk(l6-0y7@j^y9tb8!vhfx"
+SECRET_KEY = config(
+    "SECRET_KEY", default="a-very-unsafe-default-key-for-dev-use-a-real-one-in-env"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+REST_USE_JWT = True  # Use JWT for authentication
+
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 AUTH_USER_MODEL = "users.User"  # Custom user model
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",  # if using cookie storage
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SITE_ID = 1
+
+# Optional: JWT settings (lifetimes, rotation)
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
 
 
 # --- Update these allauth settings ---
@@ -46,18 +62,19 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"  # Keep or change as needed
 
 # New settings replacing deprecated ones:
 ACCOUNT_LOGIN_METHODS = ["email"]  # Replaces ACCOUNT_AUTHENTICATION_METHOD
-ACCOUNT_SIGNUP_FIELDS = [
-    "email*",
-    "password",
-]  # Replaces EMAIL/USERNAME_REQUIRED. '*' means required. Add 'username*' if you require it.
-ACCOUNT_EMAIL_VERIFICATION = (
-    "mandatory"  # Or "optional" or "none". Explicitly set this.
-)
+ACCOUNT_SIGNUP_FIELDS = {  # Using a dictionary for more clarity as per allauth docs
+    "username": True,  # True means required
+    "email": True,  # True means required
+    "password": True,  # True means required
+}
+ACCOUNT_EMAIL_VERIFICATION = "optional"  # Or "optional" or "none". Explicitly set this.
 ACCOUNT_UNIQUE_EMAIL = True  # Ensure emails are unique
-ACCOUNT_USERNAME_REQUIRED = False  # Explicitly set username requirement
-ACCOUNT_USER_MODEL_USERNAME_FIELD = (
-    None  # Set to None if not using username for login/identification
-)
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+
+# * Deprecated settings (commented out):
+# ACCOUNT_USERNAME_REQUIRED = True  # Explicitly set username requirement
+# ACCOUNT_AUTHENTICATION_METHOD = "email"
+# ACCOUNT_EMAIL_REQUIRED = True  # Ensure email is required
 
 # --- End of updated allauth settings ---
 
@@ -72,9 +89,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Third-party apps
+    "drf_spectacular",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -83,6 +102,7 @@ INSTALLED_APPS = [
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "simple_history",
+    "corsheaders",
     # Custom Apps
     "npc_system",
     "images",
@@ -103,9 +123,11 @@ INSTALLED_APPS = [
     "subscriptions",
     "age_category",
     "referrals",
+    "usage_tracking",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # Added for CORS - place high in the list
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -115,6 +137,15 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
 ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React frontend
+    "http://localhost:5173",  # Vite frontend
+]
+# CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development
+CORS_ALLOW_CREDENTIALS = True  # Uncomment if you need to allow credentials
+# Email settings for development (print emails to console)
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 ROOT_URLCONF = "pronto_npc_backend.urls"
 
@@ -147,6 +178,7 @@ DATABASES = {
         "USER": config("DB_USER"),
         "PASSWORD": config("DB_PASSWORD"),
         "HOST": config("DB_HOST", default="localhost"),
+        # "HOST": "localhost",
         "PORT": config("DB_PORT", default="3306"),
         "OPTIONS": {
             "charset": "utf8mb4",
@@ -211,3 +243,39 @@ MEDIA_ROOT = os.path.join(
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Pronto NPC Backend API",
+    "DESCRIPTION": "API for the Pronto NPC Backend application",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,  # Set to True to include schema in UI by default
+}
+
+
+import logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,  # Keep this False
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",  # Default stream is sys.stderr
+            "level": "DEBUG",  # Ensure handler can process DEBUG messages
+        },
+    },
+    "loggers": {
+        "django.request": {  # Focus on request logging
+            "handlers": ["console"],
+            "level": "DEBUG",  # Log all request-related messages
+            "propagate": False,  # Don't pass to parent loggers for now
+        },
+        "corsheaders": {  # Add this logger
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
+
+# Add this line at the very end of the file:
+print(">>>> SETTINGS.PY WAS LOADED AND THIS PRINT STATEMENT IS FIRING <<<<")
