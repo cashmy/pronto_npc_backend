@@ -23,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#$mk&do#s3dunb#ez_lh(ta_gi(fxk(l6-0y7@j^y9tb8!vhfx"
+SECRET_KEY = config(
+    "SECRET_KEY", default="a-very-unsafe-default-key-for-dev-use-a-real-one-in-env"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -60,10 +62,11 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"  # Keep or change as needed
 
 # New settings replacing deprecated ones:
 ACCOUNT_LOGIN_METHODS = ["email"]  # Replaces ACCOUNT_AUTHENTICATION_METHOD
-ACCOUNT_SIGNUP_FIELDS = [
-    "email*",
-    "password",
-]  # Replaces EMAIL/USERNAME_REQUIRED. '*' means required. Add 'username*' if you require it.
+ACCOUNT_SIGNUP_FIELDS = {  # Using a dictionary for more clarity as per allauth docs
+    "username": True,  # True means required
+    "email": True,  # True means required
+    "password": True,  # True means required
+}
 ACCOUNT_EMAIL_VERIFICATION = "optional"  # Or "optional" or "none". Explicitly set this.
 ACCOUNT_UNIQUE_EMAIL = True  # Ensure emails are unique
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
@@ -134,8 +137,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React frontend
+    "http://localhost:5173",  # Vite frontend
+]
+# CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development
+CORS_ALLOW_CREDENTIALS = True  # Uncomment if you need to allow credentials
 # Email settings for development (print emails to console)
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -249,23 +256,26 @@ import logging
 
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": False,  # Keep this False
     "handlers": {
         "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
+            "class": "logging.StreamHandler",  # Default stream is sys.stderr
+            "level": "DEBUG",  # Ensure handler can process DEBUG messages
         },
     },
     "loggers": {
-        "django.request": {
+        "django.request": {  # Focus on request logging
             "handlers": ["console"],
-            "level": "DEBUG",
-            "propagate": True,
+            "level": "DEBUG",  # Log all request-related messages
+            "propagate": False,  # Don't pass to parent loggers for now
         },
-        "allauth.account": {
+        "corsheaders": {  # Add this logger
             "handlers": ["console"],
             "level": "DEBUG",
-            "propagate": True,
+            "propagate": False,
         },
     },
 }
+
+# Add this line at the very end of the file:
+print(">>>> SETTINGS.PY WAS LOADED AND THIS PRINT STATEMENT IS FIRING <<<<")
