@@ -30,7 +30,20 @@ SECRET_KEY = config(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-REST_USE_JWT = True  # Use JWT for authentication
+# dj-rest-auth settings
+REST_AUTH = {
+    "USE_JWT": True,  # Tell dj-rest-auth to use JWT
+    "JWT_AUTH_COOKIE": None,  # Access token will be in the response body
+    "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",  # Name for the refresh token cookie
+    "JWT_AUTH_REFRESH_COOKIE_PATH": "/",  # Path for the refresh token cookie
+    "JWT_AUTH_HTTPONLY": True,  # Refresh token cookie is HttpOnly
+    "JWT_AUTH_SAMESITE": "Lax",  # SameSite attribute for the refresh token cookie
+    "JWT_AUTH_SECURE": (
+        not DEBUG
+    ),  # Secure flag for the refresh token cookie (False in DEBUG)
+    # Add other dj-rest-auth specific settings here if needed
+}
+
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
@@ -50,7 +63,7 @@ SITE_ID = 1
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,

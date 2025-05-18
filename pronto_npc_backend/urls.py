@@ -2,8 +2,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings  # Import settings
 from django.conf.urls.static import static  # Import static helper
-from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
-from users.views import CustomLoginView
+from rest_framework_simplejwt.views import TokenVerifyView
+
+# from dj_rest_auth.views import TokenRefreshView
+from users.views import CustomLoginView, CookieTokenRefreshView
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -26,7 +28,10 @@ urlpatterns = [
     # JWT-aware auth
     path("auth/login/", CustomLoginView.as_view(), name="rest_login"),
     path("auth/registration/", include("dj_rest_auth.registration.urls")),
-    path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    # Use dj_rest_auth's TokenRefreshView to read refresh token from cookie
+    path(
+        "auth/token/refresh/", CookieTokenRefreshView.as_view(), name="token_refresh"
+    ),  # Changed
     path("auth/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     # Admin and app routes
     path("admin/", admin.site.urls),
