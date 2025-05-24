@@ -63,10 +63,10 @@ SITE_ID = 1
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
+    "ROTATE_REFRESH_TOKENS": False,  # Ensures refresh tokens are not rotated
+    "BLACKLIST_AFTER_ROTATION": False,  # Not applicable if tokens are not rotated
 }
 
 

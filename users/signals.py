@@ -1,18 +1,21 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.conf import settings  # To get the custom User model
+from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.auth import get_user_model
 
 from profiles.models import Profile
 from subscriptions.models import Subscription
+from usage_tracking.models import UsageTracking
 
 # Import Referral model if you intend to create a default referral record for the new user,
 # though referral processing (linking to a referrer) is often handled during registration.
 # from referrals.models import Referral
 
 # Get the User model dynamically
-User = settings.AUTH_USER_MODEL
+# User = settings.AUTH_USER_MODEL
+User = get_user_model()
 
 
 @receiver(post_save, sender=User)
@@ -25,6 +28,9 @@ def create_user_related_records(sender, instance, created, **kwargs):
     if created:
         # Create a Profile for the new user
         Profile.objects.create(user=instance)
+
+        # Create a UsageTracking record for the new user
+        UsageTracking.objects.create(user=instance)
 
         # Create a default Subscription for the new user
         # You might want to adjust the default subscription type and duration

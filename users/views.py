@@ -5,18 +5,16 @@ from dj_rest_auth.registration.views import (
     SocialLoginView,
     ResendEmailVerificationView,
 )
-from dj_rest_auth.views import LoginView
-from users.serializers import CustomRegisterSerializer
+from dj_rest_auth.views import LoginView, LogoutView as DjRestAuthLogoutView
+from dj_rest_auth.app_settings import api_settings as dj_rest_auth_settings
+from dj_rest_auth.jwt_auth import unset_jwt_cookies
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, serializers
-from users.models import OneTimePassword
-from django.core.mail import send_mail
-from datetime import timedelta
-from django.utils import timezone
 
 # Import necessary classes for the custom refresh view
 from rest_framework_simplejwt.views import (
@@ -26,9 +24,23 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer as SimpleJWTTokenRefreshSerializer,
 )
 
+from django.core.mail import send_mail
+from django.conf import settings as django_settings
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+from datetime import timedelta
+
+from users.models import OneTimePassword
+from users.serializers import CustomRegisterSerializer
+
+
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
-from users.serializers import OTPVerifySerializer, CustomUsernameOrEmailLoginSerializer
+from users.serializers import (
+    OTPVerifySerializer,
+    CustomUsernameOrEmailLoginSerializer,
+    CombinedUserDataSerializer,
+)
 
 # Import for dj-rest-auth settings and cookie utilities
 from dj_rest_auth.app_settings import api_settings as dj_rest_auth_settings
@@ -74,8 +86,8 @@ class CustomRegisterView(RegisterView):
         return {
             "user_id": user.id,
             "email": user.email,
-            "access_token": str(refresh.access_token),
-            "refresh_token": str(refresh),
+            "accessToken": str(refresh.access_token),
+            "refreshToken": str(refresh),
         }
 
 
@@ -100,8 +112,8 @@ class CustomLoginView(LoginView):
         response_data = {
             "user_id": user.id,
             "email": user.email,
-            "access": access_token,
-            "refresh": refresh_token,  # Leave for now, But remove for production
+            "accessToken": access_token,
+            "refreshToken": refresh_token,  # Leave for now, But remove for production
         }
         response = Response(response_data, status=status.HTTP_200_OK)
         # Use dj_rest_auth's utility to set the HttpOnly refresh token cookie
@@ -156,11 +168,12 @@ class CookieTokenRefreshView(SimpleJWTTokenRefreshView):
         # This will handle setting the new refresh token (due to rotation)
         # and potentially an access token cookie if JWT_AUTH_COOKIE were configured (it's None in your settings).
         new_access_token = validated_data.get("access")
-        new_refresh_token = validated_data.get(
-            "refresh"
-        )  # Will be present due to ROTATE_REFRESH_TOKENS=True
+        # new_refresh_token = validated_data.get(
+        #     "refresh"  # This will be None if ROTATE_REFRESH_TOKENS is False in settings.
+        #     # If ROTATE_REFRESH_TOKENS is True, a new refresh token would be present here.
+        # )
 
-        set_jwt_cookies(response, new_access_token, new_refresh_token)
+        set_jwt_cookies(response, new_access_token, refresh_token_from_cookie)
 
         return response
 
@@ -239,3 +252,90 @@ def send_login_otp(user):
         [user.email],
         fail_silently=False,
     )
+
+
+# ----- Custom Logout -----
+
+
+class CustomLogoutView(DjRestAuthLogoutView):
+    """
+    Custom LogoutView to ensure the refresh token from the HttpOnly cookie
+    is blacklisted and then all JWT cookies are cleared.
+    """
+
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]  # Ensure user is authenticated to logout
+
+    def logout(self, request):
+        response = Response(
+            {"detail": _("Successfully logged out.")},
+            status=status.HTTP_200_OK,
+        )
+
+        # 1. Blacklist the refresh token from the cookie
+        refresh_token_name = dj_rest_auth_settings.JWT_AUTH_REFRESH_COOKIE
+        refresh_token_from_cookie = request.COOKIES.get(refresh_token_name)
+
+        if refresh_token_from_cookie:
+            # Check if the blacklist app is installed
+            if (
+                "rest_framework_simplejwt.token_blacklist"
+                in django_settings.INSTALLED_APPS
+            ):
+                try:
+                    token = RefreshToken(refresh_token_from_cookie)
+                    token.blacklist()
+                except TokenError:
+                    # Token might be already blacklisted or invalid (e.g., expired)
+                    pass
+                except Exception:
+                    # Log this error, but don't fail the logout.
+                    # Consider adding proper logging here.
+                    # For example: logger.error("Error blacklisting token from cookie", exc_info=True)
+                    pass
+
+        # 2. Unset JWT cookies (access and refresh)
+        # unset_jwt_cookies modifies the response passed to it.
+        if dj_rest_auth_settings.USE_JWT:
+            unset_jwt_cookies(response)
+
+        # 3. Perform Django's session logout if session login is enabled
+        # (though with USE_JWT=True, SESSION_LOGIN is typically False by default in dj-rest-auth)
+        if dj_rest_auth_settings.SESSION_LOGIN:
+            from django.contrib.auth import logout as django_logout
+
+            django_logout(request)
+
+        # 4. Send the user_logged_out signal (copied from dj_rest_auth behavior)
+        if hasattr(request, "user") and request.user.is_authenticated:
+            from django.contrib.auth.signals import user_logged_out
+
+            user_logged_out.send(
+                sender=request.user.__class__, request=request, user=request.user
+            )
+
+        return response
+
+    def post(self, request, *args, **kwargs):
+        # The `logout` method in DjRestAuthLogoutView is called by `post`
+        # We've overridden `logout`, so this will call our custom logic.
+        return self.logout(request)
+
+
+# ----- Combined User Data -----
+
+
+class CombinedUserDataView(APIView):
+    """
+    Provides combined user data including profile, active subscription,
+    and usage tracking information. Intended for use after login to
+    populate frontend state.
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = CombinedUserDataSerializer(user, context={"request": request})
+        return Response(serializer.data)

@@ -10,6 +10,8 @@ from users.views import (
     OTPVerifyView,
     DeactivateMeView,
     DebugUserView,
+    CustomLogoutView,
+    CombinedUserDataView,
 )
 from dj_rest_auth.views import (
     LogoutView,
@@ -22,7 +24,9 @@ from dj_rest_auth.registration.views import VerifyEmailView
 urlpatterns = [
     # Authentication
     path("login/", CustomLoginView.as_view(), name="rest_login"),
-    path("logout/", LogoutView.as_view(), name="rest_logout"),
+    path(
+        "logout/", CustomLogoutView.as_view(), name="rest_logout"
+    ),  # Use CustomLogoutView
     # Registration
     path("registration/", CustomRegisterView.as_view(), name="rest_register"),
     path(
@@ -51,4 +55,8 @@ urlpatterns = [
     # Account Deactivation (Soft Delete)
     path("deactivate/", DeactivateMeView.as_view(), name="deactivate_account"),
     path("debug/", DebugUserView.as_view(), name="debug_user"),
+    # Combined User Data Endpoint
+    path(
+        "me/combined-data/", CombinedUserDataView.as_view(), name="combined_user_data"
+    ),
 ]

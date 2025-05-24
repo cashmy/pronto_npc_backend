@@ -111,19 +111,22 @@ class ImageSerializer(serializers.ModelSerializer):
 
         return super().update(instance, validated_data)
 
+
 # Serializer for the dropdown options in the frontend
 class ImageOptionSerializer(serializers.ModelSerializer):
     image_url = serializers.ImageField(source="image")
     thumbnail_url = serializers.ImageField(source="thumbnail", allow_null=True)
-    
-    class Meta: 
+
+    class Meta:
         model = Image
-        fields = [            
+        fields = [
             "id",
             "file_name",
             "alt_text",  # Correctly included now
             "image_url",  # Will now be a URL
             "thumbnail_url",  # Will now be a URL (optional)
             "image_type",
+            "mime_type",
+            "file_size",
             "owner",  # Owner serializer for detailed info (read-only)
-            ]
+        ]
