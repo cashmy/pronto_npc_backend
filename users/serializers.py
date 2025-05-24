@@ -9,7 +9,7 @@ from users.models import User
 from profiles.serializers import ProfileSerializer
 from usage_tracking.serializers import UsageTrackingSerializer
 from subscriptions.serializers import SubscriptionSerializer
-from subscriptions.models import Subscription  
+from subscriptions.models import Subscription
 
 # Get the User model, Profile, and UsageTracking models
 UserModel = get_user_model()
@@ -164,20 +164,13 @@ class CustomUsernameOrEmailLoginSerializer(serializers.Serializer):
         return attrs
 
 
-class CombinedUserDataSerializer(serializers.ModelSerializer):
+class BasicUserInfoSerializer(serializers.ModelSerializer):
     """
-    Serializes combined data for a user including profile, active subscription,
-    and usage tracking information.
+    Serializes basic user information.
     """
-
-    profile = ProfileSerializer(read_only=True, allow_null=True)
-    usage_metrics = UsageTrackingSerializer(
-        read_only=True, allow_null=True
-    )  # Corresponds to related_name on User model
-    active_subscription = serializers.SerializerMethodField()
 
     class Meta:
-        model = UserModel  # Use the dynamically fetched User model
+        model = UserModel
         fields = (
             "id",
             "username",
@@ -187,27 +180,50 @@ class CombinedUserDataSerializer(serializers.ModelSerializer):
             "is_email_verified",
             "is_staff",
             "is_superuser",
-            "profile",
-            "usage_metrics",
-            "active_subscription",
         )
 
-    def get_active_subscription(self, user_instance):
+
+class CombinedUserDataSerializer(serializers.ModelSerializer):
+    """
+    Serializes combined data for a user including profile, active subscription,
+    and usage tracking information.
+    """
+
+    # User's direct fields are now nested under 'basicInfo'
+    basicInfo = BasicUserInfoSerializer(source="*", read_only=True)
+    # Renamed fields
+    profileInfo = ProfileSerializer(source="profile", read_only=True, allow_null=True)
+    usageTracking = UsageTrackingSerializer(
+        source="usage_metrics", read_only=True, allow_null=True
+    )
+    subscriptionLevel = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserModel  # Use the dynamically fetched User model
+        fields = (
+            "basicInfo",
+            "profileInfo",
+            "usageTracking",
+            "subscriptionLevel",
+        )
+
+    def get_subscriptionLevel(self, user_instance):
         """
         Retrieves and serializes the user's current active subscription.
         Adjust the logic if a user can have multiple active subscriptions or
         if "active" is defined differently.
         """
         try:
+            # The related name on the User model for subscriptions is 'subscriptions'
+            # The related name on the User model for usage_tracking is 'usage_metrics'
+
             subscription = (
                 Subscription.objects.filter(user=user_instance, is_active=True)
                 .order_by("-start_date")
                 .first()
             )
             if subscription:
-                return SubscriptionSerializer(
-                    subscription, context=self.context
-                ).data
+                return SubscriptionSerializer(subscription, context=self.context).data
         except Exception:
             # Optionally log the exception
             pass
