@@ -13,6 +13,8 @@ class CharacterSerializer(serializers.ModelSerializer):
             "age_category_description",
             "age",
             "race",
+            "profession",
+            "rpg_class",
             "gender",
             "bulk_generated",
             "reviewed",
@@ -24,6 +26,7 @@ class CharacterSerializer(serializers.ModelSerializer):
             "character_group",
             "archetype",
             "ai_integration_exists",
+            "owner",
             "created_at",
             "updated_at",
             # Add read-only fields for display names
