@@ -3,6 +3,7 @@ from .models import Character
 
 
 class CharacterSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Character
         fields = [
@@ -31,6 +32,7 @@ class CharacterSerializer(serializers.ModelSerializer):
             "updated_at",
             # Add read-only fields for display names
             "npc_system_name",
+            "npc_system_color",
             "character_group_display_name",
             "character_sub_group_display_name",
             "archetype_name",
@@ -38,6 +40,7 @@ class CharacterSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "npc_system_name",
+            "npc_system_color",
             "character_group_display_name",
             "character_sub_group_display_name",
             "archetype_name",
@@ -61,6 +64,10 @@ class CharacterSerializer(serializers.ModelSerializer):
     npc_system_name = serializers.CharField(
         source="npc_system.npc_system_name", read_only=True
     )
+    npc_system_color = serializers.CharField(
+        source="npc_system.npc_system_color", read_only=True
+    )  # Display the NPC system name instead of the ID
+    
     character_group_display_name = serializers.SerializerMethodField(read_only=True)
     character_sub_group_display_name = serializers.SerializerMethodField(read_only=True)
     archetype_name = serializers.CharField(

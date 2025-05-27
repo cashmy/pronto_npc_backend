@@ -153,6 +153,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React frontend
     "http://localhost:5173",  # Vite frontend
+    "http://localhost:5174",  # Vite frontend alt
 ]
 # CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development
 CORS_ALLOW_CREDENTIALS = True  # Uncomment if you need to allow credentials
