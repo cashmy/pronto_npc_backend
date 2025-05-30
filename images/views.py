@@ -16,7 +16,7 @@ from django.db.models import Q
 
 
 @api_view(["GET", "POST"])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def images_list(request):
     if request.method == "GET":
         images = Image.objects.all()
@@ -31,7 +31,7 @@ def images_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE", "PATCH"])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def image_detail(request, pk):
     image = get_object_or_404(Image, pk=pk)
     if request.method == "GET":
