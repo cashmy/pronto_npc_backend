@@ -1,14 +1,15 @@
-from rest_framework import serializers
-from .models import Image
-from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
-
 import base64
 import uuid
-from django.core.files.base import ContentFile
 
+from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
+from django.utils.translation import gettext_lazy as _
+from rest_framework import serializers
+
+from .models import Image
 
 User = get_user_model()
+
 
 class Base64ImageField(serializers.ImageField):
     """
@@ -16,33 +17,47 @@ class Base64ImageField(serializers.ImageField):
     allowing image data to be passed as a base64-encoded string.
     e.g., "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEA..."
     """
+
     def to_internal_value(self, data):
-        if isinstance(data, str) and data.startswith('data:image'):
+        if isinstance(data, str) and data.startswith("data:image"):
             try:
-                header, base64_str = data.split(';base64,')
-                content_type = header.split(':')[-1]
-                extension = content_type.split('/')[-1]
+                header, base64_str = data.split(";base64,")
+                content_type = header.split(":")[-1]
+                extension = content_type.split("/")[-1]
                 if not extension:
-                    raise ValueError("Could not determine file extension from base64 header.")
+                    raise ValueError(
+                        "Could not determine file extension from base64 header."
+                    )
                 decoded_file = base64.b64decode(base64_str)
             except (ValueError, TypeError, base64.binascii.Error) as e:
-                raise serializers.ValidationError(_(f"Invalid base64-encoded image: {e}"))
+                raise serializers.ValidationError(
+                    _(f"Invalid base64-encoded image: {e}")
+                )
 
             file_name = f"{uuid.uuid4()}.{extension}"
             content_file = ContentFile(decoded_file, name=file_name)
-            
+
             # Attach extracted metadata to the ContentFile for the serializer to use
             content_file.extracted_mime_type = content_type
-            content_file.extracted_file_name = file_name # Same as content_file.name, but explicit
-            
+            content_file.extracted_file_name = (
+                file_name  # Same as content_file.name, but explicit
+            )
+
             return super().to_internal_value(content_file)
-        
+
         try:
             return super().to_internal_value(data)
         except serializers.ValidationError as e:
-            if 'invalid' in e.codes and isinstance(data, str): # Check if it's the "not a file" error for a string
-                raise serializers.ValidationError(_("The image must be a file upload or a valid base64-encoded string (e.g., 'data:image/jpeg;base64,...')."))
+            if "invalid" in e.codes and isinstance(
+                data, str
+            ):  # Check if it's the "not a file" error for a string
+                raise serializers.ValidationError(
+                    _(
+                        "The image must be a file upload or a valid base64-encoded string (e.g., 'data:image/jpeg;base64,...')."
+                    )
+                )
             raise e
+
 
 class OwnerSummarySerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,7 +75,7 @@ class ImageSerializer(serializers.ModelSerializer):
     thumbnail = Base64ImageField(
         use_url=True, required=False, allow_null=True
     )  # Mark as not required
-    
+
     # Metadata fields - allow them to be set, or derive them.
     file_name = serializers.CharField(max_length=255, required=False)
     mime_type = serializers.CharField(max_length=25, required=False)
@@ -77,10 +92,10 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
         fields = [
             "id",
-            "file_name", # Now handled by field declaration and validate method
+            "file_name",  # Now handled by field declaration and validate method
             "alt_text",
-            "mime_type", # Now handled by field declaration and validate method
-            "file_size", # Now handled by field declaration and validate method
+            "mime_type",  # Now handled by field declaration and validate method
+            "file_size",  # Now handled by field declaration and validate method
             "image",
             "thumbnail",
             "image_type",
@@ -102,27 +117,35 @@ class ImageSerializer(serializers.ModelSerializer):
         # Avoid depth = 1, use explicit fields like owner_username
 
     def validate(self, attrs):
-        attrs = super().validate(attrs) # Basic field validation
-        image_file = attrs.get("image") # This is a ContentFile or UploadedFile
+        attrs = super().validate(attrs)  # Basic field validation
+        image_file = attrs.get("image")  # This is a ContentFile or UploadedFile
 
         # If a new image is being uploaded (either form-data or base64)
         if image_file:
             # Populate file_name if not explicitly provided by the user in the request
             if not attrs.get("file_name"):
-                attrs["file_name"] = getattr(image_file, 'extracted_file_name', image_file.name)
+                attrs["file_name"] = getattr(
+                    image_file, "extracted_file_name", image_file.name
+                )
 
             # Always (re)calculate file_size from the actual file data
-            attrs["file_size"] = image_file.size
+            attrs["file_size"] = image_file.size if hasattr(image_file, "size") else 0
 
             # Always (re)determine mime_type from the actual file data or base64 header
-            if hasattr(image_file, 'extracted_mime_type'):
+            if hasattr(image_file, "extracted_mime_type"):
                 attrs["mime_type"] = image_file.extracted_mime_type
-            elif hasattr(image_file, 'content_type'): # For regular Django UploadedFile
+            elif hasattr(image_file, "content_type"):  # For regular Django UploadedFile
                 attrs["mime_type"] = image_file.content_type
-            elif not attrs.get("mime_type"): # If user didn't provide and we can't derive
-                raise serializers.ValidationError({
-                    "mime_type": _("Mime type could not be determined for the uploaded image and was not provided.")
-                })
+            elif not attrs.get(
+                "mime_type"
+            ):  # If user didn't provide and we can't derive
+                raise serializers.ValidationError(
+                    {
+                        "mime_type": _(
+                            "Mime type could not be determined for the uploaded image and was not provided."
+                        )
+                    }
+                )
         # On create, if no image is provided, model field validation for 'image' should catch it.
         # If 'image' is not nullable on model, this 'if image_file:' block will always execute on create.
 

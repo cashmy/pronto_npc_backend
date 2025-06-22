@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-from decouple import config
 import os
+from datetime import timedelta
+from pathlib import Path
 
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -60,7 +61,7 @@ REST_FRAMEWORK = {
 SITE_ID = 1
 
 # Optional: JWT settings (lifetimes, rotation)
-from datetime import timedelta
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
@@ -154,6 +155,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React frontend
     "http://localhost:5173",  # Vite frontend
     "http://localhost:5174",  # Vite frontend alt
+    "http://localhost:8000",  # Django dev server
+    "http://localhost:8080",  # Swagger UI
 ]
 # CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development
 CORS_ALLOW_CREDENTIALS = True  # Uncomment if you need to allow credentials
@@ -263,10 +266,13 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API for the Pronto NPC Backend application",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,  # Set to True to include schema in UI by default
+    "SERVERS": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local Development Server",
+        }
+    ],
 }
-
-
-import logging
 
 LOGGING = {
     "version": 1,
