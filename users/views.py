@@ -1,52 +1,41 @@
 # users/views.py
 
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from dj_rest_auth.app_settings import api_settings as dj_rest_auth_settings
+from dj_rest_auth.jwt_auth import set_jwt_cookies, unset_jwt_cookies
 from dj_rest_auth.registration.views import (
     RegisterView,
-    SocialLoginView,
     ResendEmailVerificationView,
+    SocialLoginView,
 )
-from dj_rest_auth.views import LoginView, LogoutView as DjRestAuthLogoutView
-from dj_rest_auth.app_settings import api_settings as dj_rest_auth_settings
-from dj_rest_auth.jwt_auth import unset_jwt_cookies
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.views import APIView
+from dj_rest_auth.views import LoginView
+from dj_rest_auth.views import LogoutView as DjRestAuthLogoutView
+from django.conf import settings as django_settings
+from django.core.mail import send_mail
+from django.utils.translation import gettext_lazy as _
+from rest_framework import permissions, serializers, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status, permissions, serializers
+from rest_framework.views import APIView
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.serializers import (
+    TokenRefreshSerializer as SimpleJWTTokenRefreshSerializer,
+)
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Import necessary classes for the custom refresh view
 from rest_framework_simplejwt.views import (
     TokenRefreshView as SimpleJWTTokenRefreshView,
 )
-from rest_framework_simplejwt.serializers import (
-    TokenRefreshSerializer as SimpleJWTTokenRefreshSerializer,
-)
-
-from django.core.mail import send_mail
-from django.conf import settings as django_settings
-from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
-from datetime import timedelta
 
 from users.models import OneTimePassword
-from users.serializers import CustomRegisterSerializer
-
-
-from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
-
 from users.serializers import (
-    OTPVerifySerializer,
-    CustomUsernameOrEmailLoginSerializer,
     CombinedUserDataSerializer,
+    CustomRegisterSerializer,
+    CustomUsernameOrEmailLoginSerializer,
+    OTPVerifySerializer,
 )
-
-# Import for dj-rest-auth settings and cookie utilities
-from dj_rest_auth.app_settings import api_settings as dj_rest_auth_settings
-from dj_rest_auth.jwt_auth import set_jwt_cookies
-
-from rest_framework.permissions import IsAuthenticated
 
 
 class DebugUserView(APIView):
