@@ -1074,7 +1074,26 @@ paths:
           description: No response body
   /api/npc_system_professions/:
     get:
-      operationId: api_npc_system_professions_retrieve
+      operationId: api_npc_system_professions_list
+      description: |-
+        Handles listing all NPC system professions and creating new ones.
+
+        GET:
+        Retrieves a list of all `NpcSystemProfession` objects.
+
+        Returns:
+            Response: A list of serialized `NpcSystemProfession` objects with HTTP 200 OK.
+
+        POST:
+        Creates a new `NpcSystemProfession` instance.
+
+        Request Body:
+            (JSON): Data for the new `NpcSystemProfession` as defined by `NpcSystemProfessionSerializer`.
+
+        Returns:
+            Response:
+                - Serialized new `NpcSystemProfession` object with HTTP 201 CREATED on success.
+                - Serializer errors with HTTP 400 BAD REQUEST on invalid input.
       tags:
       - api
       security:
@@ -1083,21 +1102,103 @@ paths:
       - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
     post:
       operationId: api_npc_system_professions_create
+      description: |-
+        Handles listing all NPC system professions and creating new ones.
+
+        GET:
+        Retrieves a list of all `NpcSystemProfession` objects.
+
+        Returns:
+            Response: A list of serialized `NpcSystemProfession` objects with HTTP 200 OK.
+
+        POST:
+        Creates a new `NpcSystemProfession` instance.
+
+        Request Body:
+            (JSON): Data for the new `NpcSystemProfession` as defined by `NpcSystemProfessionSerializer`.
+
+        Returns:
+            Response:
+                - Serialized new `NpcSystemProfession` object with HTTP 201 CREATED on success.
+                - Serializer errors with HTTP 400 BAD REQUEST on invalid input.
       tags:
       - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+        required: true
       security:
       - jwtHeaderAuth: []
       - jwtCookieAuth: []
       - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
   /api/npc_system_professions/{id}/:
     get:
-      operationId: api_npc_system_professions_retrieve_2
+      operationId: api_npc_system_professions_retrieve
+      description: |-
+        Handles retrieving, updating, partially updating, or deleting a single
+        `NpcSystemProfession` instance by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemProfession` to retrieve, update, or delete.
+
+        GET:
+        Retrieves a single `NpcSystemProfession` object.
+
+        Returns:
+            Response: Serialized `NpcSystemProfession` object with HTTP 200 OK.
+
+        PUT:
+        Updates an existing `NpcSystemProfession` object.
+
+        PATCH:
+        Partially updates an existing `NpcSystemProfession` object.
+
+        DELETE:
+        Deletes an `NpcSystemProfession` object.
+
+        Returns (for PUT/PATCH):
+            Response:
+                - Serialized updated `NpcSystemProfession` object with HTTP 200 OK on success.
+                - Serializer errors with HTTP 400 BAD REQUEST on invalid input.
+            Response: HTTP 204 NO CONTENT on successful deletion.
       parameters:
       - in: path
         name: id
@@ -1112,9 +1213,42 @@ paths:
       - jwtAuth: []
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+        '204':
           description: No response body
     put:
       operationId: api_npc_system_professions_update
+      description: |-
+        Handles retrieving, updating, partially updating, or deleting a single
+        `NpcSystemProfession` instance by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemProfession` to retrieve, update, or delete.
+
+        GET:
+        Retrieves a single `NpcSystemProfession` object.
+
+        Returns:
+            Response: Serialized `NpcSystemProfession` object with HTTP 200 OK.
+
+        PUT:
+        Updates an existing `NpcSystemProfession` object.
+
+        PATCH:
+        Partially updates an existing `NpcSystemProfession` object.
+
+        DELETE:
+        Deletes an `NpcSystemProfession` object.
+
+        Returns (for PUT/PATCH):
+            Response:
+                - Serialized updated `NpcSystemProfession` object with HTTP 200 OK on success.
+                - Serializer errors with HTTP 400 BAD REQUEST on invalid input.
+            Response: HTTP 204 NO CONTENT on successful deletion.
       parameters:
       - in: path
         name: id
@@ -1123,15 +1257,121 @@ paths:
         required: true
       tags:
       - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+        required: true
       security:
       - jwtHeaderAuth: []
       - jwtCookieAuth: []
       - jwtAuth: []
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+        '204':
           description: No response body
     patch:
       operationId: api_npc_system_professions_partial_update
+      description: |-
+        Handles retrieving, updating, partially updating, or deleting a single
+        `NpcSystemProfession` instance by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemProfession` to retrieve, update, or delete.
+
+        GET:
+        Retrieves a single `NpcSystemProfession` object.
+
+        Returns:
+            Response: Serialized `NpcSystemProfession` object with HTTP 200 OK.
+
+        PUT:
+        Updates an existing `NpcSystemProfession` object.
+
+        PATCH:
+        Partially updates an existing `NpcSystemProfession` object.
+
+        DELETE:
+        Deletes an `NpcSystemProfession` object.
+
+        Returns (for PUT/PATCH):
+            Response:
+                - Serialized updated `NpcSystemProfession` object with HTTP 200 OK on success.
+                - Serializer errors with HTTP 400 BAD REQUEST on invalid input.
+            Response: HTTP 204 NO CONTENT on successful deletion.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemProfession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemProfession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemProfession'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+        '204':
+          description: No response body
+    delete:
+      operationId: api_npc_system_professions_destroy
+      description: |-
+        Handles retrieving, updating, partially updating, or deleting a single
+        `NpcSystemProfession` instance by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemProfession` to retrieve, update, or delete.
+
+        GET:
+        Retrieves a single `NpcSystemProfession` object.
+
+        Returns:
+            Response: Serialized `NpcSystemProfession` object with HTTP 200 OK.
+
+        PUT:
+        Updates an existing `NpcSystemProfession` object.
+
+        PATCH:
+        Partially updates an existing `NpcSystemProfession` object.
+
+        DELETE:
+        Deletes an `NpcSystemProfession` object.
+
+        Returns (for PUT/PATCH):
+            Response:
+                - Serialized updated `NpcSystemProfession` object with HTTP 200 OK on success.
+                - Serializer errors with HTTP 400 BAD REQUEST on invalid input.
+            Response: HTTP 204 NO CONTENT on successful deletion.
       parameters:
       - in: path
         name: id
@@ -1146,27 +1386,28 @@ paths:
       - jwtAuth: []
       responses:
         '200':
-          description: No response body
-    delete:
-      operationId: api_npc_system_professions_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - api
-      security:
-      - jwtHeaderAuth: []
-      - jwtCookieAuth: []
-      - jwtAuth: []
-      responses:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
         '204':
           description: No response body
   /api/npc_system_professions/options/{npc_system_pk}/:
     get:
-      operationId: api_npc_system_professions_options_retrieve
+      operationId: api_npc_system_professions_options_list
+      description: |-
+        Provides a simplified list of NPC system professions (profession_id and value)
+        suitable for populating dropdown/select options in a frontend.
+
+        The list is filtered by the `npc_system_pk` and ordered by the profession `value`.
+
+        Args:
+            npc_system_pk (int): The primary key of the `NpcSystem` to filter professions by.
+
+        Returns:
+            Response: A list of serialized `NpcSystemProfessionOptionSerializer` objects
+                      with HTTP 200 OK.
       parameters:
       - in: path
         name: npc_system_pk
@@ -1181,13 +1422,33 @@ paths:
       - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemProfessionOption'
+          description: ''
   /api/npc_system_professions/random-profession/{npc_system_pk}/:
     get:
       operationId: api_npc_system_professions_random_profession_retrieve
       description: |-
-        Returns a randomly selected NpcSystemProfession for the given NpcSystem.
-        It picks a random existing profession_id for that system.
+        Returns a randomly selected `NpcSystemProfession` for the given `NpcSystem`.
+
+        This endpoint first retrieves all `profession_id` values associated with the
+        specified `npc_system_pk`. It then randomly selects one of these IDs and
+        fetches the corresponding `NpcSystemProfession` object.
+
+        Args:
+            npc_system_pk (int): The primary key of the `NpcSystem` to select a random
+                                 profession from.
+
+        Returns:
+            Response:
+                - Serialized `NpcSystemProfession` object with HTTP 200 OK if a random
+                  profession is found.
+                - JSON object `{"detail": "No races found for this NPC system."}`
+                  with HTTP 404 NOT FOUND if no professions exist for the given system.
       parameters:
       - in: path
         name: npc_system_pk
@@ -1202,7 +1463,11 @@ paths:
       - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
   /api/npc_system_races/:
     get:
       operationId: api_npc_system_races_retrieve
@@ -2920,6 +3185,55 @@ components:
       - access
       - refresh
       - user
+    NpcSystemProfession:
+      type: object
+      description: |-
+        Serializer for the Profession model.
+        Includes the NPC system name for better readability.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        profession_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        npc_system:
+          type: integer
+          description: The NPC system this profession belongs to.
+        npc_system_name:
+          type: string
+          readOnly: true
+        profession_table_header:
+          type: string
+          readOnly: true
+        value:
+          type: string
+          description: The name of the profession (e.g., Blacksmith, Hunter, Innkeeper).
+          maxLength: 25
+      required:
+      - id
+      - npc_system
+      - npc_system_name
+      - profession_id
+      - profession_table_header
+      - value
+    NpcSystemProfessionOption:
+      type: object
+      properties:
+        profession_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        value:
+          type: string
+          description: The name of the profession (e.g., Blacksmith, Hunter, Innkeeper).
+          maxLength: 25
+      required:
+      - profession_id
+      - value
     PasswordChange:
       type: object
       properties:
@@ -2983,6 +3297,33 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PatchedNpcSystemProfession:
+      type: object
+      description: |-
+        Serializer for the Profession model.
+        Includes the NPC system name for better readability.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        profession_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        npc_system:
+          type: integer
+          description: The NPC system this profession belongs to.
+        npc_system_name:
+          type: string
+          readOnly: true
+        profession_table_header:
+          type: string
+          readOnly: true
+        value:
+          type: string
+          description: The name of the profession (e.g., Blacksmith, Hunter, Innkeeper).
+          maxLength: 25
     Register:
       type: object
       properties:
