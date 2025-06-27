@@ -93,3 +93,80 @@ Pull Requests will be reviewed thoughtfully — storytelling-first designs are p
 > But stories tell you **why** they fight.
 
 ---
+
+## API Documentation - Swagger UI
+
+The API documentation is available as a Swagger UI, which provides an interactive interface to explore the API endpoints.
+To launch the Swagger UI, run the following command in the terminal:
+
+```text
+docker run -p 8080:8080 -e SWAGGER_JSON=/schema.yml -v ${PWD}/schema.yml:/schema.yml swaggerapi/swagger-ui
+```
+
+Next open your browser and navigate to `http://localhost:8080` to view the API documentation.
+(Note: If the "Try it out" button in Swagger UI uses the wrong port, ensure your `settings.py` `SPECTACULAR_SETTINGS` includes the `SERVERS` configuration pointing to your Django server's port, e.g., `http://127.0.0.1:8000`).
+
+### Automating Swagger UI Workflow
+
+To streamline the schema generation and Swagger UI launch, a Python helper script `swagger_helper.py` is provided. This script should be placed in your project's root directory (where `manage.py` is located).
+
+**Usage:**
+
+Before running the script, ensure your Python virtual environment is activated.
+
+```text
+# Example: Activate your virtual environment
+cd D:\Python-Django\pronto_npc_backend
+.\.venv\Scripts\Activate.ps1
+```
+
+Once activated, you can run `swagger_helper.py` with the following options:
+
+- **Generate `schema.yml` only:**
+    This command runs `py manage.py spectacular --color --file schema.yml` to update your API schema.
+
+    ```text
+    python swagger_helper.py --generate-schema
+    # or
+    python swagger_helper.py -g
+
+    ```
+
+- **Launch Swagger UI Docker container only:**
+    This command starts the Docker container, assuming `schema.yml` already exists in your project root.
+
+    ```text
+    python swagger_helper.py --launch-docker
+    # or
+    python swagger_helper.py -l
+
+    ```
+
+    _After running, open your browser to `http://localhost:8080`._
+
+- **Generate schema and then launch Docker container (recommended workflow):**
+    This option first generates the latest `schema.yml` and then automatically launches the Swagger UI Docker container.
+
+    ```text
+    python swagger_helper.py --all
+    # or
+    python swagger_helper.py -a
+
+    ```
+
+    _After_ the script completes schema generation and launches Docker, open your browser to _`http://localhost:8080`._
+
+- **Get help/view options:**
+
+    ```text
+    python swagger_helper.py --help
+
+    ```
+
+**Important Notes:**
+
+- Ensure Docker Desktop is running and `docker` is in your system's PATH.
+
+- To stop the Swagger UI Docker container, press `Ctrl+C` in the terminal where the `swagger_helper.py` script is running.
+
+---

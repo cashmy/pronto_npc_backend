@@ -49,3 +49,23 @@ def archetype_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def archetype_list_by_expansion(request):
+    """
+    Returns a list of archetypes filtered by the 'expansion' flag.
+    Use query parameter 'status' (e.g., ?status=true or ?status=false).
+    Defaults to false if the parameter is missing or invalid.
+    """
+    # Get the 'status' query parameter, default to 'false' if missing/invalid
+    expansion_status_str = request.query_params.get("status", "false").lower()
+
+    # Convert string to boolean
+    is_expansion = expansion_status_str == "true"
+
+    # Filter based on the boolean status
+    filtered_archetypes = Archetype.objects.filter(expansion=is_expansion)
+    serializer = ArchetypeSerializer(filtered_archetypes, many=True)
+    return Response(serializer.data)

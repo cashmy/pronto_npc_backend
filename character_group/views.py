@@ -52,3 +52,16 @@ def character_group_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def character_group_list_by_system(request, npc_system_id):
+    """
+    Returns a list of character groups filtered by the provided npc_system_id.
+    """
+    # Filter CharacterGroup objects by the npc_system foreign key's ID
+    filtered_groups = CharacterGroup.objects.filter(npc_system_id=npc_system_id)
+    # Optional: Add .order_by() if specific ordering is desired
+    serializer = CharacterGroupSerializer(filtered_groups, many=True)
+    return Response(serializer.data)

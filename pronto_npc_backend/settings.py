@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-from decouple import config
 import os
+from datetime import timedelta
+from pathlib import Path
 
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,13 +24,74 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#$mk&do#s3dunb#ez_lh(ta_gi(fxk(l6-0y7@j^y9tb8!vhfx"
+SECRET_KEY = config(
+    "SECRET_KEY", default="a-very-unsafe-default-key-for-dev-use-a-real-one-in-env"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# dj-rest-auth settings
+REST_AUTH = {
+    "USE_JWT": True,  # Tell dj-rest-auth to use JWT
+    # "JWT_AUTH_COOKIE": None,  # Access token will be in the response body
+    "JWT_AUTH_COOKIE": "my-access-token",  # Name for the access token cookie (for documentation)
+    "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",  # Name for the refresh token cookie
+    "JWT_AUTH_REFRESH_COOKIE_PATH": "/",  # Path for the refresh token cookie
+    "JWT_AUTH_HTTPONLY": True,  # Refresh token cookie is HttpOnly
+    "JWT_AUTH_SAMESITE": "Lax",  # SameSite attribute for the refresh token cookie
+    "JWT_AUTH_SECURE": (
+        not DEBUG
+    ),  # Secure flag for the refresh token cookie (False in DEBUG)
+    # Add other dj-rest-auth specific settings here if needed
+}
 
+
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+AUTH_USER_MODEL = "users.User"  # Custom user model
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",  # if using cookie storage
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SITE_ID = 1
+
+# Optional: JWT settings (lifetimes, rotation)
+
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
+    "ROTATE_REFRESH_TOKENS": False,  # Ensures refresh tokens are not rotated
+    "BLACKLIST_AFTER_ROTATION": False,  # Not applicable if tokens are not rotated
+}
+
+
+# --- Update these allauth settings ---
+SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"  # Keep or change as needed
+
+# New settings replacing deprecated ones:
+ACCOUNT_LOGIN_METHODS = ["email"]  # Replaces ACCOUNT_AUTHENTICATION_METHOD
+ACCOUNT_SIGNUP_FIELDS = {  # Using a dictionary for more clarity as per allauth docs
+    "username": True,  # True means required
+    "email": True,  # True means required
+    "password": True,  # True means required
+}
+ACCOUNT_EMAIL_VERIFICATION = "optional"  # Or "optional" or "none". Explicitly set this.
+ACCOUNT_UNIQUE_EMAIL = True  # Ensure emails are unique
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+
+# * Deprecated settings (commented out):
+# ACCOUNT_USERNAME_REQUIRED = True  # Explicitly set username requirement
+# ACCOUNT_AUTHENTICATION_METHOD = "email"
+# ACCOUNT_EMAIL_REQUIRED = True  # Ensure email is required
+
+# --- End of updated allauth settings ---
 
 # Application definition
 
@@ -40,7 +102,23 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    # Third-party apps
+    "drf_spectacular",
     "rest_framework",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.facebook",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "simple_history",
+    "corsheaders",
+    # Custom Apps
     "npc_system",
     "images",
     "character_group",
@@ -55,9 +133,16 @@ INSTALLED_APPS = [
     "table_group",
     "table_header",
     "table_items",
+    "users",
+    "profiles",
+    "subscriptions",
+    "age_category",
+    "referrals",
+    "usage_tracking",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # Added for CORS - place high in the list
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -65,7 +150,21 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React frontend
+    "http://localhost:5173",  # Vite frontend
+    "http://localhost:5174",  # Vite frontend alt
+    "http://localhost:8000",  # Django dev server
+    "http://127.0.0.1:8000",  # Django dev server (IP address)
+    "http://localhost:8080",  # Swagger UI
+]
+# CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development
+CORS_ALLOW_CREDENTIALS = True  # Uncomment if you need to allow credentials
+# Email settings for development (print emails to console)
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 ROOT_URLCONF = "pronto_npc_backend.urls"
 
@@ -98,6 +197,7 @@ DATABASES = {
         "USER": config("DB_USER"),
         "PASSWORD": config("DB_PASSWORD"),
         "HOST": config("DB_HOST", default="localhost"),
+        # "HOST": "localhost",
         "PORT": config("DB_PORT", default="3306"),
         "OPTIONS": {
             "charset": "utf8mb4",
@@ -124,6 +224,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Add Authentication Backends if not already present (needed for allauth)
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -154,3 +262,92 @@ MEDIA_ROOT = os.path.join(
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Pronto NPC Backend API",
+    "DESCRIPTION": "API for the Pronto NPC Backend application",
+    "VERSION": "1.0.0",
+    # This regex is used to determine the common path prefix for tag extraction.
+    # By setting it to '/api/', drf-spectacular will use the next path segment
+    # as the tag. e.g., /api/npc_system_races/ -> tag: npc_system_races
+    "SCHEMA_PATH_PREFIX": r"/api/",
+    # Restrict schema access to admin users only.
+    # The default is ['rest_framework.permissions.AllowAny'].
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    "TAGS": [
+        {
+            "name": "age_category",
+            "description": "Manage age categories for characters (e.g., Child, Adult, Elder).",
+        },
+        {
+            "name": "archetype",
+            "description": "Endpoints for managing character archetypes (e.g., Hero, Mentor, Villain).",
+        },
+        {
+            "name": "characters",
+            "description": "Operations related to individual characters.",
+        },
+        {
+            "name": "genre",
+            "description": "Endpoints for managing genres (e.g., Fantasy, Sci-Fi).",
+        },
+        {
+            "name": "images",
+            "description": "Endpoints for uploading and managing images for various models.",
+        },
+        {
+            "name": "npc_system",
+            "description": "Manage the core NPC systems that act as containers for characters, races, professions, random table generators, etc.",
+        },
+        {
+            "name": "npc_system_rpg_classes",
+            "description": "Endpoints for managing RPG classes (e.g., Fighter, Mage) associated with NPC systems.",
+        },
+        {
+            "name": "npc_system_races",
+            "description": "Endpoints for managing races associated with different NPC systems.",
+        },
+        {
+            "name": "npc_system_professions",
+            "description": "Endpoints for managing professions within NPC systems.",
+        },
+    ],
+    "SERVE_INCLUDE_SCHEMA": False,  # Set to True to include schema in UI by default
+    "SERVERS": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local Development Server",
+        }
+    ],
+    "SWAGGER_UI_SETTINGS": {
+        # This setting disables the "Try it out" authorization persistence.
+        # It is a workaround for browsers that block storage access in certain contexts.
+        "persistAuthorization": False,
+    },
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,  # Keep this False
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",  # Default stream is sys.stderr
+            "level": "DEBUG",  # Ensure handler can process DEBUG messages
+        },
+    },
+    "loggers": {
+        "django.request": {  # Focus on request logging
+            "handlers": ["console"],
+            "level": "DEBUG",  # Log all request-related messages
+            "propagate": False,  # Don't pass to parent loggers for now
+        },
+        "corsheaders": {  # Add this logger
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
+
+# Add this line at the very end of the file:
+# print(">>>> SETTINGS.PY WAS LOADED AND THIS PRINT STATEMENT IS FIRING <<<<")

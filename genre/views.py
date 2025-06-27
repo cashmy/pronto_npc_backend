@@ -1,9 +1,10 @@
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 from .models import Genre
-from .serializers import GenreSerializer
+from .serializers import GenreOptionSerializer, GenreSerializer
 
 
 # Create your views here.
@@ -12,11 +13,11 @@ from .serializers import GenreSerializer
 def genre_list(request):
     if request.method == "GET":
         genres = Genre.objects.all()
-        serializer = GenreSerializer(genres, many=True)
+        serializer = GenreSerializer(genres, many=True, context={"request": request})
         return Response(serializer.data)
 
     elif request.method == "POST":
-        serializer = GenreSerializer(data=request.data)
+        serializer = GenreSerializer(data=request.data, context={"request": request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -32,10 +33,12 @@ def genre_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = GenreSerializer(genre)
+        serializer = GenreSerializer(genre, context={"request": request})
         return Response(serializer.data)
     elif request.method == "PUT":
-        serializer = GenreSerializer(genre, data=request.data)
+        serializer = GenreSerializer(
+            genre, data=request.data, context={"request": request}
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -44,8 +47,38 @@ def genre_detail(request, pk):
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     elif request.method == "PATCH":
-        serializer = GenreSerializer(genre, data=request.data, partial=True)
+        serializer = GenreSerializer(
+            genre, data=request.data, partial=True, context={"request": request}
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Optional: Serializer for the dropdown options in the frontend
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def genre_options(request):
+    genres = Genre.objects.all().order_by("name")  # optional ordering
+    serializer = GenreOptionSerializer(genres, many=True, context={"request": request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_random_genre(request):
+    """
+    Returns a randomly selected Genre.
+    """
+    # Efficiently select a random genre from the database
+    random_genre = Genre.objects.order_by("?").first()
+
+    if not random_genre:
+        return Response(
+            {"detail": "No genres found."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    serializer = GenreSerializer(random_genre, context={"request": request})
+    return Response(serializer.data, status=status.HTTP_200_OK)

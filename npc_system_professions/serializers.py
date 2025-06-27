@@ -18,10 +18,18 @@ class NpcSystemProfessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = NpcSystemProfession
         fields = [
+            "id",  # Auto-incrementing ID within the NPC system
+            "profession_id",  # Unique ID within the NPC system - sequential
             "npc_system",  # FK to the NPC system
             "npc_system_name",  # Readable name of the NPC system
             "profession_table_header",  # Header for the profession table
-            "id",  # Auto-incrementing ID within the NPC system
             "value",  # The profession name
         ]
         read_only_fields = ["id"]  # ID is auto-generated
+
+
+# Serializer for the dropdown options in the frontend
+class NpcSystemProfessionOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NpcSystemProfession
+        fields = ["profession_id", "value"]

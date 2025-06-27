@@ -13,6 +13,7 @@ class TableGroupSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "npc_system",
+            "npc_system_name",  # Read-only field for the NPC system name
             "name",
             "description",
             "report_display_heading",
@@ -21,7 +22,7 @@ class TableGroupSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
-        read_only_fields = ("created_at", "updated_at", "id")
+        read_only_fields = ("id", "npc_system_name", "created_at", "updated_at", "id")
 
     def create(self, validated_data):
         return TableGroup.objects.create(**validated_data)

@@ -10,6 +10,7 @@ class GenreSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "notes",
+            "icon",
             "created_at",
             "updated_at",
         ]
@@ -21,3 +22,12 @@ class GenreSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Genre.objects.create(**validated_data)
+
+
+# Serializer for the dropdown options in the frontend
+class GenreOptionSerializer(serializers.ModelSerializer):
+    value = serializers.CharField(source="name")
+
+    class Meta:
+        model = Genre
+        fields = ["id", "value", "icon"]

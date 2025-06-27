@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "Pronto SaaS - Auth + NPC System",
+    "_postman_id": "pronto-auth-npc-collection",
+    "description": "Postman collection for authentication and NPC System management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password1\": \"securepassword123\",\n  \"password2\": \"securepassword123\",\n  \"referral_code\": \"\",\n  \"company\": \"Example Inc\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/registration/"
+        }
+      }
+    },
+    {
+      "name": "Login User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"securepassword123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login/"
+        }
+      }
+    },
+    {
+      "name": "Logout User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/auth/logout/"
+        }
+      }
+    },
+    {
+      "name": "Get My Referral Link",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/referrals/my-invite/"
+        }
+      }
+    },
+    {
+      "name": "List NPC Systems",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/npc/systems/"
+        }
+      }
+    },
+    {
+      "name": "Create NPC System",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"system_name\": \"FantasyQuest\",\n  \"description\": \"A fantasy-themed character system\",\n  \"standard_app_dsp\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/npc/systems/"
+        }
+      }
+    }
+  ]
+}

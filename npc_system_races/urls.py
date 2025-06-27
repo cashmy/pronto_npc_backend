@@ -1,7 +1,12 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
 from npc_system_races import views
 
+# Create a router and register our ViewSets with it.
+router = DefaultRouter()
+router.register(r"", views.NpcSystemRaceViewSet, basename="npc_system_race")
+
 urlpatterns = [
-    path("", views.npc_system_races_list, name="npc_system_races_list"),
-    path("<int:pk>/", views.npc_system_races_detail, name="npc_system_race_detail"),
+    path("", include(router.urls)),
 ]

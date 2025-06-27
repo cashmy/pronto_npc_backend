@@ -1,26 +1,25 @@
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings  # Import settings
 from django.conf.urls.static import static  # Import static helper
+from django.contrib import admin
+from django.urls import include, path
+from rest_framework_simplejwt.views import TokenVerifyView
+
+# from dj_rest_auth.views import TokenRefreshView
+from users.views import CookieTokenRefreshView, CustomLoginView
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/npc_system/", include("npc_system.urls")),
-    path("api/images/", include("images.urls")),
-    path("api/character_group/", include("character_group.urls")),
-    path("api/character_sub_group/", include("character_sub_group.urls")),
-    path("api/archetype/", include("archetype.urls")),
-    path("api/genre/", include("genre.urls")),
-    path("api/characters/", include("characters.urls")),
-    path("api/character_images/", include("character_images.urls")),
-    path("api/npc_system_races/", include("npc_system_races.urls")),
-    path("api/npc_system_rpg_classes/", include("npc_system_rpg_classes.urls")),
-    path("api/npc_system_professions/", include("npc_system_professions.urls")),
-    path("api/table_group/", include("table_group.urls")),
-    path("api/table_header/", include("table_header.urls")),
+    # JWT-aware auth
+    path("auth/login/", CustomLoginView.as_view(), name="rest_login"),
+    path("auth/registration/", include("dj_rest_auth.registration.urls")),
+    # Use dj_rest_auth's TokenRefreshView to read refresh token from cookie
     path(
-        "api/table_items/", include("table_items.urls")
-    ),  # Include the authentication URLs
+        "auth/token/refresh/", CookieTokenRefreshView.as_view(), name="token_refresh"
+    ),  # Changed
+    path("auth/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    # Admin and app routes
+    path("admin/", admin.site.urls),
+    # Group all API endpoints under the /api/ prefix
+    path("api/", include("pronto_npc_backend.api_urls")),
 ]
 
 # Add this block to serve media files during development (DEBUG=True)

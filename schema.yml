@@ -1,0 +1,3941 @@
+openapi: 3.0.3
+info:
+  title: Pronto NPC Backend API
+  version: 1.0.0
+  description: API for the Pronto NPC Backend application
+paths:
+  /api/age_category/:
+    get:
+      operationId: age_category_list
+      description: |-
+        API endpoint that allows age categories to be viewed or edited.
+        Provides list, create, retrieve, update, partial_update, and destroy actions.
+      tags:
+      - age_category
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgeCategory'
+          description: ''
+    post:
+      operationId: age_category_create
+      description: |-
+        API endpoint that allows age categories to be viewed or edited.
+        Provides list, create, retrieve, update, partial_update, and destroy actions.
+      tags:
+      - age_category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgeCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AgeCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AgeCategory'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgeCategory'
+          description: ''
+  /api/age_category/{id}/:
+    get:
+      operationId: age_category_retrieve
+      description: |-
+        API endpoint that allows age categories to be viewed or edited.
+        Provides list, create, retrieve, update, partial_update, and destroy actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Age Category.
+        required: true
+      tags:
+      - age_category
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgeCategory'
+          description: ''
+    put:
+      operationId: age_category_update
+      description: |-
+        API endpoint that allows age categories to be viewed or edited.
+        Provides list, create, retrieve, update, partial_update, and destroy actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Age Category.
+        required: true
+      tags:
+      - age_category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgeCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AgeCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AgeCategory'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgeCategory'
+          description: ''
+    patch:
+      operationId: age_category_partial_update
+      description: |-
+        API endpoint that allows age categories to be viewed or edited.
+        Provides list, create, retrieve, update, partial_update, and destroy actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Age Category.
+        required: true
+      tags:
+      - age_category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAgeCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAgeCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAgeCategory'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgeCategory'
+          description: ''
+    delete:
+      operationId: age_category_destroy
+      description: |-
+        API endpoint that allows age categories to be viewed or edited.
+        Provides list, create, retrieve, update, partial_update, and destroy actions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Age Category.
+        required: true
+      tags:
+      - age_category
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/age_category/options/:
+    get:
+      operationId: age_category_options_retrieve
+      description: |-
+        Provides a simplified list of age categories (id and name)
+        suitable for populating dropdown/select options in a frontend.
+      tags:
+      - age_category
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/archetype/:
+    get:
+      operationId: archetype_retrieve
+      tags:
+      - archetype
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: archetype_create
+      tags:
+      - archetype
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/archetype/{id}:
+    get:
+      operationId: archetype_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - archetype
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: archetype_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - archetype
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: archetype_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - archetype
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: archetype_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - archetype
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/archetype/by_expansion/:
+    get:
+      operationId: archetype_by_expansion_retrieve
+      description: |-
+        Returns a list of archetypes filtered by the 'expansion' flag.
+        Use query parameter 'status' (e.g., ?status=true or ?status=false).
+        Defaults to false if the parameter is missing or invalid.
+      tags:
+      - archetype
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/character_group/:
+    get:
+      operationId: character_group_retrieve
+      tags:
+      - character_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: character_group_create
+      tags:
+      - character_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/character_group/{id}:
+    get:
+      operationId: character_group_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: character_group_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: character_group_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: character_group_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/character_group/system/{npc_system_id}:
+    get:
+      operationId: character_group_system_retrieve
+      description: Returns a list of character groups filtered by the provided npc_system_id.
+      parameters:
+      - in: path
+        name: npc_system_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/character_images/:
+    get:
+      operationId: character_images_retrieve
+      description: List all character images or create a new character image.
+      tags:
+      - character_images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: character_images_create
+      description: List all character images or create a new character image.
+      tags:
+      - character_images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/character_images/{id}/:
+    get:
+      operationId: character_images_retrieve_2
+      description: Retrieve, update or delete a character image.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: character_images_update
+      description: Retrieve, update or delete a character image.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: character_images_partial_update
+      description: Retrieve, update or delete a character image.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: character_images_destroy
+      description: Retrieve, update or delete a character image.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/character_sub_group/:
+    get:
+      operationId: character_sub_group_retrieve
+      tags:
+      - character_sub_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: character_sub_group_create
+      tags:
+      - character_sub_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/character_sub_group/{id}:
+    get:
+      operationId: character_sub_group_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_sub_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: character_sub_group_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_sub_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: character_sub_group_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_sub_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: character_sub_group_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_sub_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/character_sub_group/system/{npc_system_id}:
+    get:
+      operationId: character_sub_group_system_retrieve
+      description: |-
+        Returns a list of character sub-groups filtered by the provided npc_system_id
+        (via the parent CharacterGroup).
+      parameters:
+      - in: path
+        name: npc_system_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_sub_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/character_sub_group/system/{npc_system_id}/{character_group_id}:
+    get:
+      operationId: character_sub_group_system_retrieve_2
+      description: |-
+        Returns a list of character sub-groups filtered by both the provided
+        npc_system_id and character_group_id.
+      parameters:
+      - in: path
+        name: character_group_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: npc_system_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - character_sub_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/characters/:
+    get:
+      operationId: characters_retrieve
+      description: List all characters or create a new character.
+      tags:
+      - characters
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: characters_create
+      description: List all characters or create a new character.
+      tags:
+      - characters
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/characters/{id}:
+    get:
+      operationId: characters_retrieve_2
+      description: Retrieve, update or delete a character.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - characters
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: characters_update
+      description: Retrieve, update or delete a character.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - characters
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: characters_partial_update
+      description: Retrieve, update or delete a character.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - characters
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: characters_destroy
+      description: Retrieve, update or delete a character.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - characters
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/genre/:
+    get:
+      operationId: genre_retrieve
+      tags:
+      - genre
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: genre_create
+      tags:
+      - genre
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/genre/{id}:
+    get:
+      operationId: genre_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - genre
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: genre_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - genre
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: genre_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - genre
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: genre_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - genre
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/genre/options/:
+    get:
+      operationId: genre_options_retrieve
+      tags:
+      - genre
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/genre/random-genre/:
+    get:
+      operationId: genre_random_genre_retrieve
+      description: Returns a randomly selected Genre.
+      tags:
+      - genre
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/images/:
+    get:
+      operationId: images_retrieve
+      tags:
+      - images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: images_create
+      tags:
+      - images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/images/{id}/:
+    get:
+      operationId: images_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: images_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: images_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: images_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/images/options/{image_type}/{owner}/:
+    get:
+      operationId: images_options_retrieve
+      description: |-
+        Returns image options for a dropdown.
+        Filters by the given image_type.
+        Includes images with no owner (global/blank owner) AND images owned by the specified 'owner' id.
+      parameters:
+      - in: path
+        name: image_type
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: owner
+        schema:
+          type: integer
+        required: true
+      tags:
+      - images
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/npc_system/:
+    get:
+      operationId: npc_system_list
+      description: "\n    Handles listing all accessible NPC systems and creating\
+        \ new ones.\n\n    - **GET**: Retrieves a list of `NpcSystem` objects. Regular\
+        \ users see global systems and their own. Admins see all systems.\n    - **POST**:\
+        \ Creates a new `NpcSystem` instance. The owner is automatically set to the\
+        \ current user if `use_current_user` is true.\n    "
+      summary: List and Create NPC Systems
+      tags:
+      - npc_system
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemRead'
+          description: ''
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRead'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                description: Bad Request - Invalid data provided.
+          description: ''
+    post:
+      operationId: npc_system_create
+      description: "\n    Handles listing all accessible NPC systems and creating\
+        \ new ones.\n\n    - **GET**: Retrieves a list of `NpcSystem` objects. Regular\
+        \ users see global systems and their own. Admins see all systems.\n    - **POST**:\
+        \ Creates a new `NpcSystem` instance. The owner is automatically set to the\
+        \ current user if `use_current_user` is true.\n    "
+      summary: List and Create NPC Systems
+      tags:
+      - npc_system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NpcSystemWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NpcSystemWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NpcSystemWrite'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemRead'
+          description: ''
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRead'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                description: Bad Request - Invalid data provided.
+          description: ''
+  /api/npc_system/{id}/:
+    get:
+      operationId: npc_system_retrieve
+      description: "\n    Handles retrieving, updating, partially updating, or deleting\
+        \ a single\n    `NpcSystem` instance by its primary key.\n\n    - **GET**:\
+        \ Retrieves a single `NpcSystem` object.\n    - **PUT**: Updates an existing\
+        \ `NpcSystem` object.\n    - **PATCH**: Partially updates an existing `NpcSystem`\
+        \ object.\n    - **DELETE**: Deletes an `NpcSystem` object.\n    "
+      summary: Retrieve, Update, or Delete an NPC System
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRead'
+          description: ''
+        '204':
+          content:
+            application/json:
+              schema:
+                description: No Content - The system was successfully deleted.
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: Not Found - The system with the given PK does not exist.
+          description: ''
+    put:
+      operationId: npc_system_update
+      description: "\n    Handles retrieving, updating, partially updating, or deleting\
+        \ a single\n    `NpcSystem` instance by its primary key.\n\n    - **GET**:\
+        \ Retrieves a single `NpcSystem` object.\n    - **PUT**: Updates an existing\
+        \ `NpcSystem` object.\n    - **PATCH**: Partially updates an existing `NpcSystem`\
+        \ object.\n    - **DELETE**: Deletes an `NpcSystem` object.\n    "
+      summary: Retrieve, Update, or Delete an NPC System
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NpcSystemWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NpcSystemWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NpcSystemWrite'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRead'
+          description: ''
+        '204':
+          content:
+            application/json:
+              schema:
+                description: No Content - The system was successfully deleted.
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: Not Found - The system with the given PK does not exist.
+          description: ''
+    patch:
+      operationId: npc_system_partial_update
+      description: "\n    Handles retrieving, updating, partially updating, or deleting\
+        \ a single\n    `NpcSystem` instance by its primary key.\n\n    - **GET**:\
+        \ Retrieves a single `NpcSystem` object.\n    - **PUT**: Updates an existing\
+        \ `NpcSystem` object.\n    - **PATCH**: Partially updates an existing `NpcSystem`\
+        \ object.\n    - **DELETE**: Deletes an `NpcSystem` object.\n    "
+      summary: Retrieve, Update, or Delete an NPC System
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemWrite'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRead'
+          description: ''
+        '204':
+          content:
+            application/json:
+              schema:
+                description: No Content - The system was successfully deleted.
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: Not Found - The system with the given PK does not exist.
+          description: ''
+    delete:
+      operationId: npc_system_destroy
+      description: "\n    Handles retrieving, updating, partially updating, or deleting\
+        \ a single\n    `NpcSystem` instance by its primary key.\n\n    - **GET**:\
+        \ Retrieves a single `NpcSystem` object.\n    - **PUT**: Updates an existing\
+        \ `NpcSystem` object.\n    - **PATCH**: Partially updates an existing `NpcSystem`\
+        \ object.\n    - **DELETE**: Deletes an `NpcSystem` object.\n    "
+      summary: Retrieve, Update, or Delete an NPC System
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRead'
+          description: ''
+        '204':
+          content:
+            application/json:
+              schema:
+                description: No Content - The system was successfully deleted.
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: Not Found - The system with the given PK does not exist.
+          description: ''
+  /api/npc_system_professions/:
+    get:
+      operationId: npc_system_professions_list
+      description: |-
+        Retrieves a list of all `NpcSystemProfession` objects.
+
+        Returns:
+            Response: A list of serialized `NpcSystemProfession` objects with HTTP 200 OK.
+      tags:
+      - npc_system_professions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+    post:
+      operationId: npc_system_professions_create
+      description: |-
+        Creates a new `NpcSystemProfession` instance.
+
+        Request Body:
+            (JSON): Data for the new `NpcSystemProfession` as defined by `NpcSystemProfessionSerializer`.
+
+        Returns:
+            Response:
+                - Serialized new `NpcSystemProfession` object with HTTP 201 CREATED on success.
+                - Serializer errors with HTTP 400 BAD REQUEST on invalid input.
+      tags:
+      - npc_system_professions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+  /api/npc_system_professions/{id}/:
+    get:
+      operationId: npc_system_professions_retrieve
+      description: |-
+        Retrieves a single `NpcSystemProfession` object by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemProfession` to retrieve.
+
+        Returns:
+            Response: Serialized `NpcSystemProfession` object with HTTP 200 OK.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Profession.
+        required: true
+      tags:
+      - npc_system_professions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+    put:
+      operationId: npc_system_professions_update
+      description: |-
+        Updates an existing `NpcSystemProfession` object by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemProfession` to update.
+
+        Returns:
+            Response: Serialized updated `NpcSystemProfession` object with HTTP 200 OK on success.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Profession.
+        required: true
+      tags:
+      - npc_system_professions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NpcSystemProfession'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+    patch:
+      operationId: npc_system_professions_partial_update
+      description: |-
+        A ViewSet for viewing and editing NpcSystemProfession instances.
+
+        This ViewSet automatically provides `list`, `create`, `retrieve`, `update`,
+        `partial_update`, and `destroy` actions. It also includes custom actions
+        for fetching dropdown options and selecting a random profession.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Profession.
+        required: true
+      tags:
+      - npc_system_professions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemProfession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemProfession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemProfession'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+    delete:
+      operationId: npc_system_professions_destroy
+      description: |-
+        Deletes an `NpcSystemProfession` object by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemProfession` to delete.
+
+        Returns:
+            Response: HTTP 204 NO CONTENT on successful deletion.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Profession.
+        required: true
+      tags:
+      - npc_system_professions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/npc_system_professions/options/{npc_system_pk}/:
+    get:
+      operationId: npc_system_professions_options_list
+      description: Provides a simplified list of NPC system professions (profession_id
+        and value) suitable for populating dropdown/select options in a frontend.
+      summary: Get Profession Options for a System
+      parameters:
+      - in: path
+        name: npc_system_pk
+        schema:
+          type: integer
+          description: The NPC system this profession belongs to.
+        required: true
+      tags:
+      - npc_system_professions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemProfessionOption'
+          description: ''
+  /api/npc_system_professions/random-profession/{npc_system_pk}/:
+    get:
+      operationId: npc_system_professions_random_profession_retrieve
+      description: Returns a randomly selected `NpcSystemProfession` for the given
+        `NpcSystem`.
+      summary: Get a Random Profession for a System
+      parameters:
+      - in: path
+        name: npc_system_pk
+        schema:
+          type: integer
+          description: The NPC system this profession belongs to.
+        required: true
+      tags:
+      - npc_system_professions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemProfession'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: No professions found for this NPC system.
+          description: ''
+  /api/npc_system_races/:
+    get:
+      operationId: npc_system_races_list
+      description: |-
+        Retrieves a list of all `NpcSystemRace` objects.
+
+        Returns:
+            Response: A list of serialized `NpcSystemRace` objects with HTTP 200 OK.
+      tags:
+      - npc_system_races
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemRace'
+          description: ''
+    post:
+      operationId: npc_system_races_create
+      description: |-
+        Creates a new `NpcSystemRace` instance.
+
+        Request Body:
+            (JSON): Data for the new `NpcSystemRace` as defined by `NpcSystemRaceSerializer`.
+
+        Returns:
+            Response:
+                - Serialized new `NpcSystemRace` object with HTTP 201 CREATED on success.
+                - Serializer errors with HTTP 400 BAD REQUEST on invalid input.
+      tags:
+      - npc_system_races
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NpcSystemRace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NpcSystemRace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NpcSystemRace'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRace'
+          description: ''
+  /api/npc_system_races/{id}/:
+    get:
+      operationId: npc_system_races_retrieve
+      description: |-
+        Retrieves a single `NpcSystemRace` object by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemRace` to retrieve.
+
+        Returns:
+            Response: Serialized `NpcSystemRace` object with HTTP 200 OK.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Race.
+        required: true
+      tags:
+      - npc_system_races
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRace'
+          description: ''
+    put:
+      operationId: npc_system_races_update
+      description: |-
+        Updates an existing `NpcSystemRace` object by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemRace` to update.
+
+        Returns:
+            Response: Serialized updated `NpcSystemRace` object with HTTP 200 OK on success.
+            Response: Serializer errors with HTTP 400 BAD REQUEST on invalid input.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Race.
+        required: true
+      tags:
+      - npc_system_races
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NpcSystemRace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NpcSystemRace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NpcSystemRace'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRace'
+          description: ''
+    patch:
+      operationId: npc_system_races_partial_update
+      description: |-
+        Partially updates an existing `NpcSystemRace` object by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemRace` to partially update.
+
+        Returns:
+            Response: Serialized partially updated `NpcSystemRace` object with HTTP 200 OK on success.
+            Response: Serializer errors with HTTP 400 BAD REQUEST on invalid input.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Race.
+        required: true
+      tags:
+      - npc_system_races
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemRace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemRace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNpcSystemRace'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRace'
+          description: ''
+    delete:
+      operationId: npc_system_races_destroy
+      description: |-
+        Deletes an `NpcSystemRace` object by its primary key.
+
+        Args:
+            pk (int): The primary key of the `NpcSystemRace` to delete.
+
+        Returns:
+            Response: HTTP 204 NO CONTENT on successful deletion.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Race.
+        required: true
+      tags:
+      - npc_system_races
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/npc_system_races/options/{npc_system_pk}/:
+    get:
+      operationId: npc_system_races_options_list
+      description: |-
+        Provides a simplified list of NPC system races (race_id and value)
+        suitable for populating dropdown/select options in a frontend.
+
+        The list is filtered by the `npc_system_pk` and ordered by the race `value`.
+
+        Args:
+            npc_system_pk (int): The primary key of the `NpcSystem` to filter races by.
+
+        Returns:
+            Response: A list of serialized `NpcSystemRaceOptionSerializer` objects
+                      with HTTP 200 OK.
+      parameters:
+      - in: path
+        name: npc_system_pk
+        schema:
+          type: integer
+          description: The NPC system this race belongs to.
+        required: true
+      tags:
+      - npc_system_races
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NpcSystemRaceOption'
+          description: ''
+  /api/npc_system_races/random-race/{npc_system_pk}/:
+    get:
+      operationId: npc_system_races_random_race_retrieve
+      description: |-
+        Returns a randomly selected NpcSystemRace for the given NpcSystem.
+        It picks a random existing race_id for that system.
+
+        Args:
+            npc_system_pk (int): The primary key of the `NpcSystem` to select a random race from.
+
+        Returns:
+            Response:
+                - Serialized `NpcSystemRace` object with HTTP 200 OK if a random
+                  race is found.
+                - JSON object `{"detail": "No races found for this NPC system."}`
+                  with HTTP 404 NOT FOUND if no races exist for the given system.
+      parameters:
+      - in: path
+        name: npc_system_pk
+        schema:
+          type: integer
+          description: The NPC system this race belongs to.
+        required: true
+      tags:
+      - npc_system_races
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NpcSystemRace'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: No races found for this NPC system.
+          description: ''
+  /api/npc_system_rpg_classes/:
+    get:
+      operationId: npc_system_rpg_classes_retrieve
+      tags:
+      - npc_system_rpg_classes
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: npc_system_rpg_classes_create
+      tags:
+      - npc_system_rpg_classes
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/npc_system_rpg_classes/{id}/:
+    get:
+      operationId: npc_system_rpg_classes_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system_rpg_classes
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: npc_system_rpg_classes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system_rpg_classes
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: npc_system_rpg_classes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system_rpg_classes
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: npc_system_rpg_classes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system_rpg_classes
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/npc_system_rpg_classes/options/{npc_system_pk}/:
+    get:
+      operationId: npc_system_rpg_classes_options_retrieve
+      parameters:
+      - in: path
+        name: npc_system_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system_rpg_classes
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/npc_system_rpg_classes/random-class/{npc_system_pk}/:
+    get:
+      operationId: npc_system_rpg_classes_random_class_retrieve
+      description: |-
+        Returns a randomly selected NpcSystemRpgClass for the given NpcSystem.
+        It picks a random existing rpg_class_id for that system.
+      parameters:
+      - in: path
+        name: npc_system_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - npc_system_rpg_classes
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/profiles/:
+    get:
+      operationId: profiles_retrieve
+      description: |-
+        List all profiles.
+        Note: Profile creation is usually handled during user registration.
+      tags:
+      - profiles
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/profiles/{id}:
+    get:
+      operationId: profiles_retrieve_2
+      description: Retrieve, update, partially update, or delete a profile by its
+        PK.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - profiles
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: profiles_update
+      description: Retrieve, update, partially update, or delete a profile by its
+        PK.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - profiles
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: profiles_partial_update
+      description: Retrieve, update, partially update, or delete a profile by its
+        PK.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - profiles
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: profiles_destroy
+      description: Retrieve, update, partially update, or delete a profile by its
+        PK.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - profiles
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/profiles/me/:
+    get:
+      operationId: profiles_me_retrieve
+      description: Retrieve, update or partially update the profile of the currently
+        authenticated user.
+      tags:
+      - profiles
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: profiles_me_update
+      description: Retrieve, update or partially update the profile of the currently
+        authenticated user.
+      tags:
+      - profiles
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: profiles_me_partial_update
+      description: Retrieve, update or partially update the profile of the currently
+        authenticated user.
+      tags:
+      - profiles
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/referrals/my-invite/:
+    get:
+      operationId: referrals_my_invite_retrieve
+      description: |-
+        Retrieves (or creates if not existing) the referral link
+        for the currently authenticated user.
+      tags:
+      - referrals
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/referrals/referred-users/:
+    get:
+      operationId: referrals_referred_users_retrieve
+      description: |-
+        Retrieves a list of users (profiles) who were referred by the
+        currently authenticated user's email.
+        Returns their email, first name, last name, and avatar.
+      tags:
+      - referrals
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/subscriptions/{id}/admin-update/:
+    put:
+      operationId: subscriptions_admin_update_update
+      description: |-
+        Allows an admin to update (PUT) or partially update (PATCH) any subscription.
+        Note: 'start_date' is auto_now_add and typically not updated.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - subscriptions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: subscriptions_admin_update_partial_update
+      description: |-
+        Allows an admin to update (PUT) or partially update (PATCH) any subscription.
+        Note: 'start_date' is auto_now_add and typically not updated.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - subscriptions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/subscriptions/me/:
+    get:
+      operationId: subscriptions_me_retrieve
+      description: Retrieves the subscription details for the currently authenticated
+        user.
+      tags:
+      - subscriptions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/subscriptions/me/deactivate/:
+    post:
+      operationId: subscriptions_me_deactivate_create
+      description: |-
+        Deactivates the subscription for the currently authenticated user.
+        Sets is_active to False and updates the end_date to now.
+      tags:
+      - subscriptions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/subscriptions/me/reactivate/:
+    post:
+      operationId: subscriptions_me_reactivate_create
+      description: |-
+        Reactivates the subscription for the currently authenticated user,
+        if their plan is not 'basic'.
+        Sets is_active to True, updates start_date to now, and end_date to 12 months from now.
+      tags:
+      - subscriptions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/subscriptions/upgrade/:
+    post:
+      operationId: subscriptions_upgrade_create
+      description: Allows an authenticated user to change their subscription type.
+      tags:
+      - subscriptions
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/table_group/:
+    get:
+      operationId: table_group_retrieve
+      tags:
+      - table_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: table_group_create
+      tags:
+      - table_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/table_group/{id}:
+    get:
+      operationId: table_group_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: table_group_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: table_group_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: table_group_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/table_group/system/{npc_system_id}:
+    get:
+      operationId: table_group_system_retrieve
+      description: Returns a list of table groups filtered by the provided npc_system_id.
+      parameters:
+      - in: path
+        name: npc_system_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_group
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/table_header/:
+    get:
+      operationId: table_header_retrieve
+      tags:
+      - table_header
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: table_header_create
+      tags:
+      - table_header
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/table_header/{id}:
+    get:
+      operationId: table_header_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_header
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: table_header_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_header
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: table_header_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_header
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: table_header_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_header
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/table_header/system/{npc_system_id}:
+    get:
+      operationId: table_header_system_retrieve
+      description: Returns a list of table headers filtered by the provided npc_system_id.
+      parameters:
+      - in: path
+        name: npc_system_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_header
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/table_header/system/{npc_system_id}/{table_group_id}:
+    get:
+      operationId: table_header_system_retrieve_2
+      description: |-
+        Returns a list of table headers filtered by both the provided
+        npc_system_id and table_group_id.
+      parameters:
+      - in: path
+        name: npc_system_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: table_group_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_header
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/table_items/:
+    get:
+      operationId: table_items_retrieve
+      tags:
+      - table_items
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: table_items_create
+      tags:
+      - table_items
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/table_items/{id}/:
+    get:
+      operationId: table_items_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_items
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: table_items_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_items
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: table_items_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_items
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: table_items_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_items
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/table_items/random-item/{table_header_pk}/:
+    get:
+      operationId: table_items_random_item_retrieve
+      description: |-
+        Returns a randomly selected NpcSystemRpgClass for the given NpcSystem.
+        It picks a random existing rpg_class_id for that system.
+      parameters:
+      - in: path
+        name: table_header_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_items
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/table_items/table_header/{table_header}/:
+    get:
+      operationId: table_items_table_header_retrieve
+      description: |-
+        Returns a list of table headers filtered by both the provided
+        npc_system_id and table_group_id.
+      parameters:
+      - in: path
+        name: table_header
+        schema:
+          type: integer
+        required: true
+      tags:
+      - table_items
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/usage_tracking/:
+    get:
+      operationId: usage_tracking_retrieve
+      description: |-
+        List all usage tracking records.
+        Note: Usage tracking creation is usually handled during user registration or activity.
+      tags:
+      - usage_tracking
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/usage_tracking/{id}:
+    get:
+      operationId: usage_tracking_retrieve_2
+      description: Retrieve, update, partially update or delete a specific usage tracking
+        record by its primary key.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - usage_tracking
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: usage_tracking_update
+      description: Retrieve, update, partially update or delete a specific usage tracking
+        record by its primary key.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - usage_tracking
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: usage_tracking_partial_update
+      description: Retrieve, update, partially update or delete a specific usage tracking
+        record by its primary key.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - usage_tracking
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: usage_tracking_destroy
+      description: Retrieve, update, partially update or delete a specific usage tracking
+        record by its primary key.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - usage_tracking
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/usage_tracking/me/:
+    get:
+      operationId: usage_tracking_me_retrieve
+      description: Retrieve, update or partially update the usage tracking of the
+        currently authenticated user.
+      tags:
+      - usage_tracking
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: usage_tracking_me_update
+      description: Retrieve, update or partially update the usage tracking of the
+        currently authenticated user.
+      tags:
+      - usage_tracking
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: usage_tracking_me_partial_update
+      description: Retrieve, update or partially update the usage tracking of the
+        currently authenticated user.
+      tags:
+      - usage_tracking
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/deactivate/:
+    post:
+      operationId: users_deactivate_create
+      tags:
+      - users
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/debug/:
+    get:
+      operationId: users_debug_retrieve
+      tags:
+      - users
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/login/:
+    post:
+      operationId: users_login_create
+      description: |-
+        Check the credentials and return the REST Token
+        if the credentials are valid and authenticated.
+        Calls Django Auth login method to register User ID
+        in Django session framework
+
+        Accept the following POST parameters: username, password
+        Return the REST Framework Token Object's key.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomUsernameOrEmailLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomUsernameOrEmailLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomUsernameOrEmailLogin'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUsernameOrEmailLogin'
+          description: ''
+  /api/users/logout/:
+    get:
+      operationId: users_logout_retrieve
+      description: |-
+        Custom LogoutView to ensure the refresh token from the HttpOnly cookie
+        is blacklisted and then all JWT cookies are cleared.
+      tags:
+      - users
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: users_logout_create
+      description: |-
+        Custom LogoutView to ensure the refresh token from the HttpOnly cookie
+        is blacklisted and then all JWT cookies are cleared.
+      tags:
+      - users
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/me/combined-data/:
+    get:
+      operationId: users_me_combined_data_retrieve
+      description: |-
+        Provides combined user data including profile, active subscription,
+        and usage tracking information. Intended for use after login to
+        populate frontend state.
+      tags:
+      - users
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/otp/verify/:
+    post:
+      operationId: users_otp_verify_create
+      tags:
+      - users
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/password/change/:
+    post:
+      operationId: users_password_change_create
+      description: |-
+        Calls Django Auth SetPasswordForm save method.
+
+        Accepts the following POST parameters: new_password1, new_password2
+        Returns the success/fail message.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /api/users/password/reset/:
+    post:
+      operationId: users_password_reset_create
+      description: |-
+        Calls Django Auth PasswordResetForm save method.
+
+        Accepts the following POST parameters: email
+        Returns the success/fail message.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /api/users/password/reset/confirm/:
+    post:
+      operationId: users_password_reset_confirm_create
+      description: |-
+        Password reset e-mail link is confirmed, therefore
+        this resets the user's password.
+
+        Accepts the following POST parameters: token, uid,
+            new_password1, new_password2
+        Returns the success/fail message.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /api/users/registration/:
+    post:
+      operationId: users_registration_create
+      description: |-
+        Registers a new user.
+
+        Accepts the following POST parameters: username, email, password1, password2.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomRegister'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomRegister'
+          description: ''
+  /api/users/registration/resend-email/:
+    post:
+      operationId: users_registration_resend_email_create
+      description: This view resends the email verification link if user didn't get
+        it originally.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerification'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerification'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResendEmailVerification'
+          description: ''
+  /api/users/registration/verify-email/:
+    post:
+      operationId: users_registration_verify_email_create
+      description: |-
+        Verifies the email associated with the provided key.
+
+        Accepts the following POST parameter: key.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyEmail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyEmail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyEmail'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /api/users/social/facebook/:
+    post:
+      operationId: users_social_facebook_create
+      description: |-
+        class used for social authentications
+        example usage for facebook with access_token
+        -------------
+        from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+
+        class FacebookLogin(SocialLoginView):
+            adapter_class = FacebookOAuth2Adapter
+        -------------
+
+        example usage for facebook with code
+
+        -------------
+        from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+        from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+
+        class FacebookLogin(SocialLoginView):
+            adapter_class = FacebookOAuth2Adapter
+            client_class = OAuth2Client
+            callback_url = 'localhost:8000'
+        -------------
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SocialLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SocialLogin'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialLogin'
+          description: ''
+  /api/users/social/google/:
+    post:
+      operationId: users_social_google_create
+      description: |-
+        class used for social authentications
+        example usage for facebook with access_token
+        -------------
+        from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+
+        class FacebookLogin(SocialLoginView):
+            adapter_class = FacebookOAuth2Adapter
+        -------------
+
+        example usage for facebook with code
+
+        -------------
+        from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+        from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+
+        class FacebookLogin(SocialLoginView):
+            adapter_class = FacebookOAuth2Adapter
+            client_class = OAuth2Client
+            callback_url = 'localhost:8000'
+        -------------
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SocialLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SocialLogin'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialLogin'
+          description: ''
+  /auth/login/:
+    post:
+      operationId: auth_login_create
+      description: |-
+        Check the credentials and return the REST Token
+        if the credentials are valid and authenticated.
+        Calls Django Auth login method to register User ID
+        in Django session framework
+
+        Accept the following POST parameters: username, password
+        Return the REST Framework Token Object's key.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomUsernameOrEmailLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomUsernameOrEmailLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomUsernameOrEmailLogin'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUsernameOrEmailLogin'
+          description: ''
+  /auth/registration/:
+    post:
+      operationId: auth_registration_create
+      description: |-
+        Registers a new user.
+
+        Accepts the following POST parameters: username, email, password1, password2.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWT'
+          description: ''
+  /auth/registration/resend-email/:
+    post:
+      operationId: auth_registration_resend_email_create
+      description: |-
+        Resends another email to an unverified email.
+
+        Accepts the following POST parameter: email.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerification'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerification'
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /auth/registration/verify-email/:
+    post:
+      operationId: auth_registration_verify_email_create
+      description: |-
+        Verifies the email associated with the provided key.
+
+        Accepts the following POST parameter: key.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyEmail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyEmail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyEmail'
+        required: true
+      security:
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /auth/token/refresh/:
+    post:
+      operationId: auth_token_refresh_create
+      description: |-
+        Custom TokenRefreshView that uses dj_rest_auth's TokenRefreshSerializer
+        to read the refresh token from an HttpOnly cookie.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /auth/token/verify/:
+    post:
+      operationId: auth_token_verify_create
+      description: |-
+        Takes a token and indicates if it is valid.  This view provides no
+        information about a token's fitness for a particular use.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerify'
+          description: ''
+components:
+  schemas:
+    AgeCategory:
+      type: object
+      description: |-
+        Serializer for the AgeCategory model.
+        Handles create, retrieve, update operations for age categories.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        age_category_name:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - age_category_name
+      - created_at
+      - id
+      - updated_at
+    CustomRegister:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+          minLength: 1
+        email:
+          type: string
+          format: email
+        password1:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+        referral_code:
+          type: string
+      required:
+      - password1
+      - password2
+    CustomUsernameOrEmailLogin:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+      required:
+      - login
+      - password
+    Genre:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        notes:
+          type: string
+          nullable: true
+        icon:
+          type: string
+          format: uri
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - description
+      - id
+      - name
+      - updated_at
+    JWT:
+      type: object
+      description: Serializer for JWT authentication.
+      properties:
+        access:
+          type: string
+        refresh:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserDetails'
+      required:
+      - access
+      - refresh
+      - user
+    NpcSystemProfession:
+      type: object
+      description: |-
+        Serializer for the Profession model.
+        Includes the NPC system name for better readability.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        profession_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        npc_system:
+          type: integer
+          description: The NPC system this profession belongs to.
+        npc_system_name:
+          type: string
+          readOnly: true
+        profession_table_header:
+          type: string
+          readOnly: true
+        value:
+          type: string
+          description: The name of the profession (e.g., Blacksmith, Hunter, Innkeeper).
+          maxLength: 25
+      required:
+      - id
+      - npc_system
+      - npc_system_name
+      - profession_id
+      - profession_table_header
+      - value
+    NpcSystemProfessionOption:
+      type: object
+      properties:
+        profession_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        value:
+          type: string
+          description: The name of the profession (e.g., Blacksmith, Hunter, Innkeeper).
+          maxLength: 25
+      required:
+      - profession_id
+      - value
+    NpcSystemRace:
+      type: object
+      description: |-
+        Serializer for the Race model.
+        Includes the NPC system name for better readability.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        race_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        npc_system:
+          type: integer
+          description: The NPC system this race belongs to.
+        npc_system_name:
+          type: string
+          readOnly: true
+        race_table_header:
+          type: string
+          readOnly: true
+        value:
+          type: string
+          description: The name of the race (e.g., Human, Elf, Dwarf).
+          maxLength: 25
+      required:
+      - id
+      - npc_system
+      - npc_system_name
+      - race_id
+      - race_table_header
+      - value
+    NpcSystemRaceOption:
+      type: object
+      properties:
+        race_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        value:
+          type: string
+          description: The name of the race (e.g., Human, Elf, Dwarf).
+          maxLength: 25
+      required:
+      - race_id
+      - value
+    NpcSystemRead:
+      type: object
+      description: Serializer for reading NpcSystem instances, with nested genre and
+        owner.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        npc_system_name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        genre:
+          allOf:
+          - $ref: '#/components/schemas/Genre'
+          readOnly: true
+        npc_system_image:
+          type: string
+          format: uri
+          nullable: true
+          description: An image representing the NPC system
+        npc_system_icon:
+          type: string
+          format: uri
+          nullable: true
+          description: An icon representing the NPC system
+        npc_system_color:
+          type: string
+          nullable: true
+          description: 'A color code representing the NPC system, e.g., #FF5733'
+          maxLength: 7
+        npc_system_color_name:
+          type: string
+          nullable: true
+          description: A name for the color representing the NPC system, e.g., 'Fire
+            Red'
+          maxLength: 50
+        race_table_header:
+          type: string
+          description: The header for the race table
+          maxLength: 25
+        profession_table_header:
+          type: string
+          description: The header for the profession table
+          maxLength: 25
+        rpg_class_table_header:
+          type: string
+          description: The header for the RPG class table
+          maxLength: 25
+        standard_app_dsp:
+          type: boolean
+        is_global:
+          type: boolean
+        owner:
+          allOf:
+          - $ref: '#/components/schemas/OwnerSummary'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - description
+      - genre
+      - id
+      - npc_system_name
+      - owner
+      - updated_at
+    NpcSystemWrite:
+      type: object
+      description: |-
+        Serializer for writing (create/update) NpcSystem instances.
+        Accepts a PK for genre.
+      properties:
+        npc_system_name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        genre:
+          type: integer
+          nullable: true
+        npc_system_image:
+          type: string
+          nullable: true
+        npc_system_icon:
+          type: string
+          nullable: true
+        npc_system_color:
+          type: string
+          nullable: true
+          description: 'A color code representing the NPC system, e.g., #FF5733'
+          maxLength: 7
+        npc_system_color_name:
+          type: string
+          nullable: true
+          description: A name for the color representing the NPC system, e.g., 'Fire
+            Red'
+          maxLength: 50
+        race_table_header:
+          type: string
+          description: The header for the race table
+          maxLength: 25
+        profession_table_header:
+          type: string
+          description: The header for the profession table
+          maxLength: 25
+        rpg_class_table_header:
+          type: string
+          description: The header for the RPG class table
+          maxLength: 25
+        standard_app_dsp:
+          type: boolean
+        use_current_user:
+          type: boolean
+          writeOnly: true
+          default: false
+      required:
+      - description
+      - npc_system_name
+    OwnerSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+      required:
+      - id
+    PasswordChange:
+      type: object
+      properties:
+        new_password1:
+          type: string
+          maxLength: 128
+        new_password2:
+          type: string
+          maxLength: 128
+      required:
+      - new_password1
+      - new_password2
+    PasswordReset:
+      type: object
+      description: Serializer for requesting a password reset e-mail.
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    PasswordResetConfirm:
+      type: object
+      description: Serializer for confirming a password reset attempt.
+      properties:
+        new_password1:
+          type: string
+          maxLength: 128
+        new_password2:
+          type: string
+          maxLength: 128
+        uid:
+          type: string
+        token:
+          type: string
+      required:
+      - new_password1
+      - new_password2
+      - token
+      - uid
+    PatchedAgeCategory:
+      type: object
+      description: |-
+        Serializer for the AgeCategory model.
+        Handles create, retrieve, update operations for age categories.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        age_category_name:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedNpcSystemProfession:
+      type: object
+      description: |-
+        Serializer for the Profession model.
+        Includes the NPC system name for better readability.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        profession_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        npc_system:
+          type: integer
+          description: The NPC system this profession belongs to.
+        npc_system_name:
+          type: string
+          readOnly: true
+        profession_table_header:
+          type: string
+          readOnly: true
+        value:
+          type: string
+          description: The name of the profession (e.g., Blacksmith, Hunter, Innkeeper).
+          maxLength: 25
+    PatchedNpcSystemRace:
+      type: object
+      description: |-
+        Serializer for the Race model.
+        Includes the NPC system name for better readability.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        race_id:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Auto-incrementing ID within the context of the NPC system.
+        npc_system:
+          type: integer
+          description: The NPC system this race belongs to.
+        npc_system_name:
+          type: string
+          readOnly: true
+        race_table_header:
+          type: string
+          readOnly: true
+        value:
+          type: string
+          description: The name of the race (e.g., Human, Elf, Dwarf).
+          maxLength: 25
+    PatchedNpcSystemWrite:
+      type: object
+      description: |-
+        Serializer for writing (create/update) NpcSystem instances.
+        Accepts a PK for genre.
+      properties:
+        npc_system_name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        genre:
+          type: integer
+          nullable: true
+        npc_system_image:
+          type: string
+          nullable: true
+        npc_system_icon:
+          type: string
+          nullable: true
+        npc_system_color:
+          type: string
+          nullable: true
+          description: 'A color code representing the NPC system, e.g., #FF5733'
+          maxLength: 7
+        npc_system_color_name:
+          type: string
+          nullable: true
+          description: A name for the color representing the NPC system, e.g., 'Fire
+            Red'
+          maxLength: 50
+        race_table_header:
+          type: string
+          description: The header for the race table
+          maxLength: 25
+        profession_table_header:
+          type: string
+          description: The header for the profession table
+          maxLength: 25
+        rpg_class_table_header:
+          type: string
+          description: The header for the RPG class table
+          maxLength: 25
+        standard_app_dsp:
+          type: boolean
+        use_current_user:
+          type: boolean
+          writeOnly: true
+          default: false
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+          minLength: 1
+        email:
+          type: string
+          format: email
+        password1:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+      required:
+      - password1
+      - password2
+    ResendEmailVerification:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+    RestAuthDetail:
+      type: object
+      properties:
+        detail:
+          type: string
+          readOnly: true
+      required:
+      - detail
+    SocialLogin:
+      type: object
+      properties:
+        access_token:
+          type: string
+        code:
+          type: string
+        id_token:
+          type: string
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    TokenVerify:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+      required:
+      - token
+    UserDetails:
+      type: object
+      description: User model w/o password
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+      required:
+      - email
+      - pk
+      - username
+    VerifyEmail:
+      type: object
+      properties:
+        key:
+          type: string
+          writeOnly: true
+      required:
+      - key
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    jwtCookieAuth:
+      type: apiKey
+      in: cookie
+      name: my-access-token
+    jwtHeaderAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+servers:
+- url: http://localhost:8000
+  description: Local Development Server
+tags:
+- name: age_category
+  description: Manage age categories for characters (e.g., Child, Adult, Elder).
+- name: archetype
+  description: Endpoints for managing character archetypes (e.g., Hero, Mentor, Villain).
+- name: characters
+  description: Operations related to individual characters.
+- name: genre
+  description: Endpoints for managing genres (e.g., Fantasy, Sci-Fi).
+- name: images
+  description: Endpoints for uploading and managing images for various models.
+- name: npc_system
+  description: Manage the core NPC systems that act as containers for characters,
+    races, professions, random table generators, etc.
+- name: npc_system_rpg_classes
+  description: Endpoints for managing RPG classes (e.g., Fighter, Mage) associated
+    with NPC systems.
+- name: npc_system_races
+  description: Endpoints for managing races associated with different NPC systems.
+- name: npc_system_professions
+  description: Endpoints for managing professions within NPC systems.

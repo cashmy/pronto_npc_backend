@@ -3,6 +3,7 @@ from .models import Character
 
 
 class CharacterSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Character
         fields = [
@@ -13,6 +14,8 @@ class CharacterSerializer(serializers.ModelSerializer):
             "age_category_description",
             "age",
             "race",
+            "profession",
+            "rpg_class",
             "gender",
             "bulk_generated",
             "reviewed",
@@ -24,10 +27,12 @@ class CharacterSerializer(serializers.ModelSerializer):
             "character_group",
             "archetype",
             "ai_integration_exists",
+            "owner",
             "created_at",
             "updated_at",
             # Add read-only fields for display names
             "npc_system_name",
+            "npc_system_color",
             "character_group_display_name",
             "character_sub_group_display_name",
             "archetype_name",
@@ -35,6 +40,7 @@ class CharacterSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "npc_system_name",
+            "npc_system_color",
             "character_group_display_name",
             "character_sub_group_display_name",
             "archetype_name",
@@ -51,17 +57,21 @@ class CharacterSerializer(serializers.ModelSerializer):
             "character_sub_group": {"write_only": True},
             # Archetype is already optional due to model's null=True, blank=True
             # but making it write_only improves the read representation
-            "archetype": {"write_only": True, "required": False, "allow_null": True},
+            "archetype": {"required": False, "allow_null": True, "write_only": True},
         }
 
     # Add fields to display related object names
     npc_system_name = serializers.CharField(
         source="npc_system.npc_system_name", read_only=True
     )
+    npc_system_color = serializers.CharField(
+        source="npc_system.npc_system_color", read_only=True
+    )  # Display the NPC system name instead of the ID
+    
     character_group_display_name = serializers.SerializerMethodField(read_only=True)
     character_sub_group_display_name = serializers.SerializerMethodField(read_only=True)
     archetype_name = serializers.CharField(
-        source="archetype.archetype_name", read_only=True, allow_null=True
+        source="archetype.name", read_only=True, allow_null=True
     )
 
     def get_character_group_display_name(self, obj):
