@@ -1,17 +1,12 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
 from npc_system_races import views
 
+# Create a router and register our ViewSets with it.
+router = DefaultRouter()
+router.register(r"", views.NpcSystemRaceViewSet, basename="npc_system_race")
+
 urlpatterns = [
-    path("", views.npc_system_races_list, name="npc_system_races_list"),
-    path("<int:pk>/", views.npc_system_races_detail, name="npc_system_race_detail"),
-    path(
-        "options/<int:npc_system_pk>/",
-        views.npc_system_race_options,
-        name="npc_system_race_options",
-    ),
-    path(
-        "random-race/<int:npc_system_pk>/",
-        views.get_random_npc_system_race,
-        name="get_ra ndom_npc_system_race",
-    ),
+    path("", include(router.urls)),
 ]

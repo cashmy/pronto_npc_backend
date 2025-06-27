@@ -271,8 +271,13 @@ SPECTACULAR_SETTINGS = {
     # as the tag. e.g., /api/npc_system_races/ -> tag: npc_system_races
     "SCHEMA_PATH_PREFIX": r"/api/",
     # Restrict schema access to admin users only.
-    # The default is ['rest_framework.permissions.AllowAny'].
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    # For development, we make the schema public.
+    # SERVE_AUTHENTICATION = [] tells spectacular to not use any authentication.
+    # SERVE_PERMISSIONS = [...] tells spectacular to allow any user.
+    # For production, you would comment these out and use:
+    # "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    "SERVE_AUTHENTICATION": [],
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
     "TAGS": [
         {
             "name": "age_category",
@@ -318,11 +323,6 @@ SPECTACULAR_SETTINGS = {
             "description": "Local Development Server",
         }
     ],
-    "SWAGGER_UI_SETTINGS": {
-        # This setting disables the "Try it out" authorization persistence.
-        # It is a workaround for browsers that block storage access in certain contexts.
-        "persistAuthorization": False,
-    },
 }
 
 LOGGING = {
