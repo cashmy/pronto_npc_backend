@@ -8,8 +8,8 @@ from drf_spectacular.views import (
 # This file groups all API-specific endpoints under a common namespace.
 urlpatterns = [
     # OpenAPI Schema and UI paths are part of the API, so they belong here.
-    # We are explicitly setting the permission and authentication classes here
-    # to bypass any potential issues with settings loading and ensure public access.
+    # Explicitly setting empty authentication and permission classes to ensure
+    # public access during development, bypassing any global settings.
     path(
         "schema/",
         SpectacularAPIView.as_view(authentication_classes=[], permission_classes=[]),

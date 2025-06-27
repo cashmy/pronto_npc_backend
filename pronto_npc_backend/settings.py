@@ -34,7 +34,8 @@ DEBUG = True
 # dj-rest-auth settings
 REST_AUTH = {
     "USE_JWT": True,  # Tell dj-rest-auth to use JWT
-    "JWT_AUTH_COOKIE": None,  # Access token will be in the response body
+    # "JWT_AUTH_COOKIE": None,  # Access token will be in the response body
+    "JWT_AUTH_COOKIE": "my-access-token",  # Name for the access token cookie (for documentation)
     "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",  # Name for the refresh token cookie
     "JWT_AUTH_REFRESH_COOKIE_PATH": "/",  # Path for the refresh token cookie
     "JWT_AUTH_HTTPONLY": True,  # Refresh token cookie is HttpOnly
