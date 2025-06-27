@@ -1,23 +1,21 @@
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
+from .models import NpcSystemRace
+from .serializers import NpcSystemRaceSerializer, NpcSystemRaceOptionSerializer
+import random
 
-from .models import Genre
-from .serializers import GenreOptionSerializer, GenreSerializer
 
-
-# Create your views here.
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
-def genre_list(request):
+def npc_system_races_list(request):
     if request.method == "GET":
-        genres = Genre.objects.all()
-        serializer = GenreSerializer(genres, many=True, context={"request": request})
+        systems = NpcSystemRace.objects.all()
+        serializer = NpcSystemRaceSerializer(systems, many=True)
         return Response(serializer.data)
-
     elif request.method == "POST":
-        serializer = GenreSerializer(data=request.data, context={"request": request})
+        serializer = NpcSystemRaceSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -26,30 +24,26 @@ def genre_list(request):
 
 @api_view(["GET", "PUT", "DELETE", "PATCH"])
 @permission_classes([IsAuthenticated])
-def genre_detail(request, pk):
+def npc_system_races_detail(request, pk):
     try:
-        genre = Genre.objects.get(pk=pk)
-    except Genre.DoesNotExist:
+        system = NpcSystemRace.objects.get(pk=pk)
+    except NpcSystemRace.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = GenreSerializer(genre, context={"request": request})
+        serializer = NpcSystemRaceSerializer(system)
         return Response(serializer.data)
     elif request.method == "PUT":
-        serializer = GenreSerializer(
-            genre, data=request.data, context={"request": request}
-        )
+        serializer = NpcSystemRaceSerializer(system, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == "DELETE":
-        genre.delete()
+        system.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     elif request.method == "PATCH":
-        serializer = GenreSerializer(
-            genre, data=request.data, partial=True, context={"request": request}
-        )
+        serializer = NpcSystemRaceSerializer(system, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -59,26 +53,35 @@ def genre_detail(request, pk):
 # Optional: Serializer for the dropdown options in the frontend
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def genre_options(request):
-    genres = Genre.objects.all().order_by("name")  # optional ordering
-    serializer = GenreOptionSerializer(genres, many=True, context={"request": request})
+def npc_system_race_options(request, npc_system_pk):
+    races = NpcSystemRace.objects.filter(npc_system_id=npc_system_pk).order_by("value")
+    serializer = NpcSystemRaceOptionSerializer(races, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def get_random_genre(request):
+def get_random_npc_system_race(request, npc_system_pk):
     """
-    Returns a randomly selected Genre.
+    Returns a randomly selected NpcSystemRace for the given NpcSystem.
+    It picks a random existing race_id for that system.
     """
-    # Efficiently select a random genre from the database
-    random_genre = Genre.objects.order_by("?").first()
+    # Get all existing race_ids for the given npc_system
+    race_ids = list(
+        NpcSystemRace.objects.filter(npc_system_id=npc_system_pk).values_list(
+            "race_id", flat=True
+        )
+    )
 
-    if not random_genre:
+    if not race_ids:
         return Response(
-            {"detail": "No genres found."},
+            {"detail": "No races found for this NPC system."},
             status=status.HTTP_404_NOT_FOUND,
         )
 
-    serializer = GenreSerializer(random_genre, context={"request": request})
+    selected_race_id = random.choice(race_ids)
+    random_race = NpcSystemRace.objects.get(
+        npc_system_id=npc_system_pk, race_id=selected_race_id
+    )
+    serializer = NpcSystemRaceSerializer(random_race)
     return Response(serializer.data, status=status.HTTP_200_OK)

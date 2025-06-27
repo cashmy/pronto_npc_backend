@@ -1,0 +1,19 @@
+[project]
+name = "pronto-npc-backend"
+version = "0.1.0"
+description = "Pronto NPC Generator Backend"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "cryptography>=45.0.3",
+    "dj-rest-auth>=7.0.1",
+    "django-allauth>=65.8.1",
+    "django-cors-headers>=4.7.0",
+    "django-simple-history>=3.8.0",
+    "djangorestframework-simplejwt>=5.5.0",
+    "drf-spectacular>=0.28.0",
+    "mysqlclient>=2.2.7",
+    "pillow>=11.2.1",
+    "python-decouple>=3.8",
+    "requests>=2.32.3",
+]

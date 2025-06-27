@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import TableItem
 from .serializers import TableItemSerializer
-
+import random
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
@@ -61,3 +61,31 @@ def table_items_list_by_table_header(request, table_header):
     )
     serializer = TableItemSerializer(filtered_table_items, many=True)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_random_table_item(request, table_header_pk):
+    """
+    Returns a randomly selected NpcSystemRpgClass for the given NpcSystem.
+    It picks a random existing rpg_class_id for that system.
+    """
+    # Get all existing table_items for the given table_header   
+    table_item_ids = list(
+        TableItem.objects.filter(table_header=table_header_pk).values_list(
+            "item_id", flat=True
+        )
+    )
+
+    if not table_item_ids:
+        return Response(
+            {"detail": "No items found for this table."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    selected_table_item_id = random.choice(table_item_ids)
+    random_item = TableItem.objects.get(
+        item_id=selected_table_item_id, table_header=table_header_pk
+    )
+    serializer = TableItemSerializer(random_item)
+    return Response(serializer.data, status=status.HTTP_200_OK)

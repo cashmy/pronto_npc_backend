@@ -34,7 +34,6 @@ DEBUG = True
 # dj-rest-auth settings
 REST_AUTH = {
     "USE_JWT": True,  # Tell dj-rest-auth to use JWT
-    # "JWT_AUTH_COOKIE": None,  # Access token will be in the response body
     "JWT_AUTH_COOKIE": "my-access-token",  # Name for the access token cookie (for documentation)
     "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",  # Name for the refresh token cookie
     "JWT_AUTH_REFRESH_COOKIE_PATH": "/",  # Path for the refresh token cookie
@@ -271,9 +270,10 @@ SPECTACULAR_SETTINGS = {
     # By setting it to '/api/', drf-spectacular will use the next path segment
     # as the tag. e.g., /api/npc_system_races/ -> tag: npc_system_races
     "SCHEMA_PATH_PREFIX": r"/api/",
-    # Restrict schema access to admin users only.
-    # The default is ['rest_framework.permissions.AllowAny'].
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    # NOTE: Schema access is now controlled directly in `pronto_npc_backend/api_urls.py`
+    # to ensure public access during development.
+    # For production, you would remove the overrides in `api_urls.py` and use this:
+    # "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "TAGS": [
         {
             "name": "age_category",
@@ -319,11 +319,6 @@ SPECTACULAR_SETTINGS = {
             "description": "Local Development Server",
         }
     ],
-    "SWAGGER_UI_SETTINGS": {
-        # This setting disables the "Try it out" authorization persistence.
-        # It is a workaround for browsers that block storage access in certain contexts.
-        "persistAuthorization": False,
-    },
 }
 
 LOGGING = {

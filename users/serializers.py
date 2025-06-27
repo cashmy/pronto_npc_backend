@@ -6,6 +6,14 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 from users.models import User
+from profiles.serializers import ProfileSerializer
+from usage_tracking.serializers import UsageTrackingSerializer
+from subscriptions.serializers import SubscriptionSerializer
+from subscriptions.models import Subscription
+
+# Get the User model, Profile, and UsageTracking models
+UserModel = get_user_model()
+# Profile model is imported via ProfileSerializer, UsageTracking via UsageTrackingSerializer
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -86,7 +94,7 @@ class OTPVerifySerializer(serializers.Serializer):
         return value
 
 
-UserModel = get_user_model()
+# UserModel = get_user_model()
 
 
 class CustomUsernameOrEmailLoginSerializer(serializers.Serializer):
@@ -125,7 +133,7 @@ class CustomUsernameOrEmailLoginSerializer(serializers.Serializer):
             # and the USERNAME_FIELD is not 'email', find user by email and auth with USERNAME_FIELD.
             if not user and UserModel.USERNAME_FIELD != "email":
                 try:
-                    # Ensure case-insensitive email lookup
+                    # Ensure case-insensitive email lookup if your DB is case-sensitive
                     user_obj = UserModel.objects.get(email__iexact=login_identifier)
                     # Authenticate using the model's defined USERNAME_FIELD
                     user = authenticate(
@@ -154,3 +162,69 @@ class CustomUsernameOrEmailLoginSerializer(serializers.Serializer):
 
         attrs["user"] = user
         return attrs
+
+
+class BasicUserInfoSerializer(serializers.ModelSerializer):
+    """
+    Serializes basic user information.
+    """
+
+    class Meta:
+        model = UserModel
+        fields = (
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "is_email_verified",
+            "is_staff",
+            "is_superuser",
+        )
+
+
+class CombinedUserDataSerializer(serializers.ModelSerializer):
+    """
+    Serializes combined data for a user including profile, active subscription,
+    and usage tracking information.
+    """
+
+    # User's direct fields are now nested under 'basicInfo'
+    basicInfo = BasicUserInfoSerializer(source="*", read_only=True)
+    # Renamed fields
+    profileInfo = ProfileSerializer(source="profile", read_only=True, allow_null=True)
+    usageTracking = UsageTrackingSerializer(
+        source="usage_metrics", read_only=True, allow_null=True
+    )
+    subscriptionLevel = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserModel  # Use the dynamically fetched User model
+        fields = (
+            "basicInfo",
+            "profileInfo",
+            "usageTracking",
+            "subscriptionLevel",
+        )
+
+    def get_subscriptionLevel(self, user_instance):
+        """
+        Retrieves and serializes the user's current active subscription.
+        Adjust the logic if a user can have multiple active subscriptions or
+        if "active" is defined differently.
+        """
+        try:
+            # The related name on the User model for subscriptions is 'subscriptions'
+            # The related name on the User model for usage_tracking is 'usage_metrics'
+
+            subscription = (
+                Subscription.objects.filter(user=user_instance, is_active=True)
+                .order_by("-start_date")
+                .first()
+            )
+            if subscription:
+                return SubscriptionSerializer(subscription, context=self.context).data
+        except Exception:
+            # Optionally log the exception
+            pass
+        return None

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Import foreign key files here
 from npc_system.models import NpcSystem
@@ -78,6 +79,18 @@ class Character(models.Model):
         null=True,
         help_text="The race of the character.",
     )
+    profession = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="The occupation or profession of the character.",
+    )
+    rpg_class = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="The rpg class, fighter, wizard, etc.",
+    )
     gender = models.CharField(
         max_length=10,
         blank=True,
@@ -111,6 +124,13 @@ class Character(models.Model):
     ai_integration_exists = models.BooleanField(
         default=False,
         help_text="Indicates if AI integration exists for this character.",
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,  # If null, then the system is global
+        related_name="characters",
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
