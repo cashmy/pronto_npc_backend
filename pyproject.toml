@@ -11,9 +11,12 @@ dependencies = [
     "django-cors-headers>=4.7.0",
     "django-simple-history>=3.8.0",
     "djangorestframework-simplejwt>=5.5.0",
+    "docutils>=0.21.2",
     "drf-spectacular>=0.28.0",
     "mysqlclient>=2.2.7",
     "pillow>=11.2.1",
     "python-decouple>=3.8",
     "requests>=2.32.3",
+    "sphinx>=8.2.3",
+    "sphinx-rtd-theme>=3.0.2",
 ]
