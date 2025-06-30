@@ -16,9 +16,52 @@ from pathlib import Path
 
 from decouple import config
 
+# REMOVE THIS LINE: from django.conf import settings # If you still have it
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Define the root for your project's static/template resources
+APP_RESOURCE_BASE = os.path.join(BASE_DIR, "pronto_npc_backend")
+
+
+# >>>>>> MOVE THESE SECTIONS HERE <<<<<<
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = (  # Use tuple, and ensure this is the ONLY definition of STATICFILES_DIRS
+    os.path.join(APP_RESOURCE_BASE, "static"),
+)
+
+# The absolute path to the directory where collectstatic will gather all static files for deployment.
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+
+# Media files (User Uploads)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+# TEMPLATES (ensure this is the ONLY definition of TEMPLATES)
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            # This MUST point directly to D:\Python-Django\pronto_npc_backend\core\templates\
+            os.path.join(BASE_DIR, "core", "templates"),  # <--- ABSOLUTE CRITICAL LINE
+        ],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -103,6 +146,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django.contrib.admindocs",
+    "django.contrib.admindocs.urls",
     # Third-party apps
     "drf_spectacular",
     "rest_framework",
@@ -168,22 +213,6 @@ if DEBUG:
 
 ROOT_URLCONF = "pronto_npc_backend.urls"
 
-TEMPLATES = [
-    {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ],
-        },
-    },
-]
-
 WSGI_APPLICATION = "pronto_npc_backend.wsgi.application"
 
 
@@ -244,19 +273,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = "static/"
-
-# Media files (User Uploads) - ADD THESE LINES
-MEDIA_URL = (
-    "/media/"  # URL prefix for media files served by Django dev server or web server
-)
-MEDIA_ROOT = os.path.join(
-    BASE_DIR, "media"
-)  # Absolute path to media directory where files will be stored
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

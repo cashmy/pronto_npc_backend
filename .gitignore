@@ -11,9 +11,9 @@ db.sqlite3
 db.sqlite3-journal
 media
 
-# If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
-# in your Git repository. Update and uncomment the following line accordingly.
-# <django-project-name>/staticfiles/
+# This process includes running collectstatic, we don't need or want to include staticfiles/
+# in your Git repository. 
+/staticfiles/
 
 ### Django.Python Stack ###
 # Byte-compiled / optimized / DLL files
@@ -177,3 +177,4 @@ cython_debug/
 
 *.xlsx
 *.xls
+.legacy

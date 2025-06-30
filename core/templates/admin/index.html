@@ -1,0 +1,54 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+    /* Styles for your custom docs link container */
+    .admin-custom-docs-container {
+        margin-top: 20px;
+        padding: 10px;
+        background: #343b46; /* Darker background to match admin theme */
+        border-radius: 5px;
+        margin-bottom: 20px;
+        color: #e0e0e0; /* Light text color */
+    }
+    .admin-custom-docs-container h3 {
+        color: #e0e0e0; /* Header text color */
+        margin-top: 0;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #4a515c; /* Subtle separator */
+        padding-bottom: 5px;
+    }
+    .admin-custom-docs-container ul {
+        list-style: none; /* Remove default bullets */
+        padding: 0;
+        margin: 0;
+    }
+    .admin-custom-docs-container li {
+        padding: 5px 0;
+        border-bottom: 1px solid #4a515c; /* Subtle line between items */
+    }
+    .admin-custom-docs-container li:last-child {
+        border-bottom: none; /* No border for the last item */
+    }
+    .admin-custom-docs-container a {
+        color: #8ed6ff; /* Light blue link color */
+        text-decoration: none;
+        font-weight: normal; /* Override bold from custom_docs_link format_html */
+    }
+    .admin-custom-docs-container a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    {% if custom_docs_link %}
+        {# Wrap the injected custom_docs_link with a class for styling #}
+        <div class="admin-custom-docs-container">
+            {{ custom_docs_link }}
+        </div>
+    {% endif %}
+{% endblock %}

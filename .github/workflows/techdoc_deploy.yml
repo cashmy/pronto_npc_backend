@@ -1,0 +1,71 @@
+name: Deploy Django App & Docs to Production
+
+on:
+  push:
+    branches:
+      - main # Or 'master' or your production branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Or a specific self-hosted runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # Or your specific Python version
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Also install docutils and sphinx if not in requirements.txt
+          pip install docutils sphinx sphinx-rtd-theme
+
+      # Step to build Sphinx docs and copy them to your static source
+      - name: Build Sphinx Documentation
+        run: |
+          python automate_docs.py
+        # env:
+          # Ensure any environment variables automate_docs.py needs (e.g., DJANGO_SETTINGS_MODULE)
+          # are set, if it imports Django settings implicitly.
+          # Our current automate_docs.py does not need DJANGO_SETTINGS_MODULE directly
+          # but conf.py might if run via make. So ensure conf.py is robust.
+          # For make command specifically, if make is not in PATH (e.g. on Ubuntu),
+          # you might need to install 'make' or run 'sphinx-build' directly.
+          # Example for Ubuntu:
+          # sudo apt-get update && sudo apt-get install make
+
+      - name: Run Django Migrations (if applicable)
+        run: python manage.py migrate
+
+      # Step to collect static files (including Sphinx docs) for production
+      - name: Collect Static Files
+        run: python manage.py collectstatic --noinput # --noinput prevents the 'yes/no' prompt
+        env:
+          # Ensure Django settings can find your settings.py and STATIC_ROOT
+          DJANGO_SETTINGS_MODULE: pronto_npc_backend.settings # Crucial for Django commands
+          # If your BASE_DIR relies on __file__ and the command is run from root
+          # it should be fine.
+
+      # --- Deployment Steps (Highly dependent on your hosting provider) ---
+      # This is where you would integrate with your specific deployment service:
+      # - Push Docker image to a registry
+      # - SSH into your server and restart Gunicorn/Nginx
+      # - Deploy to a PaaS (Heroku, Render, AWS Elastic Beanstalk)
+      # - rsync files to a VM
+      # Example for rsync (conceptual, requires setup on server):
+      # - name: Deploy files to server
+      #   uses: easingthemes/ssh-deploy@main
+      #   with:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     ARGS: "-avzr --delete"
+      #     SOURCE: "."
+      #     REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      #     REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      #     TARGET: "/var/www/my_django_app" # Your deployment path on the server
+      #     EXCLUDE: ".git/, .venv/, docs/build/, staticfiles/" # Only deploy source and collected staticfiles
