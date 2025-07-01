@@ -1,11 +1,11 @@
-.. _auth_views:
+.. _npc_system_professions_models:
 
-NPC System RPG Professions(Occupations) Model
-===============================================
+NPC System Professions Model
+============================
 
 Model Definitions related to NPC system that manages professions (Blacksmith, Innkeeper, etc.)
 
 .. automodule:: npc_system_professions.models
    :members:
-   :undoc-members:
    :show-inheritance:
+   :exclude-members: DoesNotExist, MultipleObjectsReturned

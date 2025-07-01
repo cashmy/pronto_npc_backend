@@ -22,13 +22,10 @@ sys.path.insert(0, os.path.abspath("../pronto_npc_backend"))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pronto_npc_backend.settings")
 django.setup()
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pronto_npc_backend.settings")
-django.setup()
-
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "Pronto NPC Backed"
+project = "Pronto NPC Backend"
 copyright = "2025, CMC Services - Cash Myers"
 author = "Cash Myers"
 release = "0.1.0"
@@ -40,8 +37,11 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",  # Recommended for more flexible docstring parsing
     "sphinx.ext.viewcode",  # Adds links to the source code
+    "sphinx.ext.intersphinx",  # Add this for cross-project linking
     "sphinx_rtd_theme",  # If you want the Read the Docs theme
 ]
+
+autodoc_member_order = 'groupwise'
 
 templates_path = ["_templates"]
 exclude_patterns = []
@@ -50,5 +50,5 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "alabaster"
+html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]

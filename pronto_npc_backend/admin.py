@@ -22,7 +22,7 @@ class MyCustomAdminSite(admin.AdminSite):
         if extra_context is None:
             extra_context = {}
 
-        sphinx_docs_url = '/static/docs/build/html/index.html'
+        sphinx_docs_url = '/static/docs/index.html'
 
         # --- SIMPLIFY THE custom_docs_link TO ONLY INCLUDE SPHINX DOCS ---
         extra_context['custom_docs_link'] = format_html(

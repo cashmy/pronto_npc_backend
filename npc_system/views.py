@@ -27,13 +27,19 @@ from .serializers import NpcSystemReadSerializer, NpcSystemWriteSerializer
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
 def npc_system_list(request):
-    """
-    List all accessible NPC systems or create a new NPC system.
+    """Lists accessible NPC systems or creates a new one.
 
-    - **GET**: Returns a list of NPC systems. Non-admin users will only see
-      global systems and systems they own.
-    - **POST**: Creates a new NPC system. Use the `NpcSystemWriteSerializer` format.
-      The response will be the newly created object in `NpcSystemReadSerializer` format.
+    On a GET request, it returns a list of NPC systems visible to the
+    requesting user. Admins see all systems, while regular users see
+    global systems and their own.
+
+    On a POST request, it creates a new NPC system using the provided data.
+
+    Args:
+        request: The Django REST Framework request object.
+
+    Returns:
+        A Response object containing serialized data.
     """
     if request.method == "GET":
         user = request.user
@@ -88,9 +94,19 @@ def npc_system_list(request):
 @api_view(["GET", "PUT", "DELETE", "PATCH"])
 @permission_classes([IsAuthenticated])
 def npc_system_detail(request, pk):
-    """
-    Retrieve, update, or delete an NPC system instance.
-    Uses `NpcSystemWriteSerializer` for input and `NpcSystemReadSerializer` for output.
+    """Retrieves, updates, or deletes a specific NPC system instance.
+
+    This view handles GET, PUT, PATCH, and DELETE requests for a single
+    NpcSystem identified by its primary key. It uses the
+    NpcSystemWriteSerializer for handling input data and the
+    NpcSystemReadSerializer for formatting the output response.
+
+    Args:
+        request: The Django REST Framework request object.
+        pk (int): The primary key of the NpcSystem to be managed.
+
+    Returns:
+        A Response object with serialized data or a status code.
     """
     try:
         # Optimize by fetching related owner data

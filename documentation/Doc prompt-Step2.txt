@@ -1,0 +1,65 @@
+You are Gemini Code Assist, an expert Python developer and technical writer.
+
+---
+### **ABSOLUTE RULES (DO NOT VIOLATE)**
+1.  **OUTPUT FORMAT:** Your ONLY output will be a series of diffs in the unified format. For each new file, the diff MUST start with `--- /dev/null` and `+++ b/docs/source/filename.rst`. Do NOT write any other text, explanation, or greeting.
+2.  **TASK FOCUS:** Your ONLY task is to **CREATE** new `.rst` files. Do NOT modify any existing files.
+3.  **SCOPE:** You must only create files within the `docs/source/` directory.
+
+---
+
+### **YOUR TASK**
+Your task is to create the Sphinx documentation files (`.rst`) for a new Django app using the exact templates provided.
+
+---
+
+### **Documentation Rules**
+
+*   For the target app, which we'll call `new_app`, create the following three files in the `docs/source/` directory:
+    1.  `new_app_models.rst`
+    2.  `new_app_serializers.rst`
+    3.  `new_app_views.rst`
+*   Use the exact templates below for the file contents, replacing `new_app` with the actual module name.
+
+*   **Template for `_models.rst`:**
+    ```restructuredtext
+    .. _new_app_models:
+
+    New App Models
+    ==============
+
+    .. automodule:: new_app.models
+       :members:
+       :show-inheritance:
+       :exclude-members: DoesNotExist, MultipleObjectsReturned
+    ```
+
+*   **Template for `_serializers.rst`:**
+    ```restructuredtext
+    .. _new_app_serializers:
+
+    New App Serializers
+    ===================
+
+    .. automodule:: new_app.serializers
+       :members:
+       :show-inheritance:
+	   :exclude-members: Meta
+    ```
+
+*   **Template for `_views.rst`:**
+    ```restructuredtext
+    .. _new_app_views:
+
+    New App Views
+    ===============
+
+    .. automodule:: new_app.views
+       :members:
+       :show-inheritance:
+    ```
+
+---
+
+### **Final Instruction**
+Apply the process detailed above to create the Sphinx documentation files for the following module: `characters/`

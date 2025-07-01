@@ -1,11 +1,11 @@
-.. _auth_views:
+.. _npc_system_rpg_classes_models:
 
 NPC System RPG Classes Model
 ============================
 
-Model Definitions related to a NPC system that RPG Classes (Fighter, Magic-user, etc).
+Model Definitions related to an NPC system that manages RPG Classes (Fighter, Magic-user, etc).
 
 .. automodule:: npc_system_rpg_classes.models
    :members:
-   :undoc-members:
    :show-inheritance:
+   :exclude-members: DoesNotExist, MultipleObjectsReturned

@@ -1,12 +1,11 @@
-.. _auth_views:
+.. _npc_system_rpg_classes_views:
 
 NPC System RPG Classes Views
 ============================
 
-Views related to a NPC system that RPG Classes (Fighter, Magic-user, etc).
+Views related to an NPC system that manages RPG Classes (Fighter, Magic-user, etc).
 
 .. automodule:: npc_system_rpg_classes.views
    :members:
-   :undoc-members:
    :show-inheritance:
    

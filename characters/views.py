@@ -1,18 +1,40 @@
+from django.db.models import Q
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 from .models import Character
 from .serializers import CharacterSerializer
-from django.db.models import Q
-from rest_framework.exceptions import PermissionDenied
 
 
+@extend_schema(
+    tags=["Characters"],
+    summary="List and create characters",
+    description="""
+    Handles the listing of all characters accessible to the user and the creation of new characters.
+    - **GET**: Returns a list of characters. Non-staff users see only characters they own or global characters.
+    - **POST**: Creates a new character. The request body must contain the character data.
+    """,
+    responses={
+        200: CharacterSerializer(many=True),
+        201: CharacterSerializer,
+        400: "Bad Request",
+    },
+)
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
 def character_list(request):
     """
-    List all characters or create a new character.
+    List all characters for the current user or create a new character.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        A Response object containing a list of characters or the newly created character.
     """
     if request.method == "GET":
         characters = Character.objects.all()
@@ -41,11 +63,37 @@ def character_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(
+    tags=["Characters"],
+    summary="Retrieve, update, or delete a character",
+    description="""
+    Handles operations on a single character instance, identified by its primary key.
+    - **GET**: Retrieve the details of a specific character.
+    - **PUT**: Fully update a character's details.
+    - **PATCH**: Partially update a character's details.
+    - **DELETE**: Delete a character.
+    Requires ownership or staff/superuser privileges.
+    """,
+    responses={
+        200: CharacterSerializer,
+        204: "No Content",
+        400: "Bad Request",
+        403: "Permission Denied",
+        404: "Not Found",
+    },
+)
 @api_view(["GET", "PUT", "DELETE", "PATCH"])
 @permission_classes([IsAuthenticated])
 def character_detail(request, pk):
     """
-    Retrieve, update or delete a character.
+    Retrieve, update, or delete a specific character instance.
+
+    Args:
+        request: The HTTP request object.
+        pk (int): The primary key of the character to retrieve, update, or delete.
+
+    Returns:
+        A Response object containing the character data or a success/error status.
     """
     try:
         character = Character.objects.get(pk=pk)

@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -6,10 +7,17 @@ from .models import AgeCategory
 from .serializers import AgeCategorySerializer, AgeCategoryOptionSerializer
 
 
+@extend_schema(
+    tags=["age_category"],
+    summary="Manage Age Categories",
+    description="Provides standard CRUD operations for age categories.",
+)
 class AgeCategoryViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows age categories to be viewed or edited.
-    Provides list, create, retrieve, update, partial_update, and destroy actions.
+    """A ViewSet for managing AgeCategory instances.
+
+    This ViewSet provides the standard `list`, `create`, `retrieve`, `update`,
+    and `destroy` actions for the AgeCategory model. It ensures that users
+    are authenticated to perform any action.
     """
 
     queryset = AgeCategory.objects.all().order_by("age_category_name")
@@ -17,17 +25,27 @@ class AgeCategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-# Optional: Serializer for the dropdown options in the frontend
-# This can remain as a function-based view if it serves a distinct, simpler purpose.
+@extend_schema(
+    tags=["age_category"],
+    summary="Get Age Category Options",
+    description="Provides a simplified list of age categories for UI dropdowns.",
+    responses=AgeCategoryOptionSerializer(many=True),
+)
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def age_category_options(request):
+    """Provides a simplified list of age categories for UI dropdowns.
+
+    This endpoint returns a lightweight list of age categories, containing only
+    the `id` and `value` (name), suitable for populating select/option lists
+    in a frontend application.
+
+    Args:
+        request: The Django REST Framework request object.
+
+    Returns:
+        A Response object containing a list of serialized age category options.
     """
-    Provides a simplified list of age categories (id and name)
-    suitable for populating dropdown/select options in a frontend.
-    """
-    categories = AgeCategory.objects.all().order_by(
-        "age_category_name"
-    )  # optional ordering
+    categories = AgeCategory.objects.all().order_by("age_category_name")
     serializer = AgeCategoryOptionSerializer(categories, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

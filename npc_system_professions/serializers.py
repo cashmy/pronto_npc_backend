@@ -3,14 +3,27 @@ from npc_system_professions.models import NpcSystemProfession
 
 
 class NpcSystemProfessionSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the Profession model.
-    Includes the NPC system name for better readability.
+    """Serializes NpcSystemProfession data for API endpoints.
+
+    This serializer defines the primary data contract for the NpcSystemProfession
+    model, including read-only fields for related data to provide more
+    context in API responses.
+
+    Attributes:
+        id (int): The unique primary key for the profession instance. Read-only.
+        profession_id (int): A unique, sequential identifier for the profession
+            within its parent NpcSystem. Read-only.
+        npc_system (int): The primary key of the parent
+            :class:`~npc_system.models.NpcSystem`. Write-only.
+        npc_system_name (str): The name of the parent NPC system. Read-only.
+        profession_table_header (str): The profession table header from the
+            parent NPC system. Read-only.
+        value (str): The name of the profession (e.g., "Blacksmith", "Hunter").
     """
 
     npc_system_name = serializers.CharField(
         source="npc_system.npc_system_name", read_only=True
-    )  # Display the NPC system name instead of the ID
+    )
     profession_table_header = serializers.CharField(
         source="npc_system.profession_table_header", read_only=True
     )
@@ -18,18 +31,28 @@ class NpcSystemProfessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = NpcSystemProfession
         fields = [
-            "id",  # Auto-incrementing ID within the NPC system
-            "profession_id",  # Unique ID within the NPC system - sequential
-            "npc_system",  # FK to the NPC system
-            "npc_system_name",  # Readable name of the NPC system
-            "profession_table_header",  # Header for the profession table
-            "value",  # The profession name
+            "id",
+            "profession_id",
+            "npc_system",
+            "npc_system_name",
+            "profession_table_header",
+            "value",
         ]
-        read_only_fields = ["id"]  # ID is auto-generated
 
 
 # Serializer for the dropdown options in the frontend
 class NpcSystemProfessionOptionSerializer(serializers.ModelSerializer):
+    """Provides a simplified representation of professions for dropdowns.
+
+    This serializer exposes only the fields necessary for populating a
+    select/option list in a frontend application, making it lightweight.
+
+    Attributes:
+        profession_id (int): The unique, sequential identifier for the profession
+            within its parent NpcSystem.
+        value (str): The name of the profession (e.g., "Blacksmith", "Hunter").
+    """
+
     class Meta:
         model = NpcSystemProfession
         fields = ["profession_id", "value"]

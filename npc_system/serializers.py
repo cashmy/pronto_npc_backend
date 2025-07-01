@@ -6,15 +6,23 @@ from genre.serializers import GenreSerializer
 
 
 class OwnerSummarySerializer(serializers.ModelSerializer):
+    """A simplified serializer for displaying owner information.
+
+    This provides a minimal representation of a user, intended for embedding
+    within other serializer responses.
+
+    Attributes:
+        id (int): The user's primary key.
+        first_name (str): The user's first name.
+        last_name (str): The user's last name.
+    """
     class Meta:
         model = get_user_model()
         fields = ("id", "first_name", "last_name")
 
 
 class NpcSystemReadSerializer(serializers.ModelSerializer):
-    """
-    Serializer for reading NpcSystem instances, with nested genre and owner.
-    """
+    """Serializes NpcSystem data for read-only API responses."""
     genre = GenreSerializer(read_only=True)
     owner = OwnerSummarySerializer(read_only=True)
 
@@ -38,15 +46,23 @@ class NpcSystemReadSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-        # For a read-only serializer, read_only_fields are somewhat implicit,
-        # but this list was in the original and can be kept for clarity if desired.
-        # However, explicit read_only=True on nested serializers is more direct.
 
 
 class NpcSystemWriteSerializer(serializers.ModelSerializer):
-    """
-    Serializer for writing (create/update) NpcSystem instances.
-    Accepts a PK for genre.
+    """Serializes NpcSystem data for write (create/update) operations.
+
+    This serializer accepts primary keys for related fields like `genre` to
+    facilitate creating and updating NpcSystem instances. It also includes a
+    `use_current_user` flag to automatically assign ownership during creation.
+
+    Attributes:
+        npc_system_name (str): The name of the system.
+        description (str): A detailed description.
+        genre (int): The primary key of the related :class:`~genre.models.Genre`.
+        npc_system_image (str): A path or URL to an image.
+        npc_system_icon (str): A path or URL to an icon.
+        ... and other model fields.
+        use_current_user (bool): If True, sets the current user as the owner on create. Write-only.
     """
     genre = serializers.PrimaryKeyRelatedField(
         queryset=Genre.objects.all(),
@@ -76,6 +92,18 @@ class NpcSystemWriteSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at", "updated_at", "is_global", "owner"]
 
     def create(self, validated_data):
+        """Creates a new NpcSystem instance.
+
+        This method handles the `use_current_user` flag to automatically
+        assign the request's user as the owner of the new system. If the flag
+        is false or the user is not authenticated, the system is created as global.
+
+        Args:
+            validated_data (dict): The validated data from the serializer.
+
+        Returns:
+            NpcSystem: The newly created NpcSystem instance.
+        """
         request = self.context.get("request")
         owner_instance = None
         is_global_system = True  # Default to global
@@ -102,6 +130,18 @@ class NpcSystemWriteSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
+        """Updates an existing NpcSystem instance.
+
+        This method ensures that the `use_current_user` flag is ignored during
+        updates to prevent accidental changes to ownership.
+
+        Args:
+            instance (NpcSystem): The existing NpcSystem instance.
+            validated_data (dict): The validated data from the serializer.
+
+        Returns:
+            NpcSystem: The updated NpcSystem instance.
+        """
         # Pop the flag if it was somehow included in PATCH/PUT data
         validated_data.pop("use_current_user", None)
         
